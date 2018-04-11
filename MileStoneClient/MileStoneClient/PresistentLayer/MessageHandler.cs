@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using MileStoneClient.BusinessLayer;
@@ -7,13 +8,18 @@ using System.Collections.Generic;
 namespace MileStoneClient.PresistentLayer
 {
     [Serializable]
-    //an object that responsable to transfer the message's info to files
+    /// <summary>
+    ///  an object that responsable to transfer the message's info to files
+    /// </summary>
     class MessageHandler
     {
         private List<Message> list;
         private String name;
 
-        //constructor
+        /// <summary>
+        /// a constructor for this class that get the file name ("AllMessages" or username+group ID)
+        /// </summary>
+        /// <param name="name"> file name </param>
         public MessageHandler(String name)
         {
             //assume name is valid
@@ -37,7 +43,11 @@ namespace MileStoneClient.PresistentLayer
             }
         }
 
-        //add a new Message to this list and afterwards to the file, return true if succsed
+        /// <summary>
+        /// add a new Message to this list and afterwards to the file
+        /// </summary>
+        /// <param name="msg"> new message </param>
+        /// <returns> true if succsed, else false </returns>
         public bool updateFile(Message msg)
         {
             list.Add(msg);
@@ -60,12 +70,17 @@ namespace MileStoneClient.PresistentLayer
             return false;
         }
 
-        //add a list of new Message's to this list and afterwards to the file, return true if succsed
+        /// <summary>
+        /// add a list of new Message's to this list and afterwards to the file
+        /// </summary>
+        /// <param name="msgList"> a list of new messages </param>
+        /// <returns> true if succsed, else false </returns>
         public bool updateFile(List<Message> msgList)
         {
             int numThisList = list.Count;
             int numNewList = msgList.Count;
             list.AddRange(msgList);
+            SortByTimeStamp();
             if (File.Exists(name + ".bin"))
             {
                 if (deleteFile())
@@ -76,7 +91,6 @@ namespace MileStoneClient.PresistentLayer
                         BinaryFormatter serializer = new BinaryFormatter();
                         serializer.Serialize(fileStream, list);
                         fileStream.Close();
-                        //if (checkSuccess())
                         return true;
                     }
                 }
@@ -86,7 +100,10 @@ namespace MileStoneClient.PresistentLayer
             return false;
         }
 
-        //delete the file with this name
+        /// <summary>
+        /// delete the file with this name
+        /// </summary>
+        /// <returns> true if succsed, else false </returns>
         private bool deleteFile()
         {
             //assume there is a file with this name
@@ -94,7 +111,10 @@ namespace MileStoneClient.PresistentLayer
             return !(File.Exists(name + ".bin"));
         }
 
-        //open a new file with this name
+        /// <summary>
+        /// open a new file with this name
+        /// </summary>
+        /// <returns> true if succsed, else false </returns>
         private bool openNewFile()
         {
             //assume there isnt a file with this name
@@ -103,11 +123,22 @@ namespace MileStoneClient.PresistentLayer
             return File.Exists(name + ".bin");
         }
 
+        /// <summary>
+        /// geters and seters of this list
+        /// </summary>
         public List<Message> List
         {
             get { return list; }
             set { list = value; }
         }
 
+        /// <summary>
+        /// sort this list by time stamp, using the message comperator
+        /// </summary>
+        private void SortByTimeStamp()
+        {
+            MessageComperator comperator = new MessageComperator();
+            this.list.Sort(comperator);
+        }
     }
 }

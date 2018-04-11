@@ -229,14 +229,6 @@ namespace MileStoneClient.BusinessLayer
             this.currUser = null;
         }
 
-        public void exit()
-        {
-            this.currUser = null;
-            this.allMessages = null;
-            this.allUsers = null;
-            this.groupsId = null;
-        }
-
         public User CurrUser
         {
             get { return currUser; }
