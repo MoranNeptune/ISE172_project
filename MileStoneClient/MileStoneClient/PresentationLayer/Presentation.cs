@@ -303,7 +303,7 @@ namespace MileStoneClient.PresentationLayer
             Console.WriteLine("Bye Bye");
             Console.ResetColor();
             boolExit = true;
-            this.chatRoom.exit();
+            System.Environment.Exit(0);
         }
 
 
