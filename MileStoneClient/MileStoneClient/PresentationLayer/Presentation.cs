@@ -11,6 +11,7 @@ namespace MileStoneClient.PresentationLayer
     /// </summary>
     class Presentation
     {
+        //dkfjgkdfj
         public const string url = "http://ise172.ise.bgu.ac.il:80";
         public const int displayNum = 20;
         private ChatRoom chatRoom = new ChatRoom(url);
