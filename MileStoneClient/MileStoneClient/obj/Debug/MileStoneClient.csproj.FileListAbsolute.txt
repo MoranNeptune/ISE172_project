@@ -1,0 +1,11 @@
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csprojResolveAssemblyReference.cache
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe.config
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.pdb
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\log4net.dll
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.dll
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\log4net.xml
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.xml
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.exe
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.pdb
+d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\log4net.config
