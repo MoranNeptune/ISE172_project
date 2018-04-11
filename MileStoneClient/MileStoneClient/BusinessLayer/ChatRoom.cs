@@ -228,6 +228,7 @@ namespace MileStoneClient.BusinessLayer
             this.currUser.logout();
             this.currUser = null;
         }
+
         public void exit()
         {
             this.currUser = null;
