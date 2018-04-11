@@ -17,6 +17,7 @@ namespace MileStoneClient.Logger
 
         }
 
+        //Create an Instance of the class for the singleton use 
         public static Log Instance
         {
             get
@@ -35,8 +36,7 @@ namespace MileStoneClient.Logger
             }
         }
 
-        public ILog logger { get { return log; } }
-
+        //Functions of log
         public void info(String str)
         {
             log.Info(str);

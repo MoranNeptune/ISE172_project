@@ -10,32 +10,35 @@ namespace MileStoneClient.BusinessLayer
     [Serializable]
     class ID
     {
-        private String id;
-        private List<String> members;
+        private string id;
+        private List<string> members;
 
         //constructor
-        public ID(String id)
+        public ID(string id)
         {
             this.id = id;
-            members = new List<String>();
+            members = new List<string>();
         }
 
         //getters and setters
-        public String idNumber
+        public string idNumber
         {
             get { return id; }
             set { id = value; }
         }
 
-        public List<String> Members
+        public List<string> Members
         {
             get { return members; }
             set { members = value; }
         }
 
-        //methods
-        //check if group contains member already - if not add member to the member list
-        public bool addMember(String nickname)
+        /// <summary>
+        /// Check if group contains member already - if not add member to the member list
+        /// </summary>
+        /// <param name="nickname"> A parameter of type string representing the users' nickname </param>
+        /// <returns> Returns true if the member was added, false if the nickname already exist in the group </returns>
+        public bool addMember(string nickname)
         {
             bool added = true;
             if (!members.Contains(nickname))
@@ -46,8 +49,12 @@ namespace MileStoneClient.BusinessLayer
             return added;
         }
 
-        //check if group contains user by nickname
-        private bool contains(String nickname)
+        /// <summary>
+        /// Check if group contains user by nickname
+        /// </summary>
+        /// <param name="nickname"> A parameter of type string representing the users' nickname </param>
+        /// <returns> Returns true if the group contains the user nickname, else returns false </returns>
+        private bool contains(string nickname)
         {
             if (members == null)
                 return false;
@@ -55,17 +62,21 @@ namespace MileStoneClient.BusinessLayer
             return members.Contains(nickname);
         }
 
-        //check if group ID is equal to another group ID 
+        /// <summary>
+        /// Check if group ID is equal to another group ID 
+        /// </summary>
+        /// <param name="g_id"> A parameter of type string representing the users' group id </param>
+        /// <returns> Returns true if this is equal to other, else return false </returns>
         public bool isEqual(string g_id)
         {
             return (this.idNumber.Equals(g_id));
         }
 
-        public String toString()
+        public string toString()
         {
-            String str = "";
+            string str = "";
 
-            foreach (String s in members)
+            foreach (string s in members)
             {
                 str = str + s + " ";
             }

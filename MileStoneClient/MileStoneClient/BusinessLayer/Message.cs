@@ -10,19 +10,13 @@ namespace MileStoneClient.BusinessLayer
     [Serializable]
     class Message : IEquatable<Message>
     {
-        private String body;
+        private string body;
         private User user;
         private DateTime dateTime;
         private Guid id;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="body"> A parameter of type string representing the body of the message </param>
-        /// <param name="time"> A parameter of type DateTime representing the date and time the message was sent </param>
-        /// <param name="id"> A parameter of type Guid representing the message Guid id </param>
-        /// <param name="user"> A parameter of type User representing the user who sent the message </param>
-        public Message(String body, DateTime time, Guid id, User user)
+        //Constructor
+        public Message(string body, DateTime time, Guid id, User user)
         {
             this.body = body;
             this.dateTime = time;
@@ -55,7 +49,7 @@ namespace MileStoneClient.BusinessLayer
             set { id = value; }
         }
 
-        //methods
+        //Methods
         /// <summary>
         /// Check if messege is equal to another messege by Guid
         /// </summary>
@@ -92,6 +86,16 @@ namespace MileStoneClient.BusinessLayer
     /// </summary>
     class MessageComperator : IComparer<Message>
     {
+        /// <summary>
+        /// Override the Compare function to compare by DateTime 
+        /// </summary>
+        /// <param name="msg1"> A parameter of type Message representing message to compare </param>
+        /// <param name="msg2"> A parameter of type Message representing message to compare </param>
+        /// <returns> Returns a parameter of type int:
+        ///                      -1 if this is smaller than other
+        ///                      0 if they are equal
+        ///                      1 if this is greater than other
+        /// </returns>
         public int Compare(Message msg1, Message msg2)
         {
             return msg1.CompareTo(msg2);
