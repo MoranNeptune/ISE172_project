@@ -11,7 +11,6 @@ namespace MileStoneClient.PresentationLayer
     /// </summary>
     class Presentation
     {
-        //dkfjgkdfj
         public const string url = "http://ise172.ise.bgu.ac.il:80";
         public const int displayNum = 20;
         private ChatRoom chatRoom = new ChatRoom(url);
@@ -131,7 +130,7 @@ namespace MileStoneClient.PresentationLayer
                                 Log.Instance.warn("Invalid input - Nickname already exist");//log
                                 Console.Write("NickName : ");
                                 NickName = Console.ReadLine();
-
+                                NickName = CheckVlidityName(NickName);
                                 if (NickName == "-1")// go to the main menu
                                     PrintOnScreenStart();
                             }
@@ -214,7 +213,7 @@ namespace MileStoneClient.PresentationLayer
             if (option[0] == ' ')// if the user press space 
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Invalid name! Nickname cannot start with spaces");
+                Console.WriteLine("Invalid name! Nickname cannot start with spaces!");
                 Console.ResetColor();
                 Log.Instance.warn("Invalid input - Invalid nickname");//log
                 Console.Write("NickName : ");
