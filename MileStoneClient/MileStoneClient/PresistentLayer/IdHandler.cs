@@ -6,13 +6,18 @@ using System.Collections.Generic;
 
 namespace MileStoneClient.PresistentLayer
 {
-    //an object that responsable to transfer the ID's info to files
+    /// <summary>
+    /// an object that responsable to transfer the ID's info to files
+    /// </summary>
     class IdHandler
     {
         private List<ID> list = null;
         private String name;
 
-        //constructor
+        /// <summary>
+        /// a constructor for this class that get the file name
+        /// </summary>
+        /// <param name="name">file name</param>
         public IdHandler(String name)
         {
             //assume name is valid
@@ -39,7 +44,11 @@ namespace MileStoneClient.PresistentLayer
             }
         }
 
-        //add a new Id to this list and afterwards to the file, return true if succsed
+        /// <summary>
+        /// add a new Id to this list and afterwards to the file
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>true if succsed, else false</returns>
         public bool updateFile(ID id)
         {
             list.Add(id);
@@ -63,7 +72,10 @@ namespace MileStoneClient.PresistentLayer
             return false;
         }
 
-        //delete the file with this name
+        /// <summary>
+        /// delete the file with this name
+        /// </summary>
+        /// <returns>true if succsed, else false</returns>
         private bool deleteFile()
         {
             //assume there is a file with this name
@@ -72,7 +84,10 @@ namespace MileStoneClient.PresistentLayer
 
         }
 
-        //open a new file with this name
+        /// <summary>
+        /// open a new file with this name
+        /// </summary>
+        /// <returns>true if succsed, else false</returns>
         private bool openNewFile()
         {
             //assume there isnt a file with this name
@@ -81,6 +96,9 @@ namespace MileStoneClient.PresistentLayer
             return File.Exists(name + ".bin");
         }
 
+        /// <summary>
+        /// geters and seters of this list
+        /// </summary>
         public List<ID> List
         {
             get { return list; }

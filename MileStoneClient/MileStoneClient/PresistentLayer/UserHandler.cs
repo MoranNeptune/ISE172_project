@@ -6,13 +6,19 @@ using System.Collections.Generic;
 
 namespace MileStoneClient.PresistentLayer
 {
-    //an object that responsable to transfer the user's info to files
+    /// <summary>
+    /// an object that responsable to transfer the user's info to files
+    /// </summary>
     class UserHandler
     {
         private List<User> list;
         private String name;
 
         //constructor
+        /// <summary>
+        /// a constructor for this class that get the file name ("AllUsers")
+        /// </summary>
+        /// <param name="name"> a file name </param>
         public UserHandler(String name)
         {
             //assume name is valid
@@ -37,6 +43,11 @@ namespace MileStoneClient.PresistentLayer
         }
 
         //add a new User to this list and afterwards to the file, return true if succsed
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user">new user</param>
+        /// <returns>true if succsed, else false</returns>
         public bool updateFile(User user)
         {
             list.Add(user);
@@ -59,7 +70,10 @@ namespace MileStoneClient.PresistentLayer
             return false;
         }
 
-        //delete the file with this name
+        /// <summary>
+        /// delete the file with this name
+        /// </summary>
+        /// <returns>true if succsed, else false</returns>
         private bool deleteFile()
         {
             //assume there is a file with this name
@@ -67,7 +81,10 @@ namespace MileStoneClient.PresistentLayer
             return !(File.Exists(name + ".bin"));
         }
 
-        //open a new file with this name
+        /// <summary>
+        /// open a new file with this name
+        /// </summary>
+        /// <returns>true if succsed, else false</returns>
         private bool openNewFile()
         {
             //assume there isnt a file with this name
@@ -76,6 +93,9 @@ namespace MileStoneClient.PresistentLayer
             return File.Exists(name + ".bin");
         }
 
+        /// <summary>
+        /// geters and seters of this list
+        /// </summary>
         public List<User> List
         {
             get { return list; }
