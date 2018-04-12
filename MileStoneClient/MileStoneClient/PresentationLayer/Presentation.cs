@@ -237,7 +237,6 @@ namespace MileStoneClient.PresentationLayer
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("NOTE : In order to return to the menu, press '-1' at the group ID/NickName option!");
-                Console.WriteLine("NOTE : ID should be 2 digits (from 01 to 99) !");
                 Console.ResetColor();
                 Console.Write("Group ID : ");
                 string g_id = Console.ReadLine();
