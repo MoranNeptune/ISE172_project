@@ -72,5 +72,19 @@ namespace MileStoneClient.BusinessLayer
 
             return "Group ID: " + id + ", Members: [ " + str + "]";
         }
+
+        /// <summary>
+        /// Compares ID to another ID
+        /// </summary>
+        /// <param name="other"> A parameter of type ID representing an ID to compare to</param>
+        /// <returns> Returns a parameter of type int:
+        ///                      -1 if this is smaller than other
+        ///                      0 if they are equal
+        ///                      1 if this is greater than other
+        /// </returns>
+        public int CompareTo(ID other)
+        {
+            return int.Parse(id) - int.Parse(other.idNumber);
+        }
     }
 }

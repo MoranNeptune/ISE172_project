@@ -67,9 +67,38 @@ namespace MileStoneClient.BusinessLayer
             //if (other == null) return null;
             return dateTime.CompareTo(other.dateTime);
         }
-        public string ToString()
+
+        public override string ToString() 
         {
             return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body +'\n' + "GUID: " + this.id;
+        }
+
+        /// <summary>
+        /// Compares message to another messege by group id
+        /// </summary>
+        /// <param name="other"> A parameter of type Object representing message to compare to</param>
+        /// <returns> Returns a parameter of type int:
+        ///                      -1 if this is smaller than other
+        ///                      0 if they are equal
+        ///                      1 if this is greater than other
+        /// </returns>
+        public int CompareById(Message other)
+        {
+            return user.G_id.CompareTo(other.User.G_id);
+        }
+
+        /// <summary>
+        /// Compares message to another messege by user nickname 
+        /// </summary>
+        /// <param name="other"> A parameter of type Object representing message to compare to</param>
+        /// <returns> Returns a parameter of type int:
+        ///                      -1 if the name of this is smaller than other
+        ///                      0 if they are equal
+        ///                      1 if this is greater than other
+        /// </returns>
+        public int CompareByName(Message other)
+        {
+            return user.Nickname.CompareTo(other.User.Nickname);
         }
     }
 }
