@@ -93,7 +93,6 @@ namespace MileStoneClient.PresentationLayer
                 choiseStart = Console.ReadLine();
                 ChooseOptionsStart(choiseStart);
             }
-
         }
 
         /// <summary>
