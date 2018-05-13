@@ -1,0 +1,18 @@
+﻿<Window x:Name="ChatRoomWin" x:Class="MileStoneClient.ChatRoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:local="clr-namespace:MileStoneClient"
+        mc:Ignorable="d"
+        Title="ChatRoom" Height="700" Width="950" AutomationProperties.Name="ChatRoomWin" Background="{x:Null}" Foreground="{x:Null}">
+    <Grid x:Name="GridCR" HorizontalAlignment="Left" Height="670" Margin="0,0,-8,-5" VerticalAlignment="Top" Width="950">
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxtChat" HorizontalAlignment="Left" Height="615" Margin="160,30,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="760" AutomationProperties.Name="TxtChat" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" BorderBrush="#FF0032C9" Foreground="{x:Null}" SelectionBrush="{x:Null}"/>
+        <Button x:Name="BtnOptions" Content="options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="40,80,0,0" AutomationProperties.Name="BtnOptions" Height="75"/>
+        <Button x:Name="BtnProfile" Content="View Profile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="40,200,0,0" AutomationProperties.Name="BtnProfile" Height="75"/>
+        <Button x:Name="BtnLogOut" Content="LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="40,320,0,0" AutomationProperties.Name="BtnLogOut" Height="75" Click="BtnLogOut_Click"/>
+        <Button x:Name="BtnExit" Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="40,440,0,0" AutomationProperties.Name="BtnExit" Height="75" Click="BtnExit_Click"/>
+    </Grid>
+</Window>
