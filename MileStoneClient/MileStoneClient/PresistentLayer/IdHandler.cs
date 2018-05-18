@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace MileStoneClient.PresistentLayer
 {
     //an object that responsable to transfer the ID's info to files
-    class IdHandler
+    public class IdHandler
     {
         private List<ID> list = null;
         private String name;

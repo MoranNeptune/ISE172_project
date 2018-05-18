@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,15 +8,15 @@ using System.Threading.Tasks;
 namespace MileStoneClient.BusinessLayer
 {
     [Serializable]
-    class Message : IEquatable<Message>, IComparable<Message>
+    public class Message : IEquatable<Message>
     {
-        private String body;
+        private string body;
         private User user;
         private DateTime dateTime;
         private Guid id;
 
-        //constructor
-        public Message(String body, DateTime time, Guid id, User user)
+        //Constructor
+        public Message(string body, DateTime time, Guid id, User user)
         {
             this.body = body;
             this.dateTime = time;
@@ -48,33 +49,20 @@ namespace MileStoneClient.BusinessLayer
             set { id = value; }
         }
 
-        //methods
-        //check if messege is equal to another messege by Guid
+        //Methods
+        /// <summary>
+        /// Check if messege is equal to another messege by Guid
+        /// </summary>
+        /// <param name="other"> A parameter of type Message representing the other object to compare to </param>
+        /// <returns> Returns true if both messages are equal</returns>
         bool IEquatable<Message>.Equals(Message other)
         {
             if (other == null) return false;
             return id.Equals(other.Id);
         }
 
-        //Compare between two messages by dateTime
-        /* return: 
-         *        -1 if this > other
-         *        0 if equals
-         *        1 if this < other    
-         */
-        int IComparable<Message>.CompareTo(Message other)
-        {
-            //if (other == null) return null;
-            return dateTime.CompareTo(other.dateTime);
-        }
-
-        public override string ToString() 
-        {
-            return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body +'\n' + "GUID: " + this.id;
-        }
-
         /// <summary>
-        /// Compares message to another messege by group id
+        /// Compares message to another messege by DateTime
         /// </summary>
         /// <param name="other"> A parameter of type Object representing message to compare to</param>
         /// <returns> Returns a parameter of type int:
@@ -82,23 +70,35 @@ namespace MileStoneClient.BusinessLayer
         ///                      0 if they are equal
         ///                      1 if this is greater than other
         /// </returns>
-        public int CompareById(Message other)
+        public int CompareTo(Object other)
         {
-            return user.G_id.CompareTo(other.User.G_id);
+            return dateTime.CompareTo(((Message)other).DateTime);
         }
 
+        public string ToString()
+        {
+            return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body +'\n' + "GUID: " + this.id;
+        }
+    }
+
+    /// <summary>
+    /// A class implementing interface IComparer<T> to between two messages by dateTime
+    /// </summary>
+    class MessageComperator : IComparer<Message>
+    {
         /// <summary>
-        /// Compares message to another messege by user nickname 
+        /// Override the Compare function to compare by DateTime 
         /// </summary>
-        /// <param name="other"> A parameter of type Object representing message to compare to</param>
+        /// <param name="msg1"> A parameter of type Message representing message to compare </param>
+        /// <param name="msg2"> A parameter of type Message representing message to compare </param>
         /// <returns> Returns a parameter of type int:
-        ///                      -1 if the name of this is smaller than other
+        ///                      -1 if this is smaller than other
         ///                      0 if they are equal
         ///                      1 if this is greater than other
         /// </returns>
-        public int CompareByName(Message other)
+        public int Compare(Message msg1, Message msg2)
         {
-            return user.Nickname.CompareTo(other.User.Nickname);
+            return msg1.CompareTo(msg2);
         }
     }
 }

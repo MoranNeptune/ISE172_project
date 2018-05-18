@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace MileStoneClient.PresistentLayer
 {
     //an object that responsable to transfer the user's info to files
-    class UserHandler
+    public class UserHandler
     {
         private List<User> list;
         private String name;

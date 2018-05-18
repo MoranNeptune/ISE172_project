@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using MileStoneClient.BusinessLayer;
 
 
-namespace MileStoneClient
+namespace MileStoneClient.PresentationLayer
 {
     /// <summary>
     /// Interaction logic for RegisterWindow.xaml

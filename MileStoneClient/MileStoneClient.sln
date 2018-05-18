@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.27428.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileStoneClient", "MileStoneClient\MileStoneClient.csproj", "{369AD74D-24FB-47E5-B034-AA64FCF35331}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MileStoneClient", "MileStoneClient\MileStoneClient.csproj", "{5C9A99FF-5C0C-4596-B07B-13D9B3BA9858}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{369AD74D-24FB-47E5-B034-AA64FCF35331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{369AD74D-24FB-47E5-B034-AA64FCF35331}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{369AD74D-24FB-47E5-B034-AA64FCF35331}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{369AD74D-24FB-47E5-B034-AA64FCF35331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C9A99FF-5C0C-4596-B07B-13D9B3BA9858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C9A99FF-5C0C-4596-B07B-13D9B3BA9858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C9A99FF-5C0C-4596-B07B-13D9B3BA9858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9A99FF-5C0C-4596-B07B-13D9B3BA9858}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99224B35-597C-4278-8788-C375477CD056}
 	EndGlobalSection
 EndGlobal

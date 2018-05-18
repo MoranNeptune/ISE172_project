@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MileStoneClient.BusinessLayer;
 
-namespace MileStoneClient
+namespace MileStoneClient.PresentationLayer
 {
     /// <summary>
     /// Interaction logic for ChatRoom.xaml

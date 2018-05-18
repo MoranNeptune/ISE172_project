@@ -8,7 +8,7 @@ namespace MileStoneClient.PresistentLayer
 {
     [Serializable]
     //an object that responsable to transfer the message's info to files
-    class MessageHandler
+    public class MessageHandler
     {
         private List<Message> list;
         private String name;

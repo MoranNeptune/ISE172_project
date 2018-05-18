@@ -1,11 +1,55 @@
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csprojResolveAssemblyReference.cache
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe.config
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.pdb
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\log4net.dll
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.dll
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\log4net.xml
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.xml
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.exe
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.pdb
-d:\documents\users\shovalei\Documents\Visual Studio 2017\Projects\MileStoneClient\MileStoneClient\bin\Debug\log4net.config
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe.config
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.pdb
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\App.g.cs
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.cache
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.lref
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.g.resources
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.Properties.Resources.resources
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csproj.GenerateResource.cache
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.exe
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.pdb
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csproj.CopyComplete
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe.config
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.pdb
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\bin\Debug\WpfAnimatedGif.dll
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\bin\Debug\WpfAnimatedGif.xml
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.g.cs
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.g.cs
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.g.cs
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\MainWindow.g.cs
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.g.cs
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\App.g.cs
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.cache
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.lref
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.baml
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.baml
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.baml
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\MainWindow.baml
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.baml
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.g.resources
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.Properties.Resources.resources
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csproj.GenerateResource.cache
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csproj.CopyComplete
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.exe
+C:\Users\Admin\Desktop\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.pdb
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\bin\Debug\WpfAnimatedGif.dll
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\bin\Debug\WpfAnimatedGif.xml
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.g.cs
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.g.cs
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.g.cs
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.g.cs
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.baml
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.baml
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.baml
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.baml
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MainWindow.g.cs
+C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\MainWindow.baml

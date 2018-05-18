@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MileStoneClient.BusinessLayer;
 
-namespace MileStoneClient
+namespace MileStoneClient.PresentationLayer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -22,6 +22,7 @@ namespace MileStoneClient
     public partial class MainWindow : Window
     {
         RegisterWindow register;
+        LoginWindow login;
         public const string url = "http://ise172.ise.bgu.ac.il:80";
         private ChatRoom chatRoom = new ChatRoom(url);
         private List<Message> retMessages;
@@ -38,13 +39,13 @@ namespace MileStoneClient
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-            RegisterWindow register = new RegisterWindow(this,this.chatRoom); 
+            this.register = new RegisterWindow(this,this.chatRoom); 
             register.Show();
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow login = new LoginWindow(this,this.chatRoom);
+            this.login = new LoginWindow(this,this.chatRoom);
             login.Show();
         }
 
