@@ -5,14 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MileStoneClient"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
         Title="ViewProfileWindow" Height="600" Width="500" AutomationProperties.Name="ViewProfile">
-    <Grid x:Name="Grid1prof" Margin="0,0,2,-5" AutomationProperties.Name="Grid1prof">
-        <Grid.Background>
-            <ImageBrush ImageSource="/MileStoneClient;component/media/profile.jpg"/>
-        </Grid.Background>
+    <Grid x:Name="Grid1prof" Width="450" Height="500" Margin="21,32,21,37" AutomationProperties.Name="Grid1prof">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <TextBlock x:Name="TxtProfile" HorizontalAlignment="Left" Margin="30,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="150" Width="357" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Foreground="{x:Null}"><Run Text="TextBlock"/><InlineUIContainer>
+                <Label x:Name="LblName_Copy" Content="Name :" Width="67" Height="30" Padding="5" Margin="120,30,0,0" FontSize="16" AutomationProperties.Name="LblName" FontWeight="Bold"/>
+            </InlineUIContainer><InlineUIContainer>
+                <Label x:Name="LblName" Content="Name :" Width="67" Height="30" Padding="5" Margin="120,30,0,0" FontSize="16" AutomationProperties.Name="LblName" FontWeight="Bold"/>
+            </InlineUIContainer></TextBlock>
+        <TextBlock x:Name="TxtTitle" Height="75" TextWrapping="Wrap" RenderTransformOrigin="2.656,4.654" Margin="50,50,80,0" Padding="0" FontFamily="Segoe Script" FontSize="48" FontWeight="Bold" AutomationProperties.Name="TxtTitle" Text="View Profile" UseLayoutRounding="False" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <Ellipse x:Name="ProfileEcalipse" HorizontalAlignment="Left" Height="130" Margin="42,136,0,0" Stroke="Black" VerticalAlignment="Top" Width="139" AutomationProperties.Name="ProfileEcalipse">
+        </Ellipse>
     </Grid>
 </Window>

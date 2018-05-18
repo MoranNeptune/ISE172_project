@@ -5,20 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MileStoneClient"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        Title="RegisterWindow" Height="600" Width="450">
-    <Grid x:Name="Grid1Reg" Width="450" Margin="0,0,-8,-1">
-        <Grid.Background>
-            <ImageBrush ImageSource="/MileStoneClient;component/media/register.jpg"/>
-        </Grid.Background>
+        Title="RegisterWindow" Height="500" Width="450" AutomationProperties.Name="Register">
+    <Grid x:Name="Grid1Reg" Width="450" Height="500">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="198,299,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=GroupIdContent, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Margin="217,352,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=NicknameContent, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="94,444,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnRegister_Click" IsEnabled="{Binding BtnRegIsEnabled,Mode=OneWay}"/>
-        <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="234,444,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnBack_Click"/>
-        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,402,0,0" Width="420" Height="30" FontWeight="Bold" Background="{x:Null}" Foreground="Red" FontSize="14" FontFamily="MV Boli" RenderTransformOrigin="0.5,0.5" Visibility="{Binding LblRegErrorVisibility, Mode=OneWay}" Content="{Binding LblRegErrorContent, Mode=OneWay}" >
+        <TextBox x:Name="TxtTitle" Height="120" TextWrapping="Wrap" Text="Register" RenderTransformOrigin="2.656,4.654" Margin="50,50,51,0" Padding="1,1,0,0" FontFamily="Segoe Script" FontSize="80" FontWeight="Bold" VerticalAlignment="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Center" AutomationProperties.Name="TxtTitle" Width="350"/>
+        <TextBlock x:Name="TxtBG_Id" HorizontalAlignment="Left" Margin="60,210,0,0" TextWrapping="Wrap" Text="Group Id :" VerticalAlignment="Top" AutomationProperties.Name="TxtBG_Id" Width="110" Height="35" FontSize="24" TextDecorations="Underline"/>
+        <TextBlock x:Name="TxtBNickN" HorizontalAlignment="Left" Margin="60,280,0,0" TextWrapping="Wrap" Text="NickName :  :" VerticalAlignment="Top" AutomationProperties.Name="TxtBNickN" Width="130" Height="35" FontSize="24" TextDecorations="Underline"/>
+        <TextBox x:Name="TxtG_Id" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="185,210,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" AutomationProperties.Name="TxtG_Id"/>
+        <TextBox x:Name="TxtNickN" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Margin="200,280,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" AutomationProperties.Name="TxtNickN"/>
+        <Button x:Name="BtnRegister" Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="70,350,0,0" Height="35" FontSize="24" FontWeight="Bold" AutomationProperties.Name="BtnRegister" Click="BtnRegister_Click"/>
+        <Button x:Name="BtnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="250,350,0,0" Height="35" FontSize="24" FontWeight="Bold" AutomationProperties.Name="BtnBack" Click="BtnBack_Click"/>
+        <Label x:Name="LblRegError" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,317,0,0" Width="420" Height="30" AutomationProperties.Name="LblRegError" FontWeight="Bold" Background="{x:Null}" Foreground="Red" FontSize="14" FontFamily="MV Boli" RenderTransformOrigin="0.5,0.5" >
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -28,7 +27,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label HorizontalAlignment="Left" Margin="10,511,0,0" VerticalAlignment="Top" Width="277" Foreground="#FF00B7E0" FontSize="20" FontFamily="MV Boli" FontWeight="ExtraBold" Height="35" Visibility="{Binding LblAddLoginVisibility, Mode=OneWay}" Content="{Binding LblAddLoginContent, Mode=OneWay}"/>
-        <Button Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="310,511,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnLogin_Click" Visibility="{Binding BtnLoginVisibility,Mode=OneWay}" />
+        <Label x:Name="LblAddLogin" HorizontalAlignment="Left" Margin="10,399,0,0" VerticalAlignment="Top" Width="277" AutomationProperties.Name="LblAddLogin" Foreground="#FF00B7E0" FontSize="20" FontFamily="MV Boli" FontWeight="ExtraBold" Height="50"/>
+        <Button x:Name="BtnLogin" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="300,405,0,0" Height="35" FontSize="24" FontWeight="Bold" AutomationProperties.Name="BtnLogin" Click="BtnLogin_Click"/>
     </Grid>
 </Window>
