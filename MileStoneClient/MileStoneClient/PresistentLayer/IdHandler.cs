@@ -9,7 +9,7 @@ namespace MileStoneClient.PresistentLayer
     //an object that responsable to transfer the ID's info to files
     public class IdHandler
     {
-        private List<ID> list;
+        private List<ID> list = null;
         private String name;
 
         //constructor
