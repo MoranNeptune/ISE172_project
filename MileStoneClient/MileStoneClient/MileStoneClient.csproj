@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -71,6 +74,10 @@
     </Compile>
     <Compile Include="CommunicationLayer\Communication.cs" />
     <Compile Include="CommunicationLayer\IMessage.cs" />
+    <Compile Include="PresentationLayer\ObservableObject.cs" />
+    <Compile Include="PresentationLayer\Options.xaml.cs">
+      <DependentUpon>Options.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\ViewProfileWindow.xaml.cs">
       <DependentUpon>ViewProfileWindow.xaml</DependentUpon>
     </Compile>
@@ -86,6 +93,10 @@
     <Page Include="PresentationLayer\ChatRoomWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentationLayer\Options.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="PresentationLayer\ViewProfileWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -144,7 +155,17 @@
   <ItemGroup>
     <Resource Include="media\ImgOptions.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="media\backgruond.png" />
+    <Resource Include="media\button.jpg" />
+    <Resource Include="media\chat.jpg" />
+    <Resource Include="media\ChatRoom.jpg" />
+    <Resource Include="media\login.jpg" />
+    <Resource Include="media\main-logo.png" />
+    <Resource Include="media\main.jpg" />
+    <Resource Include="media\profile.jpg" />
+    <Resource Include="media\register.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="media\view profile.png" />
   </ItemGroup>

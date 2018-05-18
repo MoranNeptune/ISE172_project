@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\obj\Debug\
+C:\Users\PC\source\repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\
 MileStoneClient
 none
 false
 DEBUG;TRACE
-C:\Users\Admin\Desktop\הנדסת תוכנה שנה א\MileStoneClient\MileStoneClient\App.xaml
-5335817084
+C:\Users\PC\source\repos\ISE172_project\MileStoneClient\MileStoneClient\App.xaml
+6-2101722830
 
-232044560221
-161404137270
-PresentationLayer\ChatRoomWindow.xaml;PresentationLayer\ViewProfileWindow.xaml;PresentationLayer\LoginWindow.xaml;MainWindow.xaml;PresentationLayer\RegisterWindow.xaml;
+25760047574
+17207619459
+PresentationLayer\ChatRoomWindow.xaml;PresentationLayer\Options.xaml;PresentationLayer\ViewProfileWindow.xaml;PresentationLayer\LoginWindow.xaml;MainWindow.xaml;PresentationLayer\RegisterWindow.xaml;
 
-False
+True
 
