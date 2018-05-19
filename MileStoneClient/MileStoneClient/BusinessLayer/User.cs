@@ -9,9 +9,8 @@ using System.IO;
 
 namespace MileStoneClient.BusinessLayer
 {
-
     [Serializable]
-    class User
+    public class User
     {
         private String nickname;
         private ID g_id;

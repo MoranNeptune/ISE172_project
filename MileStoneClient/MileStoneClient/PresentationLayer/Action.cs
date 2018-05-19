@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MileStoneClient.BusinessLayer;
 
-namespace MileStoneClient.BusinessLayer
+namespace MileStoneClient.PresentationLayer
 {
-    abstract class Action
+    public abstract class Action
     {
         abstract public List<GuiMessage> action(List<GuiMessage> msgs);
     }

@@ -3,16 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MileStoneClient.PresentationLayer;
 
 namespace MileStoneClient.BusinessLayer
 {
-    class SortByTime : Action
+    class SortByTime : PresentationLayer.Action
     {
+        private MessageComperator comperator;
+
+        public SortByTime()
+        {
+            comperator = new MessageComperator();
+        }
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
-            MessageComperator comperator = new MessageComperator();
+
             msgs.Sort(comperator);
             return msgs;
+        }
+
+        public void sortRange(int i, int count, List<GuiMessage> msgs)
+        {
+            msgs.Sort(i, count, comperator);
         }
         /// <summary>
         /// A class implementing interface IComparer<T> to sort between two messages by nickname

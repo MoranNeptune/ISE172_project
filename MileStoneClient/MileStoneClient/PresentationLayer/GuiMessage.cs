@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MileStoneClient.BusinessLayer
+namespace MileStoneClient.PresentationLayer
 {
-    class GuiMessage 
+    public class GuiMessage 
     {
         private string body;
         private string userName;

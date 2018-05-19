@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MileStoneClient.BusinessLayer
 {
     [Serializable]
-    class Message : IEquatable<Message>
+    public class Message : IEquatable<Message>
     {
         private string body;
         private User user;

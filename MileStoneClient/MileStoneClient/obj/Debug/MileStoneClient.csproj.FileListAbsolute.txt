@@ -76,3 +76,50 @@ C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\De
 C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\App.g.cs
 C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.cache
 C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.lref
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי + ירין\MileStoneClient\bin\Debug\MileStoneClient.exe.config
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי + ירין\MileStoneClient\obj\Debug\MileStoneClient.exe
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי + ירין\MileStoneClient\obj\Debug\MileStoneClient.pdb
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\MileStoneClient.exe.config
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient.exe
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient.pdb
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient.csprojResolveAssemblyReference.cache
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.g.cs
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.g.cs
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.g.cs
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MainWindow.g.cs
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.g.cs
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\App.g.cs
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.cache
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.lref
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\MileStoneClient.exe
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\MileStoneClient.pdb
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\log4net.dll
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\WpfAnimatedGif.dll
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\log4net.xml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\bin\Debug\WpfAnimatedGif.xml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.baml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.baml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.baml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MainWindow.baml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.baml
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient.g.resources
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient.Properties.Resources.resources
+C:\Users\eden\Desktop\MileStoneClient + עדכון שלי\MileStoneClient\obj\Debug\MileStoneClient.csproj.GenerateResource.Cache
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.pdb
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\log4net.dll
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\WpfAnimatedGif.dll
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\log4net.xml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\WpfAnimatedGif.xml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.baml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.baml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.baml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MainWindow.baml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.baml
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.g.resources
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.Properties.Resources.resources
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csproj.GenerateResource.Cache

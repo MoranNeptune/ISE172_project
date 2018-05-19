@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MileStoneClient.PresentationLayer;
 
 namespace MileStoneClient.BusinessLayer
 {
-    class FilterByUser : Action
+    class FilterByUser : PresentationLayer.Action
     {
         private string name;
         private string groupId;

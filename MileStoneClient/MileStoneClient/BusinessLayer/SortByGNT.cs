@@ -7,53 +7,46 @@ using MileStoneClient.PresentationLayer;
 
 namespace MileStoneClient.BusinessLayer
 {
-     class SortByName : PresentationLayer.Action
+    class SortByGNT : PresentationLayer.Action
     {
-        private MessageComperator comperator;
-        
-        public SortByName()
-        {
-            comperator = new MessageComperator();
-        }
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
-            
+            int i =0, count;
+            MessageComperator comperator = new MessageComperator();
+            //  sort the list by group id
             msgs.Sort(comperator);
-            return msgs;
-        }
 
-        public void sortRange(int i, int range , List<GuiMessage> msgs)
-        {
-             msgs.Sort(i, range, comperator);
-            // sort the list by Time
-            int count = 1;
-            int size = i + range;
-            if (msgs.Count > 0)
+            // sort the list by name
+            if(msgs.Count > 0)
             {
-                // find the range of the current User in the list, so we can sort that range by time
-                string tempGroup = msgs[i].UserName;
-                SortByTime sbn = new SortByTime();
-                while (i+count <= size && i + count < msgs.Count)
+                count = 1;
+                // find the range of the current group in the list, so we can sort that range by name
+                string tempGroup = msgs[i].G_id;
+                SortByName sbn = new SortByName();
+                while (i+count < msgs.Count)
                 {
-                    if (tempGroup.Equals(msgs[i + count].UserName))
+                    if (tempGroup.Equals(msgs[i + count].G_id))
                         count++;
                     else
                     {
                         // send to SortByName to sort the wanted range
-                        if (i + count < msgs.Count && count > 1)
+                        if (i + count< msgs.Count)
                             sbn.sortRange(i, count, msgs);
-                        tempGroup = msgs[i + count].UserName;
+                        tempGroup = msgs[i+count].G_id;
                         i = i + count;
                         count = 1;
                     }
                 }
                 // אולי להוריד את המינוס 1 או להוסיף בדיקת חריגה
-               // sbn.sortRange(i, count, msgs);
+                sbn.sortRange(i, count, msgs);
             }
+            
+            
+            return msgs;
         }
 
         /// <summary>
-        /// A class implementing interface IComparer<T> to sort between two messages by the users nickname
+        /// A class implementing interface IComparer<T> to sort between two messages by group id
         /// </summary>
         class MessageComperator : IComparer<GuiMessage>
         {
@@ -69,7 +62,9 @@ namespace MileStoneClient.BusinessLayer
             /// </returns>
             public int Compare(GuiMessage msg1, GuiMessage msg2)
             {
-                return msg1.UserName.CompareTo(msg2.UserName) ;
+                int x1 = int.Parse(msg1.G_id);
+                int x2 = int.Parse(msg2.G_id);
+                return x1-x2;
             }
         }
     }

@@ -10,7 +10,7 @@ using MileStoneClient.PresentationLayer;
 
 namespace MileStoneClient.BusinessLayer
 {
-    class ChatRoom
+    public class ChatRoom
     {
         // fields
         private string url;
@@ -19,7 +19,7 @@ namespace MileStoneClient.BusinessLayer
         private UserHandler allUsers;
         private IdHandler groupsId;
         private List<GuiMessage> presMsgs;
-        private Action sort, filter;
+        private PresentationLayer.Action sort, filter;
 
         // constractors
         public ChatRoom(string url)
@@ -160,18 +160,16 @@ namespace MileStoneClient.BusinessLayer
         }
 
         // לעדכן ************************************************************************************************************
-
-        // 
-        public IList<GuiMessage> getMessages(int order, Action sort, Action filter)
+        public List<GuiMessage> getMessages(int order, List<PresentationLayer.Action> actions)
         {
             // if the sort or filter had changed, update all the messages from the files
-            if (this.sort != sort | this.filter != filter)
+            if (this.sort != actions[0] | this.filter != actions[1])
             {
                 updatePresMessages();
-                this.sort = sort;
-                this.filter = filter;
+                this.sort = actions[0];
+                this.filter = actions[1];
             }    
-            retrieveMessages();
+            //retrieveMessages();
             if (filter != null)
                 filter.action(presMsgs);
                 

@@ -8,7 +8,7 @@ namespace MileStoneClient.BusinessLayer
 {
 
     [Serializable]
-    class ID
+    public class ID
     {
         private string id;
         private List<string> members;
