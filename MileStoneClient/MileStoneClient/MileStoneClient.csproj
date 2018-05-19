@@ -65,15 +65,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BusinessLayer\ChatRoom.cs" />
+    <Compile Include="BusinessLayer\FilterByGroup.cs" />
+    <Compile Include="BusinessLayer\FilterByUser.cs" />
     <Compile Include="BusinessLayer\Id.cs" />
     <Compile Include="BusinessLayer\Message.cs" />
+    <Compile Include="BusinessLayer\SortByName.cs" />
+    <Compile Include="BusinessLayer\SortByTime.cs" />
     <Compile Include="BusinessLayer\User.cs" />
     <Compile Include="Logger\Log.cs" />
+    <Compile Include="PresentationLayer\Action.cs" />
     <Compile Include="PresentationLayer\ChatRoomWindow.xaml.cs">
       <DependentUpon>ChatRoomWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommunicationLayer\Communication.cs" />
     <Compile Include="CommunicationLayer\IMessage.cs" />
+    <Compile Include="PresentationLayer\GuiMessage.cs" />
     <Compile Include="PresentationLayer\ViewProfileWindow.xaml.cs">
       <DependentUpon>ViewProfileWindow.xaml</DependentUpon>
     </Compile>

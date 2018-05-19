@@ -64,3 +64,15 @@ C:\Users\Admin\source\repos\ISE172_project\MileStoneClient\MileStoneClient\obj\D
 C:\Users\Admin\source\repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.lref
 C:\Users\Admin\source\repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.exe
 C:\Users\Admin\source\repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.pdb
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\bin\Debug\MileStoneClient.exe.config
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.exe
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.pdb
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient.csprojResolveAssemblyReference.cache
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ChatRoomWindow.g.cs
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\ViewProfileWindow.g.cs
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\LoginWindow.g.cs
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MainWindow.g.cs
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\PresentationLayer\RegisterWindow.g.cs
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\App.g.cs
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.cache
+C:\Users\eden\Source\Repos\ISE172_project\MileStoneClient\MileStoneClient\obj\Debug\MileStoneClient_MarkupCompile.lref

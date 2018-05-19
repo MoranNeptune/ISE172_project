@@ -11,7 +11,7 @@ namespace MileStoneClient.BusinessLayer
 {
 
     [Serializable]
-    public class User
+    class User
     {
         private String nickname;
         private ID g_id;
