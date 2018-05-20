@@ -27,7 +27,9 @@ namespace MileStoneClient.PresentationLayer
         private bool isOptionsVisible;
         private Options op;
         private string orderChoice, filterChoice, sortChoice;
+        private List<Action> actionList;
         private int order;
+        private List<GuiMessage> msgs;
         private List<string> nicknames, groups;
 
         public ChatRoomWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
@@ -36,10 +38,14 @@ namespace MileStoneClient.PresentationLayer
             InitializeComponent();
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
-            DataContext = obs;
+            this.DataContext = obs;
             nicknames = chatRoom.getNicknames();
             groups = chatRoom.getGroups();
             op = new Options(this, nicknames, groups, obs);
+            actionList = new List<Action>();
+            actionList.Add(new SortByTime());
+            actionList.Add(null);
+            msgs = new List<GuiMessage>();
             isOptionsVisible = false;
             orderChoice = "ascending";
             filterChoice = "none";
@@ -72,31 +78,40 @@ namespace MileStoneClient.PresentationLayer
             switch (orderChoice)
             {
                 case "ascending":
+                    order = 0;
                     break;
                 case "decending":
+                    order = 1;
                     break;
             }
+            order = 1;
             // adds the choosen sort to the action list
             switch (sortChoice)
             {
                 case "name":
+                    actionList.Add(new SortByName());
                     break;
                 case "all":
+                    actionList.Add(new SortByGNT());
                     break;
                 case "time":
+                    actionList.Add(new SortByTime());
                     break;
             }
             // adds the choosen filter to the action list
             switch (filterChoice)
             {
                 case "none":
+                    actionList.Add(null);
                     break;
                 case "group":
+                    actionList.Add(new FilterByGroup(op.GroupChoice));
                     break;
                 case "user":
+                    actionList.Add(new FilterByUser(op.UserChoice, op.GroupChoice));
                     break;
             }
-            //getActions(order, filter, sort);
+            getMessagesList();
         }
 
         private void LogOut(object sender, RoutedEventArgs e)
@@ -109,15 +124,19 @@ namespace MileStoneClient.PresentationLayer
         private void Send(object sender, RoutedEventArgs e)
         {
             chatRoom.send(obs.TxtSendContent);
-
-            if (obs.TxtSendContent.Equals("what is on your mind?"))
+            if (!obs.TxtSendContent.Equals(""))
             {
                 //error
                 //check if the text is by standarts and pop up error message if not
                 //send the message
                 //clear the txt box
-                obs.TxtSendContent = "what is on your mind?";
+                obs.TxtSendContent = "";
             }
+
+            /*if (!obs.TxtSendContent.Equals(""))
+            {
+                obs.TxtSendContent = "";
+            }*/
         }
 
         private void ViewProfile(object sender, RoutedEventArgs e)
@@ -140,6 +159,34 @@ namespace MileStoneClient.PresentationLayer
                 //op = new Options(obs);
                 obs.IsOptionVisible = op;
                 isOptionsVisible = true;
+            }
+
+        }
+        /// return list of the users in a given group
+        public List<string> getMembersOf(string g_id)
+        {
+            if (g_id != null)
+                return chatRoom.getMembersOf(g_id);
+            return null;
+        }
+
+        //display all the messages
+        private void getMessagesList()
+        {
+           obs.Messages.Clear();
+           msgs = chatRoom.getMessages(order, actionList);
+            // convers all the Gui Messages to a string
+            for (int i = 0; i < msgs.Count; i++)
+            {
+                obs.Messages.Add(msgs[i].ToString());
+            }
+        }
+        // sendsa message by pressing enter
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Send(sender, e);
             }
         }
     }

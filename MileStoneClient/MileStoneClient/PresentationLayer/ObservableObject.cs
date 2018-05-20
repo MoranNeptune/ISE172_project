@@ -26,7 +26,7 @@ namespace MileStoneClient.PresentationLayer
         /// <summary>
         /// A binding function that connects between the "Send" textbox to source
         /// </summary
-        private string txtSendContent = "What on your mind?";
+        private string txtSendContent = "";
         public string TxtSendContent
         {
             get
