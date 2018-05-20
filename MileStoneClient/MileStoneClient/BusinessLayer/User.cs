@@ -9,6 +9,7 @@ using System.IO;
 
 namespace MileStoneClient.BusinessLayer
 {
+
     [Serializable]
     public class User
     {

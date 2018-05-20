@@ -1,0 +1,57 @@
+﻿<Page x:Name="border" x:Class="MileStoneClient.Options"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MileStoneClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="350" d:DesignWidth="300"
+      Title="Options">
+    <Grid>
+        <Grid Margin="50,160,50,90">
+            <Border x:Name="bourdSort_Copy" CornerRadius="15,15,15,15" BorderThickness="3" HorizontalAlignment="Left" Height="80" Width="200" VerticalAlignment="Top" ClipToBounds="False" SnapsToDevicePixels="False" Margin="0,10,0,0" >
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFA40095" Offset="0.0"/>
+                        <GradientStop Color="#FF29D6A7" Offset="0.5"/>
+                        <GradientStop Color="#FFE2178F" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFB75AE2" Offset="0.0" />
+                        <GradientStop Color="DarkTurquoise" Offset="0.5" />
+                        <GradientStop Color="#FFB9307B" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <Border x:Name="bourdSort" CornerRadius="15,15,15,15" BorderThickness="3" HorizontalAlignment="Left" Height="90" Width="200" VerticalAlignment="Top" ClipToBounds="False" SnapsToDevicePixels="False" Margin="0,-95,0,0" >
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFA40095" Offset="0.0"/>
+                        <GradientStop Color="#FF29D6A7" Offset="0.5"/>
+                        <GradientStop Color="#FFE2178F" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFB75AE2" Offset="0.0" />
+                        <GradientStop Color="DarkTurquoise" Offset="0.5" />
+                        <GradientStop Color="#FFB9307B" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <RadioButton Content="NickName" HorizontalAlignment="Left" Margin="6,-80,0,164" VerticalAlignment="Bottom" Width="185"/>
+            <RadioButton Content="Group Id, NickName, Timestemp" HorizontalAlignment="Left" Margin="6,-60,0,0" VerticalAlignment="Top" Width="195"/>
+            <RadioButton Content="Timestemp" HorizontalAlignment="Left" Margin="6,-40,0,0" VerticalAlignment="Top" Width="185" IsChecked="{Binding checked1, Mode=TwoWay}"/>
+            <RadioButton Content="ascending" HorizontalAlignment="Left" Margin="100,-140,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold" IsChecked="{Binding AscendingIsChecked, Mode=TwoWay}"/>
+            <RadioButton Content="descending" HorizontalAlignment="Left" Margin="100,-125,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold" IsChecked="{Binding DescendingIsChecked, Mode=TwoWay}"/>
+            <RadioButton Content="none" HorizontalAlignment="Left" Margin="5,-5,0,90" VerticalAlignment="Bottom" Width="185" Visibility="Hidden" IsChecked="{Binding checked1, Mode=TwoWay}"/>
+            <RadioButton Content="Group Id" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="185"/>
+            <RadioButton Content="User Name" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="185"/>
+        </Grid>
+        <ComboBox HorizontalAlignment="Left" Margin="70,265,0,0" VerticalAlignment="Top" Width="160" Height="30" />
+        <Label Content="Choose the order&#xD;&#xA;of the messages :" HorizontalAlignment="Left" Height="45" Margin="19,13,0,0" VerticalAlignment="Top" Width="129" FontWeight="Bold" FontFamily="Narkisim" FontSize="16"/>
+        <Button Content="OK" HorizontalAlignment="Left" Height="30" Margin="215,310,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Page>

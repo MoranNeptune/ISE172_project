@@ -80,6 +80,10 @@
     <Compile Include="CommunicationLayer\Communication.cs" />
     <Compile Include="CommunicationLayer\IMessage.cs" />
     <Compile Include="PresentationLayer\GuiMessage.cs" />
+    <Compile Include="PresentationLayer\ObservableObject.cs" />
+    <Compile Include="PresentationLayer\Options.xaml.cs">
+      <DependentUpon>Options.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\ViewProfileWindow.xaml.cs">
       <DependentUpon>ViewProfileWindow.xaml</DependentUpon>
     </Compile>
@@ -95,6 +99,10 @@
     <Page Include="PresentationLayer\ChatRoomWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentationLayer\Options.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="PresentationLayer\ViewProfileWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +148,20 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="bin\Debug\21mor.bin" />
+    <None Include="bin\Debug\22gfg.bin" />
+    <None Include="bin\Debug\22ksesa839.bin" />
+    <None Include="bin\Debug\33mor.bin" />
+    <None Include="bin\Debug\97moran the stupid.bin" />
+    <None Include="bin\Debug\allGroups.bin" />
+    <None Include="bin\Debug\allMessages.bin" />
+    <None Include="bin\Debug\allUsers.bin" />
+    <None Include="bin\Debug\dgdfg.bin" />
+    <None Include="bin\Debug\log4net.config" />
+    <None Include="bin\Debug\MileStoneClient.exe.config" />
+    <None Include="bin\Debug\nirnir.bin" />
+    <None Include="bin\Debug\shahar the king and moran the stupidshahar the king.bin" />
+    <None Include="bin\Release\MileStoneClient.exe.config" />
     <None Include="log4net.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -153,9 +175,35 @@
   <ItemGroup>
     <Resource Include="media\ImgOptions.gif" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="media\view profile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="media\backgruond.png" />
+    <Resource Include="media\button.jpg" />
+    <Resource Include="media\chat.jpg" />
+    <Resource Include="media\ChatRoom.jpg" />
+    <Resource Include="media\login.jpg" />
+    <Resource Include="media\main-logo.png" />
+    <Resource Include="media\main.jpg" />
+    <Resource Include="media\profile.jpg" />
+    <Resource Include="media\register.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\log4net.dll" />
+    <Resource Include="bin\Debug\log4net.xml" />
+    <Content Include="bin\Debug\MileStoneClient.exe" />
+    <Content Include="bin\Debug\MileStoneClient.pdb" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\WpfAnimatedGif.dll" />
+    <Resource Include="bin\Debug\WpfAnimatedGif.xml" />
+    <Content Include="bin\Release\MileStoneClient.exe" />
+    <Content Include="bin\Release\MileStoneClient.pdb" />
+    <Content Include="bin\Release\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Release\Newtonsoft.Json.xml" />
+    <Content Include="bin\Release\WpfAnimatedGif.dll" />
+    <Resource Include="bin\Release\WpfAnimatedGif.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
