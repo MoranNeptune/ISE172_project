@@ -133,25 +133,29 @@ namespace MileStoneClient.PresentationLayer
 
             if (groupList.SelectedIndex != 0)
             {
-                ////still doesn't update the list on the first try
-                //users = chatRoom.getMembersOf(groupChoice);
-                
-                //if(userBox != null)
-                //{
-                //    userBox.Items.Clear();
-                //    userBox.ItemsSource = users;
-                //    userBox.SelectedIndex = 0;
-                //}
+                obs.UserList.Clear();
+                users = chatRoom.getMembersOf(groupChoice);
+                // if there are no members in the group
+                if (users.Count == 1)
+                    obs.UserList.Add("Empty group :(");
+                else
+                {
+                    // adds the groups members to the combobox
+                    for (int i = 0; i < users.Count; i++)
+                    {
+                        obs.UserList.Add(users[i]);
+                    }
+                }
                 obs.IsUserFiltered = "visible";
-
             }
         }
+
 
         //initiate list for users comboBox
         private void addUsers(object sender, RoutedEventArgs e)
         {
             var userBox = sender as ComboBox;
-            userBox.ItemsSource = users;
+            userBox.ItemsSource = obs.UserList;
             userBox.SelectedIndex = 0;
         }
 
