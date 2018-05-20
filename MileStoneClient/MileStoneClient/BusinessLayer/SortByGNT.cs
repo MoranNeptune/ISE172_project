@@ -16,6 +16,7 @@ namespace MileStoneClient.BusinessLayer
             //  sort the list by group id
             msgs.Sort(comperator);
 
+
             // sort the list by name
             if(msgs.Count > 0)
             {
@@ -64,6 +65,7 @@ namespace MileStoneClient.BusinessLayer
             {
                 int x1 = int.Parse(msg1.G_id);
                 int x2 = int.Parse(msg2.G_id);
+               
                 return x1-x2;
             }
         }

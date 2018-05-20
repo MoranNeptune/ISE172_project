@@ -80,7 +80,7 @@ namespace MileStoneClient.BusinessLayer
             return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body +'\n' + "GUID: " + this.id;
         }
     }
-
+/*
     /// <summary>
     /// A class implementing interface IComparer<T> to between two messages by dateTime
     /// </summary>
@@ -101,4 +101,5 @@ namespace MileStoneClient.BusinessLayer
             return msg1.CompareTo(msg2);
         }
     }
+    */
 }

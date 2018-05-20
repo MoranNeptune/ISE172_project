@@ -73,45 +73,50 @@ namespace MileStoneClient.PresentationLayer
                 filterChoice = op.FilterChoice;
                 sortChoice = op.SortChoice;
                 op.IsChanged = false;
+                actionList.Clear();
+
+                //list == order,sort,filter
+                switch (orderChoice)
+                {
+                    case "ascending":
+                        order = 0;
+                        break;
+                    case "decending":
+                        order = 1;
+                        break;
+                }
+
+                // adds the choosen sort to the action list
+                switch (sortChoice)
+                {
+                    case "name":
+                        actionList.Add(new SortByName());
+                        break;
+                    case "all":
+                        actionList.Add(new SortByGNT());
+                        break;
+                    case "time":
+                        actionList.Add(new SortByTime());
+                        break;
+                }
+                // adds the choosen filter to the action list
+                switch (filterChoice)
+                {
+                    case "none":
+                        actionList.Add(null);
+                        break;
+                    case "group":
+                        actionList.Add(new FilterByGroup(op.GroupChoice));
+                        break;
+                    case "user":
+                        actionList.Add(new FilterByUser(op.UserChoice, op.GroupChoice));
+                        break;
+                }
+                getMessagesList();
             }
-            //list == order,sort,filter
-            switch (orderChoice)
-            {
-                case "ascending":
-                    order = 0;
-                    break;
-                case "decending":
-                    order = 1;
-                    break;
-            }
-            order = 1;
-            // adds the choosen sort to the action list
-            switch (sortChoice)
-            {
-                case "name":
-                    actionList.Add(new SortByName());
-                    break;
-                case "all":
-                    actionList.Add(new SortByGNT());
-                    break;
-                case "time":
-                    actionList.Add(new SortByTime());
-                    break;
-            }
-            // adds the choosen filter to the action list
-            switch (filterChoice)
-            {
-                case "none":
-                    actionList.Add(null);
-                    break;
-                case "group":
-                    actionList.Add(new FilterByGroup(op.GroupChoice));
-                    break;
-                case "user":
-                    actionList.Add(new FilterByUser(op.UserChoice, op.GroupChoice));
-                    break;
-            }
-            getMessagesList();
+            // אולי להוריד
+           else
+             getMessagesList();
         }
 
         private void LogOut(object sender, RoutedEventArgs e)
@@ -126,23 +131,27 @@ namespace MileStoneClient.PresentationLayer
             chatRoom.send(obs.TxtSendContent);
             if (!obs.TxtSendContent.Equals(""))
             {
-                //error
-                //check if the text is by standarts and pop up error message if not
-                //send the message
-                //clear the txt box
                 obs.TxtSendContent = "";
             }
-
-            /*if (!obs.TxtSendContent.Equals(""))
-            {
-                obs.TxtSendContent = "";
-            }*/
         }
-
+        
         private void ViewProfile(object sender, RoutedEventArgs e)
         {
             ViewProfileWindow viewProfileWindow = new ViewProfileWindow(this.mainWindow, this.chatRoom);
             viewProfileWindow.Show();
+            // רק לבדיקת פילטרים
+            
+            
+            {
+                order = 0;
+                actionList.Clear();
+                actionList.Add(new SortByName());
+                actionList.Add(new FilterByGroup("21"));
+                getMessagesList();
+                actionList.Clear();
+                            }
+
+            
         }
 
         private void Options(object sender, RoutedEventArgs e)
@@ -162,6 +171,12 @@ namespace MileStoneClient.PresentationLayer
             }
 
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
         /// return list of the users in a given group
         public List<string> getMembersOf(string g_id)
         {
@@ -181,6 +196,17 @@ namespace MileStoneClient.PresentationLayer
                 obs.Messages.Add(msgs[i].ToString());
             }
         }
+
+        //initiate listBox wuth the messages list
+        private void updateMessages(object sender, RoutedEventArgs e)
+        {
+            msgs = chatRoom.getMessages(0, actionList);
+            for (int i = 0; i < msgs.Count; i++)
+            {
+                obs.Messages.Add(msgs[i].ToString());
+            }
+        }
+    
         // sendsa message by pressing enter
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {

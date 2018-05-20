@@ -172,11 +172,10 @@ namespace MileStoneClient.BusinessLayer
             set { currUser = value; }
         }
 
-        // לעדכן ************************************************************************************************************
         public List<GuiMessage> getMessages(int order, List<PresentationLayer.Action> actions)
         {
             // if the sort or filter had changed, update all the messages from the files
-            if (this.sort != actions[0] | this.filter != actions[1])
+            if ((actions.Count > 0 && this.sort != actions[0]) | (actions.Count > 1 && this.filter != actions[1]))
             {
                 updatePresMessages();
                 this.sort = actions[0];
@@ -264,6 +263,7 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         private void updatePresMessages()
         {
+            presMsgs.Clear();
             if (allMessages.List != null)
                 for (int i = 0; i < allMessages.List.Count; i++)
                 {
