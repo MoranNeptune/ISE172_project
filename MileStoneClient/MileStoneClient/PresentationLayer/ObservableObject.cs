@@ -12,6 +12,7 @@ namespace MileStoneClient.PresentationLayer
         public ObservableObject()
         {
             Messages.CollectionChanged += Messages_CollectionChanged;
+            UserList.CollectionChanged += UserList_CollectionChanged;
         }
 
         public ObservableCollection<string> Messages { get; } = new ObservableCollection<string>();
@@ -172,14 +173,14 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
-    #endregion
+        #endregion
 
         #region RegisterWindowBinding
 
-    /// <summary>
-    /// A binding function that connects between the "btnReg" button to source
-    /// </summary>
-    private bool btnRegIsEnabled = false;
+        /// <summary>
+        /// A binding function that connects between the "btnReg" button to source
+        /// </summary>
+        private bool btnRegIsEnabled = false;
         public bool BtnRegIsEnabled
         {
             get
@@ -315,6 +316,15 @@ namespace MileStoneClient.PresentationLayer
         #endregion
 
         #region OptionsWindowBinding
+
+        /// <summary>
+        /// A binding function that connects between the group choice to the Users list 
+        /// </summary>
+        public ObservableCollection<string> UserList { get; } = new ObservableCollection<string>();
+        private void UserList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("UserList");
+        }
 
         /// <summary>
         /// A binding function that connects between the source to "Ascending" button 
