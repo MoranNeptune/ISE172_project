@@ -31,6 +31,7 @@ namespace MileStoneClient.PresentationLayer
         private int order;
         private List<GuiMessage> msgs;
         private List<string> nicknames, groups;
+        private DispatcherTimer dispatcherTimer;
 
         public ChatRoomWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
@@ -53,7 +54,7 @@ namespace MileStoneClient.PresentationLayer
 
 
             //initiate timer
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 2);
             dispatcherTimer.Start();
@@ -66,8 +67,12 @@ namespace MileStoneClient.PresentationLayer
         private void dispatcherTimer_Tick(object sender, EventArgs e)
 
         {
+            //if (isOptionsVisible)
+            //    dispatcherTimer.Stop();
+            //else dispatcherTimer.Start();
+
             //if another sort/filter/order was chosen
-            if (op.IsChanged)
+            if (op.IsChanged & op.IsLegalData)
             {
                 orderChoice = op.OrderChoice;
                 filterChoice = op.FilterChoice;
@@ -106,13 +111,16 @@ namespace MileStoneClient.PresentationLayer
                         actionList.Add(null);
                         break;
                     case "group":
-                        actionList.Add(new FilterByGroup(op.GroupChoice));
+                        if (op.GroupChoice != null)
+                            actionList.Add(new FilterByGroup(op.GroupChoice));
                         break;
                     case "user":
-                        actionList.Add(new FilterByUser(op.UserChoice, op.GroupChoice));
+                        if (op.UserChoice != null && op.GroupChoice != null)
+                            actionList.Add(new FilterByUser(op.UserChoice, op.GroupChoice));
                         break;
                 }
-                getMessagesList();
+                if (op.UserChoice != null && op.GroupChoice != null)
+                    getMessagesList();
             }
             // אולי להוריד
            else

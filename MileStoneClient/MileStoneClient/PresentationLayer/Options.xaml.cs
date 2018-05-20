@@ -14,10 +14,12 @@ namespace MileStoneClient.PresentationLayer
         private ObservableObject obs;
         private ChatRoomWindow chatRoom;
         private string filterChoice, sortChoice, orderChoice;
+        private string tFilterChoice, tSortChoice, tOrderChoice;
         private string prevFilter, prevSort, prevOrder;
-        private bool isChanged;
+        private bool isChanged, isLegalData;
         private List<string> users, groups;
         private string userChoice, groupChoice;
+        //check if we can delete this
         private ComboBox userBox, groupBox;
 
         public Options(ChatRoomWindow cr, List<string> nicknames, List<string> groups, ObservableObject obs)
@@ -27,6 +29,7 @@ namespace MileStoneClient.PresentationLayer
             DataContext = obs;
             InitializeComponent();
             isChanged = false;
+            isLegalData = true;
             users = nicknames;
             this.groups = groups;
             userBox = new ComboBox();
@@ -36,9 +39,17 @@ namespace MileStoneClient.PresentationLayer
             obs.AscendingIsChecked = true;
             obs.F_NoneIsChecked = true;
             obs.S_TimeIsChecked = true;
+
+            //initiate final option choice
             filterChoice = "none";
             sortChoice = "time";
             orderChoice = "ascending";
+
+            //initiate option change
+            tFilterChoice = filterChoice;
+            tSortChoice = sortChoice;
+            tOrderChoice = orderChoice;
+
             prevFilter = filterChoice;
             prevSort = sortChoice;
             prevOrder = orderChoice;
@@ -48,51 +59,64 @@ namespace MileStoneClient.PresentationLayer
         private void SortNickname(object sender, RoutedEventArgs e)
         {
             obs.S_NicknameIsChecked = true;
-            sortChoice = "name";
+            prevSort = tSortChoice;
+            tSortChoice = "name";
         }
 
         //sort by group id, nickname and timestemp 
         private void SortAll(object sender, RoutedEventArgs e)
         {
             obs.S_AllIsChecked = true;
-            sortChoice = "all";
+            prevSort = tSortChoice;
+            tSortChoice = "all";
         }
 
         //sort by timestemp
         private void SortTime(object sender, RoutedEventArgs e)
         {
             obs.S_TimeIsChecked = true;
-            sortChoice = "time";
+            prevSort = tSortChoice;
+            tSortChoice = "time";
         }
 
         //sort messages by ascending order
         private void SortAscending(object sender, RoutedEventArgs e)
         {
             obs.AscendingIsChecked = true;
-            orderChoice = "ascending";
+            prevOrder = tOrderChoice;
+            tOrderChoice = "ascending";
         }
 
         //sort messages by decending order 
         private void SortDescending(object sender, RoutedEventArgs e)
         {
             obs.DescendingIsChecked = true;
-            orderChoice = "decending";
+            prevOrder = tOrderChoice;
+            tOrderChoice = "decending";
         }
 
         //no filter - if "None" filter is checked, hide the comboBox for users and groups
         private void FilterNone(object sender, RoutedEventArgs e)
         {
             obs.F_NoneIsChecked = true;
-            filterChoice = "none";
+            prevFilter = tFilterChoice;
+            tFilterChoice = "none";
             obs.IsUserFiltered = "Hidden";
             obs.IsGroupFiltered = "Hidden";
+            IsLegalData = true;
         }
 
         //filter by group id - if "Group Id" is checked, only display comboBox for groups
         private void FilterG_Id(object sender, RoutedEventArgs e)
         {
+            if (obs.F_GroupIsChecked)
+                groupChoice = null;
+            if (obs.F_UserIsChecked)
+                userChoice = null;
+
             obs.F_GroupIsChecked = true;
-            filterChoice = "group";
+            prevFilter = tFilterChoice;
+            tFilterChoice = "group";
             obs.IsUserFiltered = "Hidden";
             obs.IsGroupFiltered = "visible";
         }
@@ -100,20 +124,64 @@ namespace MileStoneClient.PresentationLayer
         //filter by user name - if "User" filter is checked, show comboBox for groups
         private void FilterUser(object sender, RoutedEventArgs e)
         {
+            if (obs.F_GroupIsChecked)
+                groupChoice = null;
+            if (obs.F_UserIsChecked)
+                userChoice = null;
+
             obs.F_UserIsChecked = true;
-            filterChoice = "user";
+            prevFilter = tFilterChoice;
+            tFilterChoice = "user";
             obs.IsGroupFiltered = "visible";
         }
 
-        //update isChanged status and hide the page
+        //set bool values for isChanged (indicating the change of a field) and isLegalData (indicating if all data sent is legal) 
         private void btnOk(object sender, RoutedEventArgs e)
         {
-            obs.IsOptionVisible = null;
-
-            if (!orderChoice.Equals(prevOrder) | !filterChoice.Equals(prevFilter) | !sortChoice.Equals(prevSort))
+            //if the order/sort/filter choice was changed
+            if (!tOrderChoice.Equals(prevOrder) | !tFilterChoice.Equals(prevFilter) | !tSortChoice.Equals(prevSort))
             {
                 isChanged = true;
             }
+
+            //if no filters is clicked - there is a filter
+            if (!obs.F_NoneIsChecked)
+            {
+                //if User filter was clicked and user wasn't picked  
+                if (obs.F_UserIsChecked && ((userChoice == null | groupChoice == null) || 
+                     (groupChoice.Equals("Groups") | userChoice.Equals("Empty group :("))))
+                {
+                    MessageBox.Show("Choose user for  filter");
+                    isLegalData = false;
+                }
+                //if group wasn't picked or if picked group is empty
+                if (obs.F_GroupIsChecked && (groupChoice == null || groupChoice.Equals("Groups")))
+                {
+                    MessageBox.Show("Choose group for filter");
+                    isLegalData = false;
+                }
+                else
+                {
+                    //change sort, order and filter
+                    orderChoice = tOrderChoice;
+                    sortChoice = tSortChoice;
+
+                    //if filter is by group and a group was picked, or if the filter is by user and both the group and the user were picked
+                    if ((obs.F_GroupIsChecked && groupChoice != null) | (obs.F_UserIsChecked && groupChoice != null && UserChoice != null))
+                        filterChoice = tFilterChoice;
+                }
+            }
+            //no filter is picked
+            else
+            {
+                orderChoice = tOrderChoice;
+                filterChoice = tFilterChoice;
+                sortChoice = tSortChoice;
+            }
+
+            if (isLegalData)
+                obs.IsOptionVisible = null;
+            
         }
 
         //initiate list for groups comboBox
@@ -127,29 +195,42 @@ namespace MileStoneClient.PresentationLayer
         //display list for groups comboBox
         private void groupList(object sender, SelectionChangedEventArgs e)
         {
-            var groupList = sender as ComboBox;
-            string group = groupList.SelectedItem as string;
-            groupChoice = group;
 
+            var groupList = sender as ComboBox;
+
+            //if group was picked
             if (groupList.SelectedIndex != 0)
             {
-                obs.UserList.Clear();
-                users = chatRoom.getMembersOf(groupChoice);
-                // if there are no members in the group
-                if (users.Count == 1)
-                    obs.UserList.Add("Empty group :(");
+                string group = groupList.SelectedItem as string;
+                groupChoice = group;
+
+                //if Group filter was picked and group was picked
+                if (obs.F_GroupIsChecked)
+                    isLegalData = true;
                 else
                 {
-                    // adds the groups members to the combobox
-                    for (int i = 0; i < users.Count; i++)
-                    {
-                        obs.UserList.Add(users[i]);
-                    }
-                }
-                obs.IsUserFiltered = "visible";
-            }
-        }
+                    obs.UserList.Clear();
+                    users = chatRoom.getMembersOf(groupChoice);
 
+                    // if there are no members in the group
+                    if (users.Count == 0)
+                    {
+                        obs.UserList.Add("Empty group :(");
+                        IsLegalData = false;
+                    }
+                    else
+                    {
+                        // adds the groups members to the combobox
+                        for (int i = 0; i < users.Count; i++)
+                        {
+                            obs.UserList.Add(users[i]);
+                        }
+                    }
+                    obs.IsUserFiltered = "visible";
+                }
+                //groupList.SelectedIndex = 0;
+            }            
+        }
 
         //initiate list for users comboBox
         private void addUsers(object sender, RoutedEventArgs e)
@@ -164,7 +245,19 @@ namespace MileStoneClient.PresentationLayer
         {
             var userList = sender as ComboBox;
             string name = userList.SelectedItem as string;
-            userChoice = name;
+
+            if(name!=null && !name.Equals("Empty group :("))
+            {
+                userChoice = name;
+                isLegalData = true;
+            }
+            //userList.SelectedIndex = 0;
+        }
+
+        public bool IsLegalData
+        {
+            get { return isLegalData; }
+            set { isLegalData = value; }
         }
 
         public bool IsChanged

@@ -23,14 +23,16 @@ namespace MileStoneClient.PresentationLayer
     {
         private RegisterWindow register;
         private LoginWindow login;
-        public const string url = "http://ise172.ise.bgu.ac.il:80";
-        private ChatRoom chatRoom = new ChatRoom(url);
+        public string url;
+        private ChatRoom chatRoom;
         private List<Message> retMessages;
         private ObservableObject obs;
 
         public MainWindow()
         {
+            url = "http://ise172.ise.bgu.ac.il:80";
             obs = new ObservableObject();
+            chatRoom = new ChatRoom(url);
             InitializeComponent();
         }
 
