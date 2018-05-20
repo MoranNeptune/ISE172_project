@@ -13,19 +13,12 @@
             <ImageBrush ImageSource="/MileStoneClient;component/media/ChatRoom.jpg"/>
         </Grid.Background>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="481" Margin="230,112,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="678" Foreground="{x:Null}" SelectionBrush="{x:Null}">
-            <TextBox.Background>
-                <ImageBrush/>
-            </TextBox.Background>
-            <TextBox.BorderBrush>
-                <ImageBrush/>
-            </TextBox.BorderBrush>
-
-        </TextBox>
-        <Button Content="View Profile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,322,0,0" Height="75" Click="ViewProfile_Click"/>
-        <Button Content="LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,442,0,0" Height="75" Click="BtnLogOut_Click"/>
+        <Button Content="View Profile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,322,0,0" Height="75" Click="ViewProfile"/>
+        <Button Content="LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,442,0,0" Height="75" Click="LogOut"/>
         <TextBox HorizontalAlignment="Left" Height="35" Margin="230,598,0,0" TextWrapping="Wrap" Text="{Binding TxtSendContent}" VerticalAlignment="Top" Width="607" />
-        <Button Content="Send" HorizontalAlignment="Left" Height="35" Margin="840,598,0,0" VerticalAlignment="Top" Width="68" Click="Send_Click"/>
-        <Button Content="Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,202,0,0" Height="75" Click="Options_Click"/>
+        <Button Content="Send" HorizontalAlignment="Left" Height="35" Margin="840,598,0,0" VerticalAlignment="Top" Width="68" Click="Send"/>
+        <Button Content="Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,202,0,0" Height="75" Click="Options"/>
+        <ListBox HorizontalAlignment="Left" Height="481" Margin="230,112,0,0" VerticalAlignment="Top" Width="678"/>
+        <Frame NavigationUIVisibility="Hidden" HorizontalAlignment="Left" Height="400" Margin="148,202,0,0" VerticalAlignment="Top" Width="320.8" Content="{Binding IsOptionVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

@@ -21,14 +21,16 @@ namespace MileStoneClient.PresentationLayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        RegisterWindow register;
-        LoginWindow login;
+        private RegisterWindow register;
+        private LoginWindow login;
         public const string url = "http://ise172.ise.bgu.ac.il:80";
         private ChatRoom chatRoom = new ChatRoom(url);
         private List<Message> retMessages;
+        private ObservableObject obs;
 
         public MainWindow()
         {
+            obs = new ObservableObject();
             InitializeComponent();
         }
 
@@ -39,13 +41,15 @@ namespace MileStoneClient.PresentationLayer
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-            this.register = new RegisterWindow(this,this.chatRoom); 
-            register.Show();
+            ChatRoomWindow cr = new ChatRoomWindow(this, chatRoom, obs);
+            cr.Show();
+            //this.register = new RegisterWindow(this,this.chatRoom); 
+            //register.Show();
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            this.login = new LoginWindow(this,this.chatRoom);
+            this.login = new LoginWindow(this,this.chatRoom, obs);
             login.Show();
         }
 

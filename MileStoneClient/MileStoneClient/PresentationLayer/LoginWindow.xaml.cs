@@ -24,13 +24,14 @@ namespace MileStoneClient.PresentationLayer
     {
         MainWindow mainWindow;
         public ChatRoom chatRoom;
-        public ObservableObject obs = new ObservableObject();
+        public ObservableObject obs;
         String nickname;
         String groupId;
-        public LoginWindow(MainWindow mainWindow, ChatRoom chatRoom)
+        public LoginWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
             InitializeComponent();
-            this.DataContext = obs;
+            this.obs = obs;
+            DataContext = obs;
             this.mainWindow = mainWindow;
             this.chatRoom = chatRoom;
             obs.BtnLoginIsEnabled = false;
@@ -101,7 +102,7 @@ namespace MileStoneClient.PresentationLayer
                     obs.LblAddRegVisibility = "Visible";
                     //Log.Instance.info("New log-in - User: " + NickName);//log
                     this.Close();
-                    ChatRoomWindow chatRoomWin = new ChatRoomWindow(this.mainWindow, this.chatRoom);
+                    ChatRoomWindow chatRoomWin = new ChatRoomWindow(this.mainWindow, this.chatRoom, obs);
                     chatRoomWin.Show();
                 }
             }
@@ -130,7 +131,7 @@ namespace MileStoneClient.PresentationLayer
    
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-             RegisterWindow register = new RegisterWindow(this.mainWindow, this.chatRoom);
+             RegisterWindow register = new RegisterWindow(this.mainWindow, this.chatRoom, obs);
              this.Close();
              register.Show();
    

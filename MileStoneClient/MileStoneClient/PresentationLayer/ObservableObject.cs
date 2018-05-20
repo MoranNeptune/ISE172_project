@@ -26,7 +26,7 @@ namespace MileStoneClient.PresentationLayer
         /// <summary>
         /// A binding function that connects between the "Send" textbox to source
         /// </summary
-         private string txtSendContent = "What on your mind?";
+        private string txtSendContent = "What on your mind?";
         public string TxtSendContent
         {
             get
@@ -39,6 +39,27 @@ namespace MileStoneClient.PresentationLayer
                 {
                     txtSendContent = value;
                     OnPropertyChanged("txtSendContent");
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// A binding function that connects between the "options" button to source
+        /// </summary
+        private object isOptionVisible = null;
+        public object IsOptionVisible
+        {
+            get
+            {
+                return isOptionVisible;
+            }
+            set
+            {
+                if (isOptionVisible != value)
+                {
+                    isOptionVisible = value;
+                    OnPropertyChanged("IsOptionVisible");
                 }
             }
         }
@@ -75,10 +96,11 @@ namespace MileStoneClient.PresentationLayer
             }
             set
             {
-                if (!nicknameContent.Equals(value)) { 
-                nicknameContent = value;
-                OnPropertyChanged("nicknameContent");
-            }
+                if (!nicknameContent.Equals(value))
+                {
+                    nicknameContent = value;
+                    OnPropertyChanged("nicknameContent");
+                }
             }
         }
 
@@ -149,14 +171,15 @@ namespace MileStoneClient.PresentationLayer
                 OnPropertyChanged("BtnLoginIsEnabled");
             }
         }
-        #endregion
+
+    #endregion
 
         #region RegisterWindowBinding
 
-        /// <summary>
-        /// A binding function that connects between the "btnReg" button to source
-        /// </summary>
-        private bool btnRegIsEnabled = false;
+    /// <summary>
+    /// A binding function that connects between the "btnReg" button to source
+    /// </summary>
+    private bool btnRegIsEnabled = false;
         public bool BtnRegIsEnabled
         {
             get
@@ -309,7 +332,7 @@ namespace MileStoneClient.PresentationLayer
                 {
                     //force that only one button will be pressed
                     if (descendingIsChecked & value)
-                        descendingIsChecked=false;
+                        descendingIsChecked = false;
                     ascendingIsChecked = value;
                     OnPropertyChanged("AscendingIsChecked");
                 }
@@ -334,6 +357,212 @@ namespace MileStoneClient.PresentationLayer
                         ascendingIsChecked = false;
                     descendingIsChecked = value;
                     OnPropertyChanged("DescendingIsChecked");
+                }
+            }
+        }
+
+        #region filters
+        /// <summary>
+        /// A binding function that connects between the source to "None" filter button 
+        /// </summary>
+        private bool f_NoneIsChecked = false;
+        public bool F_NoneIsChecked
+        {
+            get
+            {
+                return f_NoneIsChecked;
+            }
+            set
+            {
+                if (f_NoneIsChecked != value)
+                {
+                    //force that only one button is pressed for filters
+                    if (value & (f_UserIsChecked | f_GroupIsChecked))
+                    {
+                        if (f_UserIsChecked)
+                            f_UserIsChecked = false;
+                        else f_GroupIsChecked = false;
+                    }
+                    f_NoneIsChecked = value;
+                    OnPropertyChanged("F_NoneIsChecked");
+                }
+            }
+        }
+
+        /// <summary>
+        /// A binding function that connects between the source to "User" filter button 
+        /// </summary>
+        private bool f_UserIsChecked = false;
+        public bool F_UserIsChecked
+        {
+            get
+            {
+                return f_UserIsChecked;
+            }
+            set
+            {
+                if (f_UserIsChecked != value)
+                {
+                    //force that only one button is pressed for filters
+                    if (value & (f_NoneIsChecked | f_GroupIsChecked))
+                    {
+                        if (f_NoneIsChecked)
+                            f_NoneIsChecked = false;
+                        else f_GroupIsChecked = false;
+                    }
+                    f_UserIsChecked = value;
+                    OnPropertyChanged("F_UserIsChecked");
+                }
+            }
+        }
+
+        /// <summary>
+        /// A binding function that connects between the source to "Group Id" filter button 
+        /// </summary>
+        private bool f_GroupIsChecked = false;
+        public bool F_GroupIsChecked
+        {
+            get
+            {
+                return f_GroupIsChecked;
+            }
+            set
+            {
+                if (f_GroupIsChecked != value)
+                {
+                    //force that only one button is pressed for filters
+                    if (value & (f_NoneIsChecked | f_UserIsChecked))
+                    {
+                        if (f_NoneIsChecked)
+                            f_NoneIsChecked = false;
+                        else f_UserIsChecked = false;
+                    }
+                    f_GroupIsChecked = value;
+                    OnPropertyChanged("F_GroupIsChecked");
+                }
+            }
+        }
+        #endregion
+
+        #region sorts
+        /// <summary>
+        /// A binding function that connects between the source to "Group Id, NickName, Timestemp" button 
+        /// </summary>
+        private bool s_AllIsChecked = false;
+        public bool S_AllIsChecked
+        {
+            get
+            {
+                return s_AllIsChecked;
+            }
+            set
+            {
+                if (s_AllIsChecked != value)
+                {
+                    //force that only one button is pressed for sort
+                    if (value & (s_TimeIsChecked | s_NicknameIsChecked))
+                    {
+                        if (s_TimeIsChecked)
+                            s_TimeIsChecked = false;
+                        else s_NicknameIsChecked = false;
+                    }
+                    s_AllIsChecked = value;
+                    OnPropertyChanged("S_AllIsChecked");
+                }
+            }
+        }
+
+        /// <summary>
+        /// A binding function that connects between the source to "Timestemp" button 
+        /// </summary>
+        private bool s_TimeIsChecked = false;
+        public bool S_TimeIsChecked
+        {
+            get
+            {
+                return s_TimeIsChecked;
+            }
+            set
+            {
+                if (s_TimeIsChecked != value)
+                {
+                    //force that only one button is pressed for sort
+                    if (value & (s_AllIsChecked | s_NicknameIsChecked))
+                    {
+                        if (s_AllIsChecked)
+                            s_AllIsChecked = false;
+                        else s_NicknameIsChecked = false;
+                    }
+                    s_TimeIsChecked = value;
+                    OnPropertyChanged("S_TimeIsChecked");
+                }
+            }
+        }
+
+        /// <summary>
+        /// A binding function that connects between the source to "Timestemp" button 
+        /// </summary>
+        private bool s_NicknameIsChecked = false;
+        public bool S_NicknameIsChecked
+        {
+            get
+            {
+                return s_NicknameIsChecked;
+            }
+            set
+            {
+                if (s_NicknameIsChecked != value)
+                {
+                    //force that only one button is pressed for sort
+                    if (value & (s_TimeIsChecked | s_AllIsChecked))
+                    {
+                        if (s_TimeIsChecked)
+                            s_TimeIsChecked = false;
+                        else s_AllIsChecked = false;
+                    }
+                    s_NicknameIsChecked = value;
+                    OnPropertyChanged("S_NicknameIsChecked");
+                }
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// A binding function that connects between the source to the visibility of groups filter
+        /// </summary>
+        private string isGroupFiltered = "Hidden";
+        public string IsGroupFiltered
+        {
+            get
+            {
+                return isGroupFiltered;
+            }
+            set
+            {
+                if (isGroupFiltered != value)
+                {
+                    isGroupFiltered = value;
+                    OnPropertyChanged("IsGroupFiltered");
+                }
+            }
+        }
+
+        /// <summary>
+        /// A binding function that connects between the source to the visibility of users filter
+        /// </summary>
+        private string isUserFiltered = "Hidden";
+        public string IsUserFiltered
+        {
+            get
+            {
+                return isUserFiltered;
+            }
+            set
+            {
+                if (isUserFiltered != value)
+                {
+                    isUserFiltered = value;
+                    OnPropertyChanged("IsUserFiltered");
                 }
             }
         }

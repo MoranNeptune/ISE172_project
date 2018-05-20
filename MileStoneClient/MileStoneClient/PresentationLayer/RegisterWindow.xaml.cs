@@ -21,15 +21,16 @@ namespace MileStoneClient.PresentationLayer
     /// </summary>
     public partial class RegisterWindow : Window
     {
-        ChatRoom chatRoom;
-        MainWindow mainWindow;
-        ObservableObject obs = new ObservableObject();
-        String nickname;
-        String groupId;
+        private ChatRoom chatRoom;
+        private MainWindow mainWindow;
+        private ObservableObject obs;
+        private String nickname;
+        private String groupId;
 
-        public RegisterWindow(MainWindow mainWindow, ChatRoom chatRoom)
+        public RegisterWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
             InitializeComponent();
+            this.obs = obs;
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
             this.DataContext = obs;
@@ -132,7 +133,7 @@ namespace MileStoneClient.PresentationLayer
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow login = new LoginWindow(this.mainWindow, this.chatRoom);
+            LoginWindow login = new LoginWindow(this.mainWindow, this.chatRoom, obs);
             this.Close();
             login.Show();
         }
