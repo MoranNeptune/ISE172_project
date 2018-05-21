@@ -12,12 +12,14 @@ namespace MileStoneClient.NUnit
     [TestFixture]
     class NUnitTests
     {
+        ////////// save the tests in file? to add a message?
+
         private const String url = "http://ise172.ise.bgu.ac.il:80";
 
         /// <summary>
         /// test the registeretion of a new user
         /// </summary>
-        [TestCase]
+        [Test]
         public void Register()
         {
             ChatRoom c = new ChatRoom(url);
@@ -29,7 +31,7 @@ namespace MileStoneClient.NUnit
         /// <summary>
         /// test the registeretion of a new user with the same name & group id as a registered user
         /// </summary>
-        [TestCase]
+        [Test]
         public void RegisterValid()
         {
             ChatRoom c = new ChatRoom(url);
@@ -42,7 +44,7 @@ namespace MileStoneClient.NUnit
         /// <summary>
         /// test login of a registered user
         /// </summary>
-        [TestCase]
+        [Test]
         public void Login()
         {
             ChatRoom c = new ChatRoom(url);
@@ -53,26 +55,118 @@ namespace MileStoneClient.NUnit
         }
 
         /// <summary>
-        /// test login of a not regisstered user
+        /// test if the program sends a message with more than 150 chars
         /// </summary>
-        /*[TestCase]
+        [Test]
+        public void MessageLength()
+        {
+            ChatRoom c = new ChatRoom(url);
+            c.register("Batman", "21");
+            c.login("Batman", "21");
+            bool observedResult = c.send
+                ("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+            bool expectedResult = false;
+            Assert.AreEqual(expectedResult, observedResult);
+        }
+
+        /// <summary>
+        /// test send message 
+        /// </summary>
+        [Test]
+        public void Send()
+        {
+            ChatRoom c = new ChatRoom(url);
+            c.register("Batman", "21");
+            c.login("Batman", "21");
+             bool observedResult = c.send("Hi");
+            bool expectedResult = true;
+             Assert.AreEqual(expectedResult, observedResult);
+        }
+
+        /// <summary>
+        /// test the function getMembersOf, and the ID's functionality
+        /// </summary>
+        [Test]
+        public void GetMembersOf()
+        {
+            ChatRoom c = new ChatRoom(url);
+            c.register("MickyMouse", "21");
+            bool observedResult = c.getMembersOf("21").Contains("MickyMouse");
+            bool expectedResult = true;
+            Assert.AreEqual(expectedResult, observedResult);
+        }
+
+        /// <summary>
+        /// test the function findUser, and the User's functionality
+        /// </summary>
+        [Test]
+        public void FindUser()
+        {
+            ChatRoom c = new ChatRoom(url);
+            c.register("MickyMouse", "21");
+            bool observedResult = c.findUser("MickyMouse", "21")!=null;
+            bool expectedResult = true;
+            Assert.AreEqual(expectedResult, observedResult);
+        }
+
+        /// <summary>
+        /// test if the program sends an empty message 
+        /// </summary>
+        /*   [Test]
+           public void EmptyMessage()
+           {
+               ChatRoom c = new ChatRoom(url);
+                c.register("name", "1");
+                bool observedResult = c.login("name", "1");
+                bool expectedResult = true;
+                Assert.AreEqual(expectedResult, observedResult);
+           }*/
+
+        /// <summary>
+        /// test log out option 
+        /// </summary>
+        /*   [Test]
+            public void Logout()
+            {
+                ChatRoom c = new ChatRoom(url);
+                 c.register("Spiderman", "21");
+             c.login("Spiderman", "21");
+             c.logOut("Spiderman", "21");
+             bool observedResult = 
+                 bool expectedResult = true;
+                 Assert.AreEqual(expectedResult, observedResult);
+            }*/
+
+
+        /// <summary>
+        /// test login of a not registered user
+        /// </summary>
+        /*[Test]
         public void LoginValid()
         {
             ChatRoom c = new ChatRoom(url);
-             g_id = 1;
-            while(c.findUser())
+            
             bool observedResult = c.login("name", "1");
             bool expectedResult = false;
             Assert.AreEqual(expectedResult, observedResult);
         }
         */
-      
-        //one case that work one that doesnt
-        //test exit program
-        //test send- is succsed, max. Length 150 characters, empty message
-        //test filter- send a message from the signin user and try filter on another group, on another user
-        //test getMembersOf(chatroom)- init new group and check if the list is the same
-        //to save the tests in file? to add a message?
 
+
+        //anoter test filter- send a message from the signin user and see if it shows when chose filterByUser (this user)
+        /// <summary>
+        /// test filterByGroupID  
+        /// </summary>
+        /* [Test]
+         public void filterByGroupID()
+         {
+             ChatRoom c = new ChatRoom(url);
+             c.register("Batman", "21");
+             c.login("Batman", "21");
+             c.send("Hi");
+             bool observedResult = //(list of messages with filter of another g_id).contains(the message above)
+             bool expectedResult = false;
+             Assert.AreEqual(expectedResult, observedResult);
+         }*/
     }
 }
