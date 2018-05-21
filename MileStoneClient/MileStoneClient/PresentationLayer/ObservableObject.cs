@@ -416,6 +416,20 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
+        /// <summary>
+        /// A binding for the selected item in the group choice
+        /// </summary>
+        private int selectedGroup = 0;
+        public int SelectedGroup
+        {
+            get { return selectedGroup; }
+            set
+            {
+                selectedGroup = value;
+                OnPropertyChanged("SelectedGroup");
+            }
+        }
+
         #region filters
         /// <summary>
         /// A binding function that connects between the source to "None" filter button 

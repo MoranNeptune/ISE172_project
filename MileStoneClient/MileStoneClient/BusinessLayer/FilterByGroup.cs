@@ -17,7 +17,7 @@ namespace MileStoneClient.BusinessLayer
         }
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
-            for( int i=0; i<msgs.Count; i++)
+            for (int i = 0; i < msgs.Count; i++)
             {
                 if (!msgs[i].G_id.Equals(groupId))
                 {

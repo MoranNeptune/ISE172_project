@@ -7,24 +7,24 @@ using MileStoneClient.PresentationLayer;
 
 namespace MileStoneClient.BusinessLayer
 {
-     class SortByName : PresentationLayer.Action
+    class SortByName : PresentationLayer.Action
     {
         private MessageComperator comperator;
-        
+
         public SortByName()
         {
             comperator = new MessageComperator();
         }
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
-            
+
             msgs.Sort(comperator);
             return msgs;
         }
 
-        public void sortRange(int i, int range , List<GuiMessage> msgs)
+        public void sortRange(int i, int range, List<GuiMessage> msgs)
         {
-             msgs.Sort(i, range, comperator);
+            msgs.Sort(i, range, comperator);
             // sort the list by Time
             int count = 1;
             int size = i + range;
@@ -33,7 +33,7 @@ namespace MileStoneClient.BusinessLayer
                 // find the range of the current User in the list, so we can sort that range by time
                 string tempGroup = msgs[i].UserName;
                 SortByTime sbn = new SortByTime();
-                while (i+count <= size && i + count < msgs.Count)
+                while (i + count <= size && i + count < msgs.Count)
                 {
                     if (tempGroup.Equals(msgs[i + count].UserName))
                         count++;
@@ -48,7 +48,7 @@ namespace MileStoneClient.BusinessLayer
                     }
                 }
                 // אולי להוריד את המינוס 1 או להוסיף בדיקת חריגה
-               // sbn.sortRange(i, count, msgs);
+                // sbn.sortRange(i, count, msgs);
             }
         }
 
@@ -69,7 +69,13 @@ namespace MileStoneClient.BusinessLayer
             /// </returns>
             public int Compare(GuiMessage msg1, GuiMessage msg2)
             {
-                return msg1.UserName.CompareTo(msg2.UserName) ;
+                // if the messages have the same user, sort by messages id
+                if (msg1.UserName.Equals(msg2.UserName))
+                {
+                    return msg1.Id.CompareTo(msg2.Id);
+                }
+
+                return msg1.UserName.CompareTo(msg2.UserName);
             }
         }
     }

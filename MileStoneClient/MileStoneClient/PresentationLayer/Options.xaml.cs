@@ -119,6 +119,7 @@ namespace MileStoneClient.PresentationLayer
             tFilterChoice = "group";
             obs.IsUserFiltered = "Hidden";
             obs.IsGroupFiltered = "visible";
+            obs.SelectedGroup = 0;
         }
 
         //filter by user name - if "User" filter is checked, show comboBox for groups
@@ -133,6 +134,7 @@ namespace MileStoneClient.PresentationLayer
             prevFilter = tFilterChoice;
             tFilterChoice = "user";
             obs.IsGroupFiltered = "visible";
+            obs.SelectedGroup = 0;
         }
 
         //set bool values for isChanged (indicating the change of a field) and isLegalData (indicating if all data sent is legal) 
@@ -189,7 +191,7 @@ namespace MileStoneClient.PresentationLayer
         {
             var groupBox = sender as ComboBox;
             groupBox.ItemsSource = groups;
-            groupBox.SelectedIndex = 0;
+            groupBox.SelectedIndex = obs.SelectedGroup;
         }
 
         //display list for groups comboBox
@@ -201,6 +203,7 @@ namespace MileStoneClient.PresentationLayer
             //if group was picked
             if (groupList.SelectedIndex != 0)
             {
+                obs.SelectedGroup = groupList.SelectedIndex;
                 string group = groupList.SelectedItem as string;
                 groupChoice = group;
 

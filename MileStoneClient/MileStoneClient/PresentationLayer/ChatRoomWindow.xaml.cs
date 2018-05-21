@@ -166,7 +166,7 @@ namespace MileStoneClient.PresentationLayer
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-         
+
         }
 
         /// return list of the users in a given group

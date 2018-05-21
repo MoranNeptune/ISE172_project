@@ -174,14 +174,31 @@ namespace MileStoneClient.BusinessLayer
 
         public List<GuiMessage> getMessages(int order, List<PresentationLayer.Action> actions)
         {
-            // if the sort or filter had changed, update all the messages from the files
-            if ((actions.Count > 0 && this.sort != actions[0]) | (actions.Count > 1 && this.filter != actions[1]))
+            bool update = false;
+            // check if the sort or filter had changed, if they did, we update the current sort/filter
+            if (actions.Count > 0 && sort != actions[0])
             {
-                updatePresMessages();
-                this.sort = actions[0];
-                this.filter = actions[1];
+                sort = actions[0];
+                update = true;
             }
-            retrieveMessages();
+            if (actions.Count > 1 && this.filter != actions[1])
+            {
+                filter = actions[1];
+                update = true;
+            }
+            // if the filter/sort is changed, update the list of the presentation messages
+            if (update)
+                updatePresMessages();
+            // if the sort or filter had changed, update all the messages from the files
+            //  if ((actions.Count > 0 && this.sort != actions[0]) | (actions.Count > 1 && this.filter != actions[1]))
+            /*   {
+                   updatePresMessages();
+                   this.sort = actions[0];
+                   if()
+                   this.filter = actions[1];
+               }*/
+            // להחזיר את השורה
+            // retrieveMessages();
             if (filter != null)
                 filter.action(presMsgs);
 

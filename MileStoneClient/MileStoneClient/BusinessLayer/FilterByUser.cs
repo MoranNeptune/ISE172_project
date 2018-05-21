@@ -19,7 +19,6 @@ namespace MileStoneClient.BusinessLayer
 
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
-            //var sortedNames = msgs.OrderBy(n => n);
             for (int i = 0; i < msgs.Count; i++)
             {
                 if (!msgs[i].G_id.Equals(groupId) || !msgs[i].UserName.Equals(name))
