@@ -123,8 +123,8 @@ namespace MileStoneClient.PresentationLayer
                     getMessagesList();
             }
             // אולי להוריד
-           else
-             getMessagesList();
+            else
+                getMessagesList();
         }
 
         private void LogOut(object sender, RoutedEventArgs e)
@@ -142,24 +142,11 @@ namespace MileStoneClient.PresentationLayer
                 obs.TxtSendContent = "";
             }
         }
-        
+
         private void ViewProfile(object sender, RoutedEventArgs e)
         {
             ViewProfileWindow viewProfileWindow = new ViewProfileWindow(this.mainWindow, this.chatRoom);
             viewProfileWindow.Show();
-            // רק לבדיקת פילטרים
-            
-            
-            {
-                order = 0;
-                actionList.Clear();
-                actionList.Add(new SortByName());
-                actionList.Add(new FilterByGroup("21"));
-                getMessagesList();
-                actionList.Clear();
-                            }
-
-            
         }
 
         private void Options(object sender, RoutedEventArgs e)
@@ -196,8 +183,8 @@ namespace MileStoneClient.PresentationLayer
         //display all the messages
         private void getMessagesList()
         {
-           obs.Messages.Clear();
-           msgs = chatRoom.getMessages(order, actionList);
+            obs.Messages.Clear();
+            msgs = chatRoom.getMessages(order, actionList);
             // convers all the Gui Messages to a string
             for (int i = 0; i < msgs.Count; i++)
             {
@@ -213,8 +200,10 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].ToString());
             }
+            ListBox l = sender as ListBox;
+
         }
-    
+
         // sendsa message by pressing enter
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {

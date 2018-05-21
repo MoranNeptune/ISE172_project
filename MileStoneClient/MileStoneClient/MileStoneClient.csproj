@@ -90,6 +90,7 @@
     <Compile Include="CommunicationLayer\Communication.cs" />
     <Compile Include="CommunicationLayer\IMessage.cs" />
     <Compile Include="PresentationLayer\GuiMessage.cs" />
+    <Compile Include="PresentationLayer\ListBox.cs" />
     <Compile Include="PresentationLayer\ObservableObject.cs" />
     <Compile Include="PresentationLayer\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>

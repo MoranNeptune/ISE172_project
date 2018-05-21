@@ -181,7 +181,7 @@ namespace MileStoneClient.BusinessLayer
                 this.sort = actions[0];
                 this.filter = actions[1];
             }
-            //retrieveMessages();
+            retrieveMessages();
             if (filter != null)
                 filter.action(presMsgs);
 
