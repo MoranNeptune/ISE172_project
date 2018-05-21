@@ -12,6 +12,8 @@
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/milestoneclient.exe")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/milestoneclient.pdb")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/newtonsoft.json.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/nunit.framework.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/nunit.framework.pdb")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/wpfanimatedgif.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/milestoneclient.exe")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/milestoneclient.pdb")]

@@ -43,10 +43,10 @@ namespace MileStoneClient.PresentationLayer
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-            ChatRoomWindow cr = new ChatRoomWindow(this, chatRoom, obs);
-            cr.Show();
-            //this.register = new RegisterWindow(this,this.chatRoom); 
-            //register.Show();
+            //ChatRoomWindow cr = new ChatRoomWindow(this, chatRoom, obs);
+            //cr.Show();
+            this.register = new RegisterWindow(this,this.chatRoom, obs); 
+            register.Show();
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)

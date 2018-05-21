@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +14,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,10 +38,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -69,10 +77,12 @@
     <Compile Include="BusinessLayer\FilterByUser.cs" />
     <Compile Include="BusinessLayer\Id.cs" />
     <Compile Include="BusinessLayer\Message.cs" />
+    <Compile Include="BusinessLayer\SortByGNT.cs" />
     <Compile Include="BusinessLayer\SortByName.cs" />
     <Compile Include="BusinessLayer\SortByTime.cs" />
     <Compile Include="BusinessLayer\User.cs" />
     <Compile Include="Logger\Log.cs" />
+    <Compile Include="NUnit\NUnitTests.cs" />
     <Compile Include="PresentationLayer\Action.cs" />
     <Compile Include="PresentationLayer\ChatRoomWindow.xaml.cs">
       <DependentUpon>ChatRoomWindow.xaml</DependentUpon>
@@ -148,21 +158,16 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="bin\Debug\21mor.bin" />
-    <None Include="bin\Debug\22gfg.bin" />
-    <None Include="bin\Debug\22ksesa839.bin" />
-    <None Include="bin\Debug\33mor.bin" />
-    <None Include="bin\Debug\97moran the stupid.bin" />
     <None Include="bin\Debug\allGroups.bin" />
     <None Include="bin\Debug\allMessages.bin" />
     <None Include="bin\Debug\allUsers.bin" />
-    <None Include="bin\Debug\dgdfg.bin" />
     <None Include="bin\Debug\log4net.config" />
     <None Include="bin\Debug\MileStoneClient.exe.config" />
-    <None Include="bin\Debug\nirnir.bin" />
-    <None Include="bin\Debug\shahar the king and moran the stupidshahar the king.bin" />
+    <None Include="bin\Debug\nunit_random_seed.tmp" />
     <None Include="bin\Release\MileStoneClient.exe.config" />
-    <None Include="log4net.config" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -170,7 +175,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="media\ImgOptions.gif" />
@@ -191,13 +198,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\log4net.dll" />
-    <Resource Include="bin\Debug\log4net.xml" />
     <Content Include="bin\Debug\MileStoneClient.exe" />
     <Content Include="bin\Debug\MileStoneClient.pdb" />
     <Content Include="bin\Debug\Newtonsoft.Json.dll" />
-    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\nunit.framework.dll" />
+    <Content Include="bin\Debug\nunit.framework.pdb" />
+    <Resource Include="bin\Debug\nunit.framework.xml" />
     <Content Include="bin\Debug\WpfAnimatedGif.dll" />
-    <Resource Include="bin\Debug\WpfAnimatedGif.xml" />
     <Content Include="bin\Release\MileStoneClient.exe" />
     <Content Include="bin\Release\MileStoneClient.pdb" />
     <Content Include="bin\Release\Newtonsoft.Json.dll" />
@@ -205,5 +212,14 @@
     <Content Include="bin\Release\WpfAnimatedGif.dll" />
     <Resource Include="bin\Release\WpfAnimatedGif.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+  </Target>
 </Project>
