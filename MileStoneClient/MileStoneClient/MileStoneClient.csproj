@@ -162,8 +162,6 @@
     <None Include="bin\Debug\allGroups.bin" />
     <None Include="bin\Debug\allMessages.bin" />
     <None Include="bin\Debug\allUsers.bin" />
-    <None Include="bin\Debug\log4net.config" />
-    <None Include="bin\Debug\MileStoneClient.exe.config" />
     <None Include="bin\Debug\nunit_random_seed.tmp" />
     <None Include="bin\Release\MileStoneClient.exe.config" />
     <None Include="log4net.config">
@@ -199,12 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\log4net.dll" />
-    <Content Include="bin\Debug\MileStoneClient.exe" />
-    <Content Include="bin\Debug\MileStoneClient.pdb" />
     <Content Include="bin\Debug\Newtonsoft.Json.dll" />
     <Content Include="bin\Debug\nunit.framework.dll" />
-    <Content Include="bin\Debug\nunit.framework.pdb" />
-    <Resource Include="bin\Debug\nunit.framework.xml" />
     <Content Include="bin\Debug\WpfAnimatedGif.dll" />
     <Content Include="bin\Release\MileStoneClient.exe" />
     <Content Include="bin\Release\MileStoneClient.pdb" />

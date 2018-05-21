@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using MileStoneClient.BusinessLayer;
 using System.Windows.Threading;
 using MileStoneClient.PresentationLayer;
+using MileStoneClient.Logger;
 
 namespace MileStoneClient.PresentationLayer
 {
@@ -51,7 +52,7 @@ namespace MileStoneClient.PresentationLayer
                     this.obs.GroupIdContent = "";
                     this.obs.NicknameContent = "";
                 }
-                //Log.Instance.error("Log-in fail - User not registered");//log
+                Log.Instance.error("Log-in fail - User not registered");//log
                 obs.GroupIdContent = "";
                 obs.NicknameContent = "";
                 obs.LblAddRegVisibility = "Visible";

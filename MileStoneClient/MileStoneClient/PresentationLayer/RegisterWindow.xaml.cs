@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MileStoneClient.BusinessLayer;
-
+using MileStoneClient.Logger;
 
 namespace MileStoneClient.PresentationLayer
 {
@@ -29,6 +29,7 @@ namespace MileStoneClient.PresentationLayer
 
         public RegisterWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
+            Log.Instance.info("Logger works for registration");
             InitializeComponent();
             this.obs = obs;
             this.chatRoom = chatRoom;
@@ -47,6 +48,8 @@ namespace MileStoneClient.PresentationLayer
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
+            //do we need this???????
+            Log.Instance.info("User returned from registration window to main window");// log
             this.Close();
             this.mainWindow.Show();
             obs.LblRegErrorVisibility = "Hidden";
@@ -61,7 +64,7 @@ namespace MileStoneClient.PresentationLayer
             // checks if the user is already regester or not
             if (this.chatRoom.register(this.nickname, this.groupId) == false)
             {
-
+                Log.Instance.warn("Invalid input - nickname already exist");//log
                 obs.LblRegErrorVisibility = "Hidden";
                 obs.LblRegErrorContent = "This name is already exist in this group, try another name.";
                 obs.GroupIdText = "";
@@ -81,7 +84,7 @@ namespace MileStoneClient.PresentationLayer
                         obs.GroupIdText = "";
                         obs.NicknameText = "";
                     }
-                    //Log.Instance.warn("Invalid input - Invalid nickname");//log
+                    Log.Instance.warn("Invalid input - Invalid nickname");//log
                 }
                 // A validity check of the group id
                 else if (int.TryParse(groupId, out number) == false || (!(int.Parse(groupId) < 100 && int.Parse(groupId) > 0)))
@@ -93,7 +96,7 @@ namespace MileStoneClient.PresentationLayer
                         obs.GroupIdText = "";
                         obs.NicknameText = "";
                     }
-                    //Log.Instance.warn("Invalid input - Invalid ID");//log 
+                    Log.Instance.warn("Invalid input - Invalid ID");//log 
                 }
                 else // if the inputs are correct
                 {
@@ -114,9 +117,12 @@ namespace MileStoneClient.PresentationLayer
                     obs.LblAddLoginVisibility = "Visible";
                     obs.LblAddLoginContent = "Now that you are register:";
                     obs.BtnLoginVisibility = "Visible";
+
+                    //Log.Instance.info("New registration - User: " + nickname);//log
+
                 }
             }
-            //Log.Instance.info("New registration - User: " + nickname);//log
+            Log.Instance.info("New registration - User: " + nickname);//log
 
         }
 

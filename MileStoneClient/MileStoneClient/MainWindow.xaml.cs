@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MileStoneClient.BusinessLayer;
+using MileStoneClient.Logger;
 
 namespace MileStoneClient.PresentationLayer
 {
@@ -30,6 +31,8 @@ namespace MileStoneClient.PresentationLayer
 
         public MainWindow()
         {
+            Log.Instance.info("Program debugged and started successfully");// log
+
             url = "http://ise172.ise.bgu.ac.il:80";
             obs = new ObservableObject();
             chatRoom = new ChatRoom(url);
@@ -45,18 +48,24 @@ namespace MileStoneClient.PresentationLayer
         {
             //ChatRoomWindow cr = new ChatRoomWindow(this, chatRoom, obs);
             //cr.Show();
+
+            Log.Instance.info("Registration window opened"); //log
+
             this.register = new RegisterWindow(this,this.chatRoom, obs); 
             register.Show();
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
+            Log.Instance.info("Login window opened"); //log
+
             this.login = new LoginWindow(this,this.chatRoom, obs);
             login.Show();
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
+            Log.Instance.info("Program exited by user");// log
             this.Close();
         }
     }
