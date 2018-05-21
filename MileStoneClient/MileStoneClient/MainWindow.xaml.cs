@@ -26,7 +26,6 @@ namespace MileStoneClient.PresentationLayer
         private LoginWindow login;
         public string url;
         private ChatRoom chatRoom;
-        private List<Message> retMessages;
         private ObservableObject obs;
 
         public MainWindow()
@@ -49,24 +48,20 @@ namespace MileStoneClient.PresentationLayer
             //ChatRoomWindow cr = new ChatRoomWindow(this, chatRoom, obs);
             //cr.Show();
 
-            Log.Instance.info("Registration window opened"); //log
-
-            this.register = new RegisterWindow(this,this.chatRoom, obs); 
+            this.register = new RegisterWindow(this, this.chatRoom, obs);
             register.Show();
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            Log.Instance.info("Login window opened"); //log
-
-            this.login = new LoginWindow(this,this.chatRoom, obs);
+            this.login = new LoginWindow(this, this.chatRoom, obs);
             login.Show();
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("Program exited by user");// log
-            this.Close();
+            System.Environment.Exit(0);
         }
     }
 }

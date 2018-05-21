@@ -3,15 +3,15 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 
-[assembly: AssemblyTitle("repo21")]
-[assembly: AssemblyDescription("Chat Room")]
+[assembly: AssemblyTitle("practiceWpf")]
+[assembly: AssemblyDescription("The most awesome Chat Room ever")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("repo21")]
+[assembly: AssemblyProduct("practiceWpf")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
 [assembly: ComVisible(false)]
 

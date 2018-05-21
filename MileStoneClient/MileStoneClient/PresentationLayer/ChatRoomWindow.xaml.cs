@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using MileStoneClient.BusinessLayer;
+using MileStoneClient.Logger;
 
 namespace MileStoneClient.PresentationLayer
 {
@@ -35,6 +36,8 @@ namespace MileStoneClient.PresentationLayer
 
         public ChatRoomWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
+            Log.Instance.info("ChatRoom window opened"); //log
+
             this.obs = obs;
             InitializeComponent();
             this.chatRoom = chatRoom;
@@ -71,6 +74,8 @@ namespace MileStoneClient.PresentationLayer
             //if another sort/filter/order was chosen
             if (op.IsChanged & op.IsLegalData)
             {
+                Log.Instance.info("Option for filter/sort/order changed");
+
                 orderChoice = op.OrderChoice;
                 filterChoice = op.FilterChoice;
                 sortChoice = op.SortChoice;
@@ -125,6 +130,7 @@ namespace MileStoneClient.PresentationLayer
 
         private void LogOut(object sender, RoutedEventArgs e)
         {
+            Log.Instance.info("User logged out"); //log
             this.chatRoom.logOut();
             Close();
             this.mainWindow.Show();
@@ -137,13 +143,16 @@ namespace MileStoneClient.PresentationLayer
             {
                 chatRoom.send(obs.TxtSendContent);
                 obs.TxtSendContent = "";
+                Log.Instance.info("Message sent");
             }
+
         }
 
-        private void ViewProfile(object sender, RoutedEventArgs e)
+        private void Exit(object sender, RoutedEventArgs e)
         {
-            ViewProfileWindow viewProfileWindow = new ViewProfileWindow(this.mainWindow, this.chatRoom);
-            viewProfileWindow.Show();
+            Log.Instance.info("User logged out and exited program");
+            chatRoom.logOut();
+            System.Environment.Exit(0);
         }
 
         private void Options(object sender, RoutedEventArgs e)
@@ -207,6 +216,11 @@ namespace MileStoneClient.PresentationLayer
             {
                 Send(sender, e);
             }
+        }
+
+        public List<GuiMessage> Msgs
+        {
+            get { return msgs; }
         }
     }
 }

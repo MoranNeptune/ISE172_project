@@ -13,8 +13,8 @@
             <ImageBrush ImageSource="/MileStoneClient;component/media/ChatRoom.jpg"/>
         </Grid.Background>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <Button Content="View Profile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,322,0,0" Height="75" Click="ViewProfile"/>
-        <Button Content="LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,442,0,0" Height="75" Click="LogOut"/>
+        <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,449,0,0" Height="75" Click="Exit"/>
+        <Button Content="LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,324,0,0" Height="75" Click="LogOut"/>
         <TextBox HorizontalAlignment="Left" Height="35" Margin="230,598,0,0" TextWrapping="Wrap" Text="{Binding TxtSendContent}" VerticalAlignment="Top" Width="607" />
         <Button Content="Send" HorizontalAlignment="Left" Height="35" Margin="849,598,0,0" VerticalAlignment="Top" Width="68" Click="Send" IsEnabled="{Binding btnSendIsEnabled}"/>
         <Button Content="Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,202,0,0" Height="75" Click="Options"/>

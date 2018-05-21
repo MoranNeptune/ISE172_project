@@ -29,7 +29,8 @@ namespace MileStoneClient.PresentationLayer
 
         public RegisterWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
-            Log.Instance.info("Logger works for registration");
+            Log.Instance.info("Registration window opened"); //log
+
             InitializeComponent();
             this.obs = obs;
             this.chatRoom = chatRoom;
@@ -48,8 +49,8 @@ namespace MileStoneClient.PresentationLayer
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            //do we need this???????
             Log.Instance.info("User returned from registration window to main window");// log
+
             this.Close();
             this.mainWindow.Show();
             obs.LblRegErrorVisibility = "Hidden";
@@ -60,74 +61,53 @@ namespace MileStoneClient.PresentationLayer
         }
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
-        { 
-            // checks if the user is already regester or not
-            if (this.chatRoom.register(this.nickname, this.groupId) == false)
+        {
+            int number;
+            // A validity check of the NickName
+            if (this.nickname[0] == ' ')// if the user presses space 
+            {
+                string message = "Nickname cannot start with spaces!";
+                string caption = "Invalid name";
+                if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
+                {
+                    obs.GroupIdText = "";
+                    obs.NicknameText = "";
+                }
+                Log.Instance.warn("Invalid input - Invalid nickname");//log
+            }
+            // A validity check of the group id
+            else if (int.TryParse(groupId, out number) == false || (groupId.Length > 2))
+            {// if the group Id is not between 1-99
+                string message = "You sould only enter numbers between 1 to 99!";
+                string caption = "Invalid group ID";
+                if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
+                {
+                    obs.GroupIdText = "";
+                    obs.NicknameText = "";
+                }
+                Log.Instance.warn("Invalid input - Invalid ID");//log 
+            }
+            // checks if the user is already registered or not
+            else if (this.chatRoom.register(this.nickname, this.groupId) == false)
             {
                 Log.Instance.warn("Invalid input - nickname already exist");//log
                 obs.LblRegErrorVisibility = "Hidden";
-
-                //do we need this?
-                obs.LblRegErrorContent = "This name is already exist in this group, try another name.";
-
-                MessageBox.Show("Nickname already exists in group, please choose another nickname", "Invalid name", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Nickname: " + nickname + " already exists in group " + groupId + ", please choose another nickname", "Invalid name", MessageBoxButton.OK, MessageBoxImage.Error);
                 obs.GroupIdText = "";
                 obs.NicknameText = "";
             }
-            // if the user is resister 
+            // if the user is resigtered 
             else
-            {
-                int number;
-                // A validity check of the NickName
-                if (this.nickname[0] == ' ')// if the user press space 
-                {
-                    string message = "Nickname cannot start with spaces!";
-                    string caption = "Invalid name";
-                    if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
-                    {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
-                    }
-                    Log.Instance.warn("Invalid input - Invalid nickname");//log
-                }
-                // A validity check of the group id
-                else if (int.TryParse(groupId, out number) == false || (!(int.Parse(groupId) < 100 && int.Parse(groupId) > 0)))
-                {// if the group Id is not between 1-99
-                    string message = "You sould only enter numbers between 1 to 99!";
-                    string caption = "Invalid group ID";
-                    if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
-                    {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
-                    }
-                    Log.Instance.warn("Invalid input - Invalid ID");//log 
-                }
-                else // if the inputs are correct
-                {
-                    /*obs.LblRegErrorVisibility = false;
-                    obs.LblRegErrorContent = "";
-                    string msg = "Registered successfully!";
-                    string cap = "Congratulations!";
-                    if ((MessageBox.Show(msg, cap, MessageBoxButton.OK, MessageBoxImage.Exclamation) == MessageBoxResult.OK))
-                    {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
-                        obs.LblAddLoginVisibility = true;
-                        obs.LblAddLoginContent = "Now that you are register:";
-                        obs.BtnLoginVisibility = "Visible";
-                    }*/
+            { // if the inputs are correct                
                     obs.GroupIdText = "";
                     obs.NicknameText = "";
                     obs.LblAddLoginVisibility = "Visible";
-                    obs.LblAddLoginContent = "Now that you are register:";
+                    obs.LblAddLoginContent = "Now that you are registered:";
                     obs.BtnLoginVisibility = "Visible";
 
                     Log.Instance.info("New registration - User: " + nickname);//log
-
-                }
+                
             }
-            //Log.Instance.info("New registration - User: " + nickname);//log
-
         }
 
         private void TxtBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -143,6 +123,8 @@ namespace MileStoneClient.PresentationLayer
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
+            Log.Instance.info("Registration window closed");
+
             LoginWindow login = new LoginWindow(this.mainWindow, this.chatRoom, obs);
             this.Close();
             login.Show();

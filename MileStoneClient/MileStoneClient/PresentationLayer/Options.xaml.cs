@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-
-//einat update - the bestest update ever
+using MileStoneClient.Logger;
 
 namespace MileStoneClient.PresentationLayer
 {
@@ -183,6 +182,12 @@ namespace MileStoneClient.PresentationLayer
 
             if (isLegalData)
                 obs.IsOptionVisible = null;
+
+            if(chatRoom.Msgs.Count == 0)
+            {
+                MessageBox.Show("There are no messages");
+                Log.Instance.info("No messages to display");
+            }
             
         }
 
