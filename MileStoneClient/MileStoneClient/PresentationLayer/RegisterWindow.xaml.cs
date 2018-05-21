@@ -66,7 +66,11 @@ namespace MileStoneClient.PresentationLayer
             {
                 Log.Instance.warn("Invalid input - nickname already exist");//log
                 obs.LblRegErrorVisibility = "Hidden";
+
+                //do we need this?
                 obs.LblRegErrorContent = "This name is already exist in this group, try another name.";
+
+                MessageBox.Show("Nickname already exists in group, please choose another nickname", "Invalid name", MessageBoxButton.OK, MessageBoxImage.Error);
                 obs.GroupIdText = "";
                 obs.NicknameText = "";
             }
@@ -118,11 +122,11 @@ namespace MileStoneClient.PresentationLayer
                     obs.LblAddLoginContent = "Now that you are register:";
                     obs.BtnLoginVisibility = "Visible";
 
-                    //Log.Instance.info("New registration - User: " + nickname);//log
+                    Log.Instance.info("New registration - User: " + nickname);//log
 
                 }
             }
-            Log.Instance.info("New registration - User: " + nickname);//log
+            //Log.Instance.info("New registration - User: " + nickname);//log
 
         }
 
