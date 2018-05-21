@@ -67,10 +67,6 @@ namespace MileStoneClient.PresentationLayer
         private void dispatcherTimer_Tick(object sender, EventArgs e)
 
         {
-            //if (isOptionsVisible)
-            //    dispatcherTimer.Stop();
-            //else dispatcherTimer.Start();
-
             //if another sort/filter/order was chosen
             if (op.IsChanged & op.IsLegalData)
             {
@@ -122,7 +118,6 @@ namespace MileStoneClient.PresentationLayer
                 if (op.UserChoice != null && op.GroupChoice != null)
                     getMessagesList();
             }
-            // אולי להוריד
             else
                 getMessagesList();
         }
@@ -169,7 +164,7 @@ namespace MileStoneClient.PresentationLayer
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+         
         }
 
         /// return list of the users in a given group
@@ -190,6 +185,7 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].ToString());
             }
+            obs.AutoScroll = msgs.Count - 1;
         }
 
         //initiate listBox wuth the messages list
@@ -200,8 +196,6 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].ToString());
             }
-            ListBox l = sender as ListBox;
-
         }
 
         // sendsa message by pressing enter

@@ -43,7 +43,10 @@ namespace MileStoneClient.BusinessLayer
             /// </returns>
             public int Compare(GuiMessage msg1, GuiMessage msg2)
             {
-                return msg1.DateTime.CompareTo(msg2.DateTime);
+                // in case both messages were sent at the same time
+                if (msg1.DateTime.ToString().Equals(msg2.DateTime.ToString()))
+                    return msg1.Id.ToString().CompareTo(msg2.Id.ToString());
+                return msg1.DateTime.Ticks.CompareTo(msg2.DateTime.Ticks);
             }
         }
     }

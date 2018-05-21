@@ -63,7 +63,8 @@ namespace MileStoneClient.PresentationLayer
 
         public string ToString()
         {
-            return "Group ID: " + this.g_id + ", Nickname: " + this.userName + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body + '\n' + "GUID: " + this.id;
+            DateTime updateTime = dateTime.AddHours(3);
+            return "Group ID: " + this.g_id + ", Nickname: " + this.userName + ", (" + updateTime.ToString() + "), Message Body: " + this.body + '\n' + "GUID: " + this.id;
         }
     }
 }

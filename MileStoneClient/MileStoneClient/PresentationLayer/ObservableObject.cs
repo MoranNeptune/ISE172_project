@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,7 @@ namespace MileStoneClient.PresentationLayer
         public ObservableObject()
         {
             Messages.CollectionChanged += Messages_CollectionChanged;
+           // Messages.CollectionChanged += List_Scroll;
             UserList.CollectionChanged += UserList_CollectionChanged;
         }
 
@@ -21,6 +23,11 @@ namespace MileStoneClient.PresentationLayer
             OnPropertyChanged("Messages");
         }
 
+        // auto scroll for the list
+        private void List_Scroll(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged();
+        }
 
         #region ChatRoomWindowBinding
 
@@ -62,6 +69,23 @@ namespace MileStoneClient.PresentationLayer
                     isOptionVisible = value;
                     OnPropertyChanged("IsOptionVisible");
                 }
+            }
+        }
+        /// <summary>
+        /// A binding function that connects between the "Send" textbox to source
+        /// </summary
+        private int autoScroll = 0;
+        public int AutoScroll
+        {
+            get
+            {
+                return autoScroll;
+            }
+            set
+            {
+                autoScroll = value;
+                OnPropertyChanged("autoScroll");
+               
             }
         }
         #endregion

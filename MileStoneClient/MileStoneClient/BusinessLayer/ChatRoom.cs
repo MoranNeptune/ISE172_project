@@ -59,7 +59,7 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="nickname">User's nickname</param>
         /// <param name="g_id">User's group id</param>
         /// <returns>The user</returns>
-        private User findUser(string nickname, string g_id)
+        public User findUser(string nickname, string g_id)
         {
             for (int i = 0; i < allUsers.List.Count; i++)
             {
@@ -271,8 +271,6 @@ namespace MileStoneClient.BusinessLayer
                     presMsgs.Add(new GuiMessage(m.Body, m.DateTime, m.Id, m.User.Nickname, m.User.G_id.idNumber));
                 }
         }
-
-        // 19.5.18
 
         /// <returns>list of all the messages of the certain user</returns>
         public List<string> getNicknames()
