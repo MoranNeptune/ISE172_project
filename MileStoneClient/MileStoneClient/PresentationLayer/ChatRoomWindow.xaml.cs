@@ -51,6 +51,7 @@ namespace MileStoneClient.PresentationLayer
             orderChoice = "ascending";
             filterChoice = "none";
             sortChoice = "time";
+            obs.BtnSendIsEnabled = false;
 
 
             //initiate timer
@@ -131,9 +132,10 @@ namespace MileStoneClient.PresentationLayer
 
         private void Send(object sender, RoutedEventArgs e)
         {
-            chatRoom.send(obs.TxtSendContent);
-            if (!obs.TxtSendContent.Equals(""))
+            obs.BtnSendIsEnabled = !obs.TxtSendContent.Equals("");
+            if (obs.BtnSendIsEnabled)
             {
+                chatRoom.send(obs.TxtSendContent);
                 obs.TxtSendContent = "";
             }
         }

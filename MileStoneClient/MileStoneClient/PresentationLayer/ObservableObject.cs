@@ -88,6 +88,27 @@ namespace MileStoneClient.PresentationLayer
                
             }
         }
+
+        /// <summary>
+        /// A binding function that connects between the source to "BtnSend" enabled button 
+        /// </summary>
+        private bool btnSendIsEnabled = false;
+        public bool BtnSendIsEnabled
+        {
+            get
+            {
+                return btnSendIsEnabled;
+            }
+            set
+            {
+                if (btnSendIsEnabled != value)
+                {
+                    btnSendIsEnabled = value;
+                    OnPropertyChanged("BtnSendIsEnabled");
+                }
+            }
+        }
+
         #endregion
 
         #region LoginWindowBinding
