@@ -18,8 +18,7 @@ namespace MileStoneClient.PresentationLayer
         private bool isChanged, isLegalData;
         private List<string> users, groups;
         private string userChoice, groupChoice;
-        //check if we can delete this
-        private ComboBox userBox, groupBox;
+
 
         public Options(ChatRoomWindow cr, List<string> nicknames, List<string> groups, ObservableObject obs)
         {
@@ -31,8 +30,6 @@ namespace MileStoneClient.PresentationLayer
             isLegalData = true;
             users = nicknames;
             this.groups = groups;
-            userBox = new ComboBox();
-            groupBox = new ComboBox();
 
             //initialize with ascending sort, none filter and sort by timestamp
             obs.AscendingIsChecked = true;
@@ -236,7 +233,6 @@ namespace MileStoneClient.PresentationLayer
                     }
                     obs.IsUserFiltered = "visible";
                 }
-                //groupList.SelectedIndex = 0;
             }            
         }
 
@@ -259,7 +255,6 @@ namespace MileStoneClient.PresentationLayer
                 userChoice = name;
                 isLegalData = true;
             }
-            //userList.SelectedIndex = 0;
         }
 
         public bool IsLegalData

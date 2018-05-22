@@ -9,16 +9,16 @@
         Title="LoginWindow" Height="600" Width="450" >
     <Grid Width="450" Height="600">
         <Grid.Background>
-            <ImageBrush ImageSource="/MileStoneClient;component/media/login.jpg"/>
+            <ImageBrush ImageSource="/MileStoneClient;component/media/login.jpeg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Button Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="92,437,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnLogin_Click" IsEnabled="{Binding BtnLoginIsEnabled, Mode=TwoWay}"/>
-        <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="269,437,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnBack_Click"/>
+        <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="238,437,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnBack_Click"/>
         <TextBox Text="{Binding Path=GroupIdContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="220,314,0,0" FontSize="24" TextChanged="TxtBox_TextChanged" />
-        <TextBox Text="{Binding Path=NicknameContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Margin="220,367,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" />
+        <TextBox Text="{Binding Path=NicknameContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Margin="220,367,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" />
         <Label Content="{Binding LblAddRegContent,Mode=OneWay}" HorizontalAlignment="Left" Margin="59,477,0,0" VerticalAlignment="Top" Width="200" Foreground="#FF00B7E0" FontSize="20" FontFamily="MV Boli" FontWeight="ExtraBold" Height="50" Visibility="{Binding LblAddRegVisibility,Mode=OneWay}" />
-        <Button Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="269,491,0,0" Height="36" FontSize="24" FontWeight="Bold" Click="BtnRegister_Click" Visibility="{Binding BtnRegisterVisibility,Mode=OneWay}" />
+        <Button Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="283,491,0,0" Height="36" FontSize="24" FontWeight="Bold" Click="BtnRegister_Click" Visibility="{Binding BtnRegisterVisibility,Mode=OneWay}" />
     </Grid>
 </Window>

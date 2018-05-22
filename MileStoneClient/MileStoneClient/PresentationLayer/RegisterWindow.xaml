@@ -9,13 +9,13 @@
         Title="RegisterWindow" Height="600" Width="450">
     <Grid x:Name="Grid1Reg" Width="450" Margin="0,0,-8,-1">
         <Grid.Background>
-            <ImageBrush ImageSource="/MileStoneClient;component/media/register.jpg"/>
+            <ImageBrush ImageSource="/MileStoneClient;component/media/register.jpeg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="198,299,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=GroupIdContent, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Margin="217,352,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=NicknameContent, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="217,299,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=GroupIdContent, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="163" Margin="217,347,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=NicknameContent, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="94,444,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnRegister_Click" IsEnabled="{Binding BtnRegIsEnabled,Mode=OneWay}"/>
         <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="234,444,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnBack_Click"/>
         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,402,0,0" Width="420" Height="30" FontWeight="Bold" Background="{x:Null}" Foreground="Red" FontSize="14" FontFamily="MV Boli" RenderTransformOrigin="0.5,0.5" Visibility="{Binding LblRegErrorVisibility, Mode=OneWay}" Content="{Binding LblRegErrorContent, Mode=OneWay}" >
