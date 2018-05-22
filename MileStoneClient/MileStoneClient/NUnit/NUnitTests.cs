@@ -19,7 +19,7 @@ namespace MileStoneClient.NUnit
         /// test the registeretion of a new user
         /// </summary>
         [Test]
-        public void Register()
+        public void RegisterValid()
         {
             ChatRoom c = new ChatRoom(url);
             bool observedResult = c.register("name_", "1");
@@ -31,7 +31,7 @@ namespace MileStoneClient.NUnit
         /// test the registeretion of a new user with the same name & group id as a registered user
         /// </summary>
         [Test]
-        public void RegisterValid()
+        public void RegisterInvalid()
         {
             ChatRoom c = new ChatRoom(url);
             c.register("name", "1");
@@ -50,21 +50,6 @@ namespace MileStoneClient.NUnit
             c.register("name", "1");
             bool observedResult = c.login("name", "1");
             bool expectedResult = true;
-            Assert.AreEqual(expectedResult, observedResult);
-        }
-
-        /// <summary>
-        /// test if the program sends a message with more than 150 chars
-        /// </summary>
-        [Test]
-        public void MessageLength()
-        {
-            ChatRoom c = new ChatRoom(url);
-            c.register("Batman", "21");
-            c.login("Batman", "21");
-            bool observedResult = c.send
-                ("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-            bool expectedResult = false;
             Assert.AreEqual(expectedResult, observedResult);
         }
 
