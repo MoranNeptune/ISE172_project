@@ -22,6 +22,7 @@ namespace MileStoneClient.PresentationLayer
     /// </summary>
     public partial class ChatRoomWindow : Window
     {
+        private const int msgLength = 150;
         private ChatRoom chatRoom;
         private MainWindow mainWindow;
         private ObservableObject obs;
@@ -140,14 +141,22 @@ namespace MileStoneClient.PresentationLayer
         //send message
         private void Send(object sender, RoutedEventArgs e)
         {
-            obs.BtnSendIsEnabled = !obs.TxtSendContent.Equals("");
-            if (obs.BtnSendIsEnabled)
+            bool isLegalMessage = obs.TxtSendContent.Length <= msgLength;
+
+            if (!isLegalMessage)
+            {
+                MessageBox.Show("Message length should be 150 letters or less", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (obs.TxtSendContent.Equals(""))
+            {
+                MessageBox.Show("Message cannot be empty", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
             {
                 chatRoom.send(obs.TxtSendContent);
                 obs.TxtSendContent = "";
                 Log.Instance.info("Message sent");
             }
-
         }
 
         //exit program
