@@ -6,14 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using MileStoneClient.BusinessLayer;
+using MileStoneClient.PresentationLayer;
 
 namespace MileStoneClient.NUnit
 {
     [TestFixture]
     class NUnitTests
     {
-        ////////// save the tests in file? to add a message?
-
         private const String url = "http://ise172.ise.bgu.ac.il:80";
 
         /// <summary>
@@ -110,63 +109,50 @@ namespace MileStoneClient.NUnit
         }
 
         /// <summary>
-        /// test if the program sends an empty message 
+        /// test filterByUser  
         /// </summary>
-        /*   [Test]
-           public void EmptyMessage()
-           {
-               ChatRoom c = new ChatRoom(url);
-                c.register("name", "1");
-                bool observedResult = c.login("name", "1");
-                bool expectedResult = true;
-                Assert.AreEqual(expectedResult, observedResult);
-           }*/
-
-        /// <summary>
-        /// test log out option 
-        /// </summary>
-        /*   [Test]
-            public void Logout()
-            {
-                ChatRoom c = new ChatRoom(url);
-                 c.register("Spiderman", "21");
-             c.login("Spiderman", "21");
-             c.logOut("Spiderman", "21");
-             bool observedResult = 
-                 bool expectedResult = true;
-                 Assert.AreEqual(expectedResult, observedResult);
-            }*/
-
-
-        /// <summary>
-        /// test login of a not registered user
-        /// </summary>
-        /*[Test]
-        public void LoginValid()
+        [Test]
+        public void filterByUser()
         {
             ChatRoom c = new ChatRoom(url);
-            
-            bool observedResult = c.login("name", "1");
+            c.register("Batman", "21");
+            c.login("Batman", "21");
+            List<PresentationLayer.Action> action = new List<PresentationLayer.Action>();
+            FilterByUser filter = new FilterByUser("Batman", "21");//the user
+            SortByTime sort = new SortByTime();
+            action.Add(sort);
+            action.Add(filter);
+            List<GuiMessage> msg1 = new List<GuiMessage>();
+            List<GuiMessage> tmp = c.getMessages(0, action);
+            for (int i = 0; i < tmp.Count; i++)
+                msg1.Add(tmp[i]);
+            c.send("Hello!");
+            List<GuiMessage> msg2 = c.getMessages(0, action);
+            bool observedResult = msg1.Equals(msg2);
             bool expectedResult = false;
             Assert.AreEqual(expectedResult, observedResult);
         }
-        */
 
-
-        //anoter test filter- send a message from the signin user and see if it shows when chose filterByUser (this user)
         /// <summary>
         /// test filterByGroupID  
         /// </summary>
-        /* [Test]
+        [Test]
          public void filterByGroupID()
          {
              ChatRoom c = new ChatRoom(url);
              c.register("Batman", "21");
              c.login("Batman", "21");
-             c.send("Hi");
-             bool observedResult = //(list of messages with filter of another g_id).contains(the message above)
-             bool expectedResult = false;
-             Assert.AreEqual(expectedResult, observedResult);
-         }*/
+            List<PresentationLayer.Action> action = new List<PresentationLayer.Action>();
+            FilterByGroup filter = new FilterByGroup("20");//another g_id
+            SortByTime sort = new SortByTime();
+            action.Add(sort);
+            action.Add(filter);
+            List<GuiMessage> msg1 = c.getMessages(0, action);
+            c.send("Hi");
+            List<GuiMessage> msg2 = c.getMessages(0, action);
+            bool observedResult = msg1.Equals(msg2);
+            bool expectedResult = true;
+            Assert.AreEqual(expectedResult, observedResult);
+        }
     }
 }
