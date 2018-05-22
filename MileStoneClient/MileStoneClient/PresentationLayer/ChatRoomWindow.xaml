@@ -17,8 +17,8 @@
         <Button Content="LogOut" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,324,0,0" Height="75" Click="LogOut"/>
         <TextBox HorizontalAlignment="Left" Height="35" Margin="230,598,0,0" TextWrapping="Wrap" Text="{Binding TxtSendContent}" VerticalAlignment="Top" Width="607" />
         <Button Content="Send" HorizontalAlignment="Left" Height="35" Margin="849,598,0,0" VerticalAlignment="Top" Width="68" Click="Send" IsEnabled="{Binding btnSendIsEnabled}"/>
-        <Button Content="Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,202,0,0" Height="75" Click="Options"/>
-        <ListBox ItemsSource="{Binding Messages}"  SelectedIndex = "{Binding AutoScroll}" ScrollViewer.CanContentScroll="True" Loaded="updateMessages" HorizontalAlignment="Left" Height="481" Margin="230,112,0,0" VerticalAlignment="Top" Width="678"/>
+        <Button ToolTip="Choose message order, sort and filter" Content="Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="68,202,0,0" Height="75" Click="Options"/>
+        <ListBox ItemsSource="{Binding Messages}" IsSynchronizedWithCurrentItem="True" ScrollViewer.CanContentScroll="True" Loaded="updateMessages" HorizontalAlignment="Left" Height="481" Margin="230,112,0,0" VerticalAlignment="Top" Width="678"/>
         <Frame NavigationUIVisibility="Hidden" HorizontalAlignment="Left" Height="400" Margin="148,202,0,0" VerticalAlignment="Top" Width="320.8" Content="{Binding IsOptionVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

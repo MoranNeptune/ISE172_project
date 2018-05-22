@@ -128,6 +128,7 @@ namespace MileStoneClient.PresentationLayer
                 getMessagesList();
         }
 
+        //log out of program
         private void LogOut(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("User logged out"); //log
@@ -136,6 +137,7 @@ namespace MileStoneClient.PresentationLayer
             this.mainWindow.Show();
         }
 
+        //send message
         private void Send(object sender, RoutedEventArgs e)
         {
             obs.BtnSendIsEnabled = !obs.TxtSendContent.Equals("");
@@ -148,6 +150,7 @@ namespace MileStoneClient.PresentationLayer
 
         }
 
+        //exit program
         private void Exit(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("User logged out and exited program");
@@ -155,6 +158,7 @@ namespace MileStoneClient.PresentationLayer
             System.Environment.Exit(0);
         }
 
+        //open options menu
         private void Options(object sender, RoutedEventArgs e)
         {
             //close options menu
@@ -170,7 +174,6 @@ namespace MileStoneClient.PresentationLayer
                 obs.IsOptionVisible = op;
                 isOptionsVisible = true;
             }
-
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -196,7 +199,6 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].ToString());
             }
-            obs.AutoScroll = msgs.Count - 1;
         }
 
         //initiate listBox wuth the messages list
@@ -207,6 +209,11 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].ToString());
             }
+
+            ListBox msgList = sender as ListBox;
+            msgList.Items.MoveCurrentToLast();
+            msgList.ScrollIntoView(msgList.Items.CurrentItem);
+
         }
 
         // sendsa message by pressing enter

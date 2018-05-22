@@ -23,11 +23,7 @@ namespace MileStoneClient.PresentationLayer
             OnPropertyChanged("Messages");
         }
 
-        // auto scroll for the list
-        private void List_Scroll(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged();
-        }
+
 
         #region ChatRoomWindowBinding
 
@@ -69,23 +65,6 @@ namespace MileStoneClient.PresentationLayer
                     isOptionVisible = value;
                     OnPropertyChanged("IsOptionVisible");
                 }
-            }
-        }
-        /// <summary>
-        /// A binding function that connects between the "Send" textbox to source
-        /// </summary
-        private int autoScroll = 0;
-        public int AutoScroll
-        {
-            get
-            {
-                return autoScroll;
-            }
-            set
-            {
-                autoScroll = value;
-                OnPropertyChanged("autoScroll");
-               
             }
         }
 
@@ -372,7 +351,7 @@ namespace MileStoneClient.PresentationLayer
         }
 
         /// <summary>
-        /// A binding function that connects between the source to "Ascending" button 
+        /// A binding function that connects between the source to "Ascending" autobutton 
         /// </summary>
         private bool ascendingIsChecked = false;
         public bool AscendingIsChecked
