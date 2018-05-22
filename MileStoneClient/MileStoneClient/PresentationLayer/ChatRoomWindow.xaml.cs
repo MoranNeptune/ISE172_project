@@ -148,7 +148,7 @@ namespace MileStoneClient.PresentationLayer
             {
                 MessageBox.Show("Message length should be 150 letters or less", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            else if (obs.TxtSendContent.Equals(""))
+            else if (obs.TxtSendContent.Equals("") | isMsgOnlySpaces())
             {
                 MessageBox.Show("Message cannot be empty", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -238,6 +238,21 @@ namespace MileStoneClient.PresentationLayer
         public List<GuiMessage> Msgs
         {
             get { return msgs; }
+        }
+
+        private bool isMsgOnlySpaces()
+        {
+            bool ans = true;
+            string tMsg = obs.TxtSendContent;
+
+            for (int i = 0; i < tMsg.Length; i++)
+            {
+                if (tMsg[i] != ' ')
+                {
+                    ans = false;
+                }
+            }
+            return ans;
         }
     }
 }

@@ -95,9 +95,6 @@
     <Compile Include="PresentationLayer\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PresentationLayer\ViewProfileWindow.xaml.cs">
-      <DependentUpon>ViewProfileWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PresentationLayer\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -112,10 +109,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PresentationLayer\Options.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PresentationLayer\ViewProfileWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
