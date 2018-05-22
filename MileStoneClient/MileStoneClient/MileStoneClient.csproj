@@ -179,11 +179,8 @@
     <Resource Include="media\button.jpg" />
     <Resource Include="media\chat.jpg" />
     <Resource Include="media\ChatRoom.jpg" />
-    <Resource Include="media\login.jpg" />
     <Resource Include="media\main-logo.png" />
-    <Resource Include="media\main.jpg" />
     <Resource Include="media\profile.jpg" />
-    <Resource Include="media\register.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\log4net.dll" />
@@ -193,6 +190,9 @@
     <Content Include="bin\Release\MileStoneClient.exe" />
     <Content Include="bin\Release\MileStoneClient.pdb" />
     <Content Include="bin\Release\Newtonsoft.Json.dll" />
+    <Resource Include="media\login.jpeg" />
+    <Resource Include="media\main.jpeg" />
+    <Resource Include="media\register.jpeg" />
     <Resource Include="bin\Release\Newtonsoft.Json.xml" />
     <Content Include="bin\Release\WpfAnimatedGif.dll" />
     <Resource Include="bin\Release\WpfAnimatedGif.xml" />

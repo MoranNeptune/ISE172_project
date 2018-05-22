@@ -1,4 +1,4 @@
-﻿<Window x:Name="Main1" x:Class="MileStoneClient.PresentationLayer.MainWindow"
+﻿<Window Name="Main1" x:Class="MileStoneClient.PresentationLayer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,16 +6,19 @@
        xmlns:local="clr-namespace:MileStoneClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="950" AutomationProperties.Name="Main1"
+        WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" WindowState="Normal">
 
-    <Grid x:Name="GridMain" Margin="0" Width="800" Height="600" AutomationProperties.Name="GridMain">
+    <Grid Name="GridMain" Margin="0" Width="950" Height="700" AutomationProperties.Name="GridMain">
+        <Grid.Background>
+            <ImageBrush ImageSource="/MileStoneClient;component/media/main.jpeg"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="BtnRegister" Content="Register" Margin="300,255,0,0" VerticalAlignment="Top" Width="230" Height="55" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="1" FontFamily="Segoe UI Black" FontSize="24" HorizontalAlignment="Left" AutomationProperties.Name="BtnRegister" Background="{x:Null}" Click="BtnRegister_Click"/>
-        <TextBlock x:Name="TxtTitle" Height="100" TextWrapping="Wrap" Text="ChatRoom" Width="475" RenderTransformOrigin="2.656,4.654" Margin="0,60,0,0" Padding="1,1,0,0" FontFamily="Segoe Script" FontSize="80" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" />
-        <Button x:Name="BtnLogin" Content="Login" Margin="300,345,0,0" VerticalAlignment="Top" Width="230" Height="55" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="1" FontFamily="Segoe UI Black" FontSize="24" HorizontalAlignment="Left" AutomationProperties.Name="BtnLogin" Background="{x:Null}" Click="BtnLogin_Click"/>
-        <Button x:Name="BtnExit" Content="Exit" Margin="300,435,0,0" VerticalAlignment="Top" Width="230" Height="55" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="1" FontFamily="Segoe UI Black" FontSize="24" HorizontalAlignment="Left" AutomationProperties.Name="BtnExit" Background="{x:Null}" Click="BtnExit_Click"/>
-        <TextBlock x:Name="TxtSentence1" RenderTransformOrigin="2.656,4.654" Padding="1,1,0,0" Height="55" Width="340"  FontFamily="Segoe Print" FontSize="25" FontWeight="Bold" TextWrapping="Wrap" Text="Thank you for registering!" Margin="235,180,0,0" AutomationProperties.Name="TxtSentence" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Name="BtnRegister" Content="Register" Margin="370,322,0,0" VerticalAlignment="Top" Width="177" Height="37" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="1" FontFamily="Segoe UI Black" FontSize="24" HorizontalAlignment="Left" AutomationProperties.Name="BtnRegister" Background="{x:Null}" Click="BtnRegister_Click"/>
+        <Button Name="BtnLogin" Content="Login" Margin="369,397,0,0" VerticalAlignment="Top" Width="178" Height="38" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="1" FontFamily="Segoe UI Black" FontSize="24" HorizontalAlignment="Left" AutomationProperties.Name="BtnLogin" Background="{x:Null}" Click="BtnLogin_Click"/>
+        <Button Name="BtnExit" Content="Exit" Margin="370,475,0,0" VerticalAlignment="Top" Width="177" Height="34" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="1" FontFamily="Segoe UI Black" FontSize="24" HorizontalAlignment="Left" AutomationProperties.Name="BtnExit" Background="{x:Null}" Click="BtnExit_Click"/>
+        <TextBlock Name="TxtSentence1" RenderTransformOrigin="2.656,4.654" Padding="1,1,0,0" Height="55" Width="340"  FontFamily="Segoe Print" FontSize="25" FontWeight="Bold" TextWrapping="Wrap" Text="Thank you for registering!" Margin="301,554,0,0" AutomationProperties.Name="TxtSentence" VerticalAlignment="Top" HorizontalAlignment="Left"/>
     </Grid>
 </Window>
