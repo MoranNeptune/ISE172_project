@@ -35,7 +35,8 @@ namespace MileStoneClient.PresentationLayer
             this.obs = obs;
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
-            this.DataContext = obs;
+            this.DataContext = obs; //binding
+            //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnRegIsEnabled = false;
             obs.LblRegErrorVisibility = "Hidden";
             obs.LblAddLoginVisibility = "Hidden";
@@ -47,6 +48,7 @@ namespace MileStoneClient.PresentationLayer
             return this.chatRoom;
         }
 
+        //click this button let the user to return to the previous window (the menu)
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("User returned from registration window to main window");// log
@@ -60,6 +62,7 @@ namespace MileStoneClient.PresentationLayer
             obs.BtnLoginVisibility = "Hidden";
         }
 
+        //a function that check validity of the value's the user insert, them regiester him
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
             int number;
@@ -99,17 +102,18 @@ namespace MileStoneClient.PresentationLayer
             // if the user is resigtered 
             else
             { // if the inputs are correct                
-                    obs.GroupIdText = "";
-                    obs.NicknameText = "";
-                    obs.LblAddLoginVisibility = "Visible";
-                    obs.LblAddLoginContent = "Now that you are registered:";
-                    obs.BtnLoginVisibility = "Visible";
+                obs.GroupIdText = "";
+                obs.NicknameText = "";
+                obs.LblAddLoginVisibility = "Visible";
+                obs.LblAddLoginContent = "Now that you are registered:";
+                obs.BtnLoginVisibility = "Visible";
 
-                    Log.Instance.info("New registration - User: " + nickname);//log
-                
+                Log.Instance.info("New registration - User: " + nickname);//log
+
             }
         }
 
+        //only if the "username" field and the "groupId" field filled in open an option for the user to regiester
         private void TxtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             obs.BtnRegIsEnabled = !string.IsNullOrEmpty(obs.NicknameContent)
@@ -121,6 +125,7 @@ namespace MileStoneClient.PresentationLayer
             this.groupId = obs.GroupIdContent;
         }
 
+        //after the regiester sucssed open a button that connect between the RegisterWindow to the LoginWindow
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("Registration window closed");
