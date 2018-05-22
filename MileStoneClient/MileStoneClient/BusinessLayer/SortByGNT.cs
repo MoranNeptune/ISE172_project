@@ -9,13 +9,22 @@ namespace MileStoneClient.BusinessLayer
 {
     class SortByGNT : PresentationLayer.Action
     {
+        public SortByGNT()
+        {
+
+        }
+
+        /// <summary>
+        /// The function returns a list sorted by Group id, Users nickname and Timestemp
+        /// </summary>
+        /// <param name="msgs">List to sort</param>
+        /// <returns></returns>
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
             int i =0, count;
             MessageComperator comperator = new MessageComperator();
             //  sort the list by group id
             msgs.Sort(comperator);
-
 
             // sort the list by name
             if(msgs.Count > 0)
@@ -38,11 +47,8 @@ namespace MileStoneClient.BusinessLayer
                         count = 1;
                     }
                 }
-                // אולי להוריד את המינוס 1 או להוסיף בדיקת חריגה
                 sbn.sortRange(i, count, msgs);
-            }
-            
-            
+            }     
             return msgs;
         }
 

@@ -172,6 +172,12 @@ namespace MileStoneClient.BusinessLayer
             set { currUser = value; }
         }
 
+        /// <summary>
+        /// the function returns a list of messages, by specific sort, filter and order 
+        /// </summary>
+        /// <param name="order">The wanted order of the list</param>
+        /// <param name="actions">Sort and filter</param>
+        /// <returns></returns>
         public List<GuiMessage> getMessages(int order, List<PresentationLayer.Action> actions)
         {
             bool update = false;
@@ -189,14 +195,6 @@ namespace MileStoneClient.BusinessLayer
             // if the filter/sort is changed, update the list of the presentation messages
             if (update)
                 updatePresMessages();
-            // if the sort or filter had changed, update all the messages from the files
-            //  if ((actions.Count > 0 && this.sort != actions[0]) | (actions.Count > 1 && this.filter != actions[1]))
-            /*   {
-                   updatePresMessages();
-                   this.sort = actions[0];
-                   if()
-                   this.filter = actions[1];
-               }*/
             // להחזיר את השורה
             // retrieveMessages();
             if (filter != null)
@@ -213,7 +211,6 @@ namespace MileStoneClient.BusinessLayer
                     presMsgs.Reverse();
                 }
             }
-
             return presMsgs;
         }
 
@@ -258,7 +255,6 @@ namespace MileStoneClient.BusinessLayer
                 {
                     newUser.addMessage(newMsg);
                     msgToUpdate.Add(newMsg);
-                    // הוספתי
                     presMsgs.Add(new GuiMessage(newMsg.Body, newMsg.DateTime, newMsg.Id, newMsg.User.Nickname, newMsg.User.G_id.idNumber));
                 }
             }
@@ -266,13 +262,7 @@ namespace MileStoneClient.BusinessLayer
             if (msgToUpdate.Count > 0)
             {
                 allMessages.updateFile(msgToUpdate);
-                // הוספתי
-                // presMsgs.AddRange(msgToRetrive);
             }
-            //  int index = allMessages.List.Count;
-            //  שורות שינוי 2
-            // return this.allMessages.List.GetRange(index - 10, 10);
-            // return presMsgs.GetRange(index - 10, 10);
         }
 
         /// <summary>
@@ -288,7 +278,7 @@ namespace MileStoneClient.BusinessLayer
                     presMsgs.Add(new GuiMessage(m.Body, m.DateTime, m.Id, m.User.Nickname, m.User.G_id.idNumber));
                 }
         }
-
+        
         /// <returns>list of all the messages of the certain user</returns>
         public List<string> getNicknames()
         {
@@ -308,49 +298,5 @@ namespace MileStoneClient.BusinessLayer
                 grp.Add(groupsId.List[i].idNumber);
             return grp;
         }
-
-        /// <summary>
-        /// returns all messages of a certain user
-        /// </summary>
-        /// <param name="nickname">the user's nickname</param>
-        /// <param name="g_id">the user's group id</param>
-        /// <returns>list of all the messages of the certain user</returns>
-        /*  public List<Message> displayAll(string nickname, string g_id)
-          {
-              // Find the specific user
-              User user = findUser(nickname, g_id);
-              if (user != null)
-                  return user.msgHandler.List;
-              return null;
-          }*/
-        // החלפתי את הפונקציה שלמעלה
-        /*   public List<GuiMessage> displayAll(string nickname, string g_id)
-           {
-               // Find the specific user
-               User user = findUser(nickname, g_id);
-               if (user != null)
-                   return (new FilterByUser(nickname, g_id)).action(presMsgs);
-               return null;
-           }
-
-
-           /// <summary>
-           /// retrive new messages from the server
-           /// </summary>
-           /// <param name="num">number of messages the user would like to display</param>
-           /// <returns>returns a specific number of messages</returns>
-           public List<Message> display(int num)
-           {
-               if (num > this.allMessages.List.Count)
-                   return this.allMessages.List;
-               else
-               {
-                   List<Message> msgDisplay = new List<Message>(num);
-                   msgDisplay = this.allMessages.List.GetRange(allMessages.List.Count - num, num);
-                   return msgDisplay;
-               }
-           }
-           */
-
     }
 }

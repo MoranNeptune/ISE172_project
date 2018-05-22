@@ -15,6 +15,12 @@ namespace MileStoneClient.BusinessLayer
         {
             comperator = new MessageComperator();
         }
+
+        /// <summary>
+        /// The function returns a list sorted by Timestemp
+        /// </summary>
+        /// <param name="msgs">List to sort</param>
+        /// <returns></returns>
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
 
@@ -22,12 +28,18 @@ namespace MileStoneClient.BusinessLayer
             return msgs;
         }
 
+        /// <summary>
+        /// The function sort a wanted range by timestemp
+        /// </summary>
+        /// <param name="i">start index of the range</param>
+        /// <param name="count">length of the range (include index i)</param>
+        /// <param name="msgs">list to sort</param>
         public void sortRange(int i, int count, List<GuiMessage> msgs)
         {
             msgs.Sort(i, count, comperator);
         }
         /// <summary>
-        /// A class implementing interface IComparer<T> to sort between two messages by nickname
+        /// A class implementing interface IComparer<T> to sort between two messages by timestemp
         /// </summary>
         class MessageComperator : IComparer<GuiMessage>
         {

@@ -15,6 +15,11 @@ namespace MileStoneClient.BusinessLayer
         {
             comperator = new MessageComperator();
         }
+        /// <summary>
+        /// The function returns a list sorted by Users nickname
+        /// </summary>
+        /// <param name="msgs">List to sort</param>
+        /// <returns></returns>
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
 
@@ -22,8 +27,15 @@ namespace MileStoneClient.BusinessLayer
             return msgs;
         }
 
+        /// <summary>
+        /// The function sort a wanted range by Users nickname and timestemp
+        /// </summary>
+        /// <param name="i">start index of the range</param>
+        /// <param name="range">length of the range (include index i)</param>
+        /// <param name="msgs">list to sort</param>
         public void sortRange(int i, int range, List<GuiMessage> msgs)
         {
+            // sort the list by users nickname
             msgs.Sort(i, range, comperator);
             // sort the list by Time
             int count = 1;

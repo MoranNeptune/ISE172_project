@@ -15,6 +15,11 @@ namespace MileStoneClient.BusinessLayer
         {
             groupId = g_id;
         }
+        /// <summary>
+        /// The function returns a list of messages of a specific group
+        /// </summary>
+        /// <param name="msgs">List to filter</param>
+        /// <returns></returns>
         public override List<GuiMessage> action(List<GuiMessage> msgs)
         {
             for (int i = 0; i < msgs.Count; i++)
