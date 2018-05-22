@@ -75,9 +75,9 @@ namespace MileStoneClient.BusinessLayer
             return dateTime.CompareTo(((Message)other).DateTime);
         }
 
-        public string ToString()
+        public string toString()
         {
-            return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body +'\n' + "GUID: " + this.id;
+            return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body + '\n' + "GUID: " + this.id;
         }
     }
 }

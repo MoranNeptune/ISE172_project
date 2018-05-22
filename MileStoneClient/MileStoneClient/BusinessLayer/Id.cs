@@ -45,7 +45,6 @@ namespace MileStoneClient.BusinessLayer
                 members.Add(nickname);
             else
                 added = false;
-
             return added;
         }
 

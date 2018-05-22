@@ -140,6 +140,7 @@ namespace MileStoneClient.BusinessLayer
                         {
                             //update of users file
                             this.allUsers.updateFile(new User(nickname, gId));
+                            this.groupsId.updateFile(gId);
                             return true;
                         }
                         else
