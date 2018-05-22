@@ -34,6 +34,7 @@ namespace MileStoneClient.PresentationLayer
         private List<GuiMessage> msgs;
         private List<string> nicknames, groups;
         private DispatcherTimer dispatcherTimer;
+        private ListBox listBox;
 
         public ChatRoomWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
@@ -209,6 +210,8 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].toString());
             }
+            listBox.Items.MoveCurrentToLast();
+            listBox.ScrollIntoView(listBox.Items.CurrentItem);
         }
 
         //initiate listBox wuth the messages list
@@ -221,6 +224,7 @@ namespace MileStoneClient.PresentationLayer
             }
 
             ListBox msgList = sender as ListBox;
+            listBox = msgList;
             msgList.Items.MoveCurrentToLast();
             msgList.ScrollIntoView(msgList.Items.CurrentItem);
 
