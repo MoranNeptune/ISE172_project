@@ -42,6 +42,10 @@ namespace MileStoneClient.PresistentLayer
         //add a new Id to this list and afterwards to the file, return true if succsed
         public bool updateFile(ID id)
         {
+            //in case the ID is already exist but with updates
+            for(int i=0;i<list.Count;i++)
+                if (list[i].idNumber==id.idNumber)
+                     list.RemoveAt(i);
             list.Add(id);
             if (File.Exists(name + ".bin"))
             {
