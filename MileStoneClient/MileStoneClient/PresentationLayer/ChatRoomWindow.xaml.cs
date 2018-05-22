@@ -135,6 +135,7 @@ namespace MileStoneClient.PresentationLayer
             Log.Instance.info("User logged out"); //log
             this.chatRoom.logOut();
             Close();
+            this.mainWindow.init();
             this.mainWindow.Show();
         }
 
@@ -206,7 +207,7 @@ namespace MileStoneClient.PresentationLayer
             // convers all the Gui Messages to a string
             for (int i = 0; i < msgs.Count; i++)
             {
-                obs.Messages.Add(msgs[i].ToString());
+                obs.Messages.Add(msgs[i].toString());
             }
         }
 
@@ -216,7 +217,7 @@ namespace MileStoneClient.PresentationLayer
             msgs = chatRoom.getMessages(0, actionList);
             for (int i = 0; i < msgs.Count; i++)
             {
-                obs.Messages.Add(msgs[i].ToString());
+                obs.Messages.Add(msgs[i].toString());
             }
 
             ListBox msgList = sender as ListBox;

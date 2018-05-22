@@ -43,6 +43,13 @@ namespace MileStoneClient.PresentationLayer
             return this.register;
         }
 
+        public void init()
+        {
+            url = "http://ise172.ise.bgu.ac.il:80";
+            obs = new ObservableObject();
+            chatRoom = new ChatRoom(url);
+            InitializeComponent();
+        }
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
             //ChatRoomWindow cr = new ChatRoomWindow(this, chatRoom, obs);

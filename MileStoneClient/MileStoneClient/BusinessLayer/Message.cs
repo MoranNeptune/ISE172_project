@@ -80,26 +80,4 @@ namespace MileStoneClient.BusinessLayer
             return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body +'\n' + "GUID: " + this.id;
         }
     }
-/*
-    /// <summary>
-    /// A class implementing interface IComparer<T> to between two messages by dateTime
-    /// </summary>
-    class MessageComperator : IComparer<Message>
-    {
-        /// <summary>
-        /// Override the Compare function to compare by DateTime 
-        /// </summary>
-        /// <param name="msg1"> A parameter of type Message representing message to compare </param>
-        /// <param name="msg2"> A parameter of type Message representing message to compare </param>
-        /// <returns> Returns a parameter of type int:
-        ///                      -1 if this is smaller than other
-        ///                      0 if they are equal
-        ///                      1 if this is greater than other
-        /// </returns>
-        public int Compare(Message msg1, Message msg2)
-        {
-            return msg1.CompareTo(msg2);
-        }
-    }
-    */
 }

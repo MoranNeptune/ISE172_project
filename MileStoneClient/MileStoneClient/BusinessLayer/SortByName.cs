@@ -59,7 +59,6 @@ namespace MileStoneClient.BusinessLayer
                         count = 1;
                     }
                 }
-                // אולי להוריד את המינוס 1 או להוסיף בדיקת חריגה
                 // sbn.sortRange(i, count, msgs);
             }
         }
@@ -84,9 +83,10 @@ namespace MileStoneClient.BusinessLayer
                 // if the messages have the same user, sort by messages id
                 if (msg1.UserName.Equals(msg2.UserName))
                 {
-                    return msg1.Id.CompareTo(msg2.Id);
+                    if (msg1.DateTime.Ticks.Equals(msg2.DateTime.Ticks))
+                        return msg1.Id.CompareTo(msg2.Id);
+                    return msg1.DateTime.Ticks.CompareTo(msg2.DateTime.Ticks);
                 }
-
                 return msg1.UserName.CompareTo(msg2.UserName);
             }
         }

@@ -61,7 +61,7 @@ namespace MileStoneClient.PresentationLayer
             set { id = value; }
         }
 
-        public string ToString()
+        public string toString()
         {
             DateTime updateTime = dateTime.AddHours(3);
             return "Group ID: " + this.g_id + ", Nickname: " + this.userName + ", (" + updateTime.ToString() + "), Message Body: " + this.body + '\n' + "GUID: " + this.id;

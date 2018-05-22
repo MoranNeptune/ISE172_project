@@ -108,7 +108,6 @@ namespace MileStoneClient.BusinessLayer
             if (msg != null)
             {
                 allMessages.updateFile(msg);
-                // הוספתי
                 presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id.idNumber));
                 return true;
             }
@@ -195,8 +194,7 @@ namespace MileStoneClient.BusinessLayer
             // if the filter/sort is changed, update the list of the presentation messages
             if (update)
                 updatePresMessages();
-            // להחזיר את השורה
-            // retrieveMessages();
+            retrieveMessages();
             if (filter != null)
                 filter.action(presMsgs);
 

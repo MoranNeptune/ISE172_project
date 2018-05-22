@@ -58,7 +58,7 @@ namespace MileStoneClient.BusinessLayer
         class MessageComperator : IComparer<GuiMessage>
         {
             /// <summary>
-            /// Override the Compare function to compare by User's name
+            /// Override the Compare function to compare by group id
             /// </summary>
             /// <param name="msg1"> A parameter of type Message representing message to compare </param>
             /// <param name="msg2"> A parameter of type Message representing message to compare </param>
@@ -69,9 +69,15 @@ namespace MileStoneClient.BusinessLayer
             /// </returns>
             public int Compare(GuiMessage msg1, GuiMessage msg2)
             {
-                int x1 = int.Parse(msg1.G_id);
-                int x2 = int.Parse(msg2.G_id);
-               
+                int x1, x2;
+                if (int.TryParse(msg1.G_id, out x1) == false)
+                    x1 = 0;
+                else
+                    x1 = int.Parse(msg1.G_id);
+                if (int.TryParse(msg2.G_id, out x2) == false)
+                    x2 = 0;
+                else 
+                    x2 = int.Parse(msg2.G_id);
                 return x1-x2;
             }
         }
