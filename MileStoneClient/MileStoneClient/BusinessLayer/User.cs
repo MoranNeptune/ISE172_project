@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MileStoneClient.PresistentLayer;
-using MileStoneClient.CommunicationLayer;
 using System.IO;
 
 namespace MileStoneClient.BusinessLayer
 {
+
+    //  need to update
 
     [Serializable]
     public class User
@@ -17,6 +18,7 @@ namespace MileStoneClient.BusinessLayer
         private ID g_id;
         private MessageHandler handler;
         private bool loggedIn;
+        private string password;
 
         // Constructor      
         public User(string nickname, ID g_id)
@@ -49,6 +51,12 @@ namespace MileStoneClient.BusinessLayer
         {
             get { return loggedIn; }
             set { loggedIn = value; }
+        }
+
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
         }
 
         //methods
