@@ -6,80 +6,94 @@ using System.Collections.Generic;
 
 namespace MileStoneClient.PresistentLayer
 {
-    //an object that responsable to transfer the user's info to files
-    public class UserHandler
+    //an object that responsable to transfer the user's info to the database
+    public class UserHandler : IQueryAction
     {
-        private List<User> list;
-        private String name;
+        private List<User> allUsersList;
+        private List<User> userExist;
+        //these may be deleted later
+        private bool exist;
+        private bool connectionFail;
 
         //constructor
-        public UserHandler(String name)
+        public UserHandler()
         {
-            //assume name is valid
-            this.name = name;
-            //check if there is already a file with this needed data, and open a new one if not
-            if (!File.Exists(name + ".bin"))
-            {
-                Stream myFileStream = File.Create(name + ".bin");
-                myFileStream.Close();
-                list = new List<User>();
-            }
-            //deserialize the list of User's from the file with this name
-            else
-            {
-                Stream ReadFileStream = File.OpenRead(name + ".bin");
-                BinaryFormatter deserializer = new BinaryFormatter();
-                if (new FileInfo(name + ".bin").Length != 0)
-                    list = (List<User>)deserializer.Deserialize(ReadFileStream);
-                else this.list = new List<User>();
-                ReadFileStream.Close();
-            }
+            allUsersList = new List<User>();
+            userExist = new List<User>();
+            exist = false;
+            connectionFail = false;
         }
 
-        //add a new User to this list and afterwards to the file, return true if succsed
-        public bool updateFile(User user)
+        public override void ExecuteQuery(string query)
         {
-            list.Add(user);
-            if (File.Exists(name + ".bin"))
+            if (query.Contains("INSERT"))
             {
-                if (deleteFile())
+                Instance.addToUserTable(query);
+            }
+            else if (query.Contains("select"))
+            {
+                //if user exist will recieve a list with one user, else will return empty list
+                userExist = Instance.ReadUserTable(query);
+                if (userExist != null)
                 {
-                    if (openNewFile())
-                    {
-                        Stream fileStream = File.OpenWrite(name + ".bin");
-                        BinaryFormatter serializer = new BinaryFormatter();
-                        serializer.Serialize(fileStream, list);
-                        fileStream.Close();
-                        return true;
-                    }
+                    //if the list contains a user, then user already exist it table
+                    if (userExist.Count <= 1)
+                        exist = true;
                 }
             }
-            //if the update failed- dont change this list and return false
-            list.Remove(user);
-            return false;
+
         }
 
-        //delete the file with this name
-        private bool deleteFile()
+        //add a new User to Users table and then to list if the user doesn't alreay exist, return true if user is added
+        public bool updateFile(User user)
         {
-            //assume there is a file with this name
-            File.Delete(name + ".bin");
-            return !(File.Exists(name + ".bin"));
+            //set query to add user and executes query 
+            string query = "INSERT INTO Users ([Group_Id],[Nickname],[Password]) " +
+                           "VALUES (" + user.G_id.idNumber + ", '" + user.Nickname + "','" + user.Password + "')";
+
+            //check if user already exist in the table
+            if (doesExist(user) | connectionFail)
+                return false;
+
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                connectionFail = true;
+                return false;
+            }
+
+            allUsersList.Add(user);
+            return true;
         }
 
-        //open a new file with this name
-        private bool openNewFile()
+        //check if user already exists in Users table
+        public bool doesExist(User u)
         {
-            //assume there isnt a file with this name
-            Stream fileStream = File.Create(name + ".bin");
-            fileStream.Close();
-            return File.Exists(name + ".bin");
+            //set query to find user with same details and executes query
+            string query = "select top (1) [Group_Id],[Nickname],[Password] " +
+                    "from [MS3].[dbo].[Users] " +
+                    "where [MS3].[dbo].[Users].[Group_Id] = " + u.G_id.idNumber +
+                    " and [MS3].[dbo].[Users].[Nickname] = '" + u.Nickname +
+                    "' and [MS3].[dbo].[Users].[Password] = '" + u.Password + "'";
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                connectionFail = true;
+                return false;
+            }
+            return exist;
         }
 
         public List<User> List
         {
-            get { return list; }
-            set { list = value; }
+            get { return allUsersList; }
+            set { allUsersList = value; }
         }
 
     }
