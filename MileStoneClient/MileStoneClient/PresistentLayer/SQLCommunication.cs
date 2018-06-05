@@ -55,7 +55,7 @@ namespace MileStoneClient.PresistentLayer
             }
         }
 
-        // Read users' details from table and return list of users
+        //read users' details from table and return list of users
         public List<User> ReadUserTable(string query)
         {
             List<User> users = new List<User>();
@@ -67,7 +67,7 @@ namespace MileStoneClient.PresistentLayer
 
             while (data_reader.Read())
             {
-                // Add users from the users table to the list
+                //add users from the users table to the list
                 users.Add(new User(data_reader.GetValue(2).ToString(), new ID(data_reader.GetValue(1).ToString())));
                 ///////need to add password to all users some time
             }
@@ -78,17 +78,17 @@ namespace MileStoneClient.PresistentLayer
             return users;
         }
 
-        // Add new user to Users table - assume valid user inputed in query
+        //add new user to Users table - assume valid user inputed in query
         public void addToUserTable(string query)
         {
             try
             {
-                // Open connection and set command text to be the value of query
+                //open connection and set command text to be the value of query
                 connection.Open();
                 command = new SqlCommand(null, connection);
                 command.CommandText = query;
 
-                // Call Prepare after setting the Commandtext and Parameters.
+                //call Prepare after setting the Commandtext and Parameters.
                 command.Prepare();
                 int num_rows_changed = command.ExecuteNonQuery();
                  command.Dispose();
@@ -100,6 +100,13 @@ namespace MileStoneClient.PresistentLayer
                 Console.WriteLine(ex.ToString());
 
             }
+        }
+
+        public List<Message> ReadMessageTable(string query)
+        {
+            List<Message> messages = new List<Message>();
+
+            return messages;
         }
     }
 }

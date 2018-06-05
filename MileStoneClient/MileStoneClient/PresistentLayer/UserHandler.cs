@@ -1,17 +1,14 @@
 ﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using MileStoneClient.BusinessLayer;
 using System.Collections.Generic;
 
 namespace MileStoneClient.PresistentLayer
 {
-    //an object that responsable to transfer the user's info to the database
+    //an object that's responsable to transfer the users' info to the database
     public class UserHandler : IQueryAction
     {
         private List<User> allUsersList;
         private List<User> userExist;
-        //these may be deleted later
         private bool exist;
         private bool connectionFail;
 
@@ -41,7 +38,6 @@ namespace MileStoneClient.PresistentLayer
                         exist = true;
                 }
             }
-
         }
 
         //add a new User to Users table and then to list if the user doesn't alreay exist, return true if user is added
@@ -96,5 +92,10 @@ namespace MileStoneClient.PresistentLayer
             set { allUsersList = value; }
         }
 
+        public bool ConnectionFail
+        {
+            get { return connectionFail; }
+            set { connectionFail = value; }
+        }
     }
 }
