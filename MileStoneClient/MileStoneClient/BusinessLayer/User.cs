@@ -20,8 +20,15 @@ namespace MileStoneClient.BusinessLayer
         private bool loggedIn;
         private string password;
 
+        /// <summary>
+        /// //change constructor to get int id instead of ID 
+        /// the constructor will create the ID and check if one already exists - if not create
+        /// </summary>
+        /// <param name="nickname"></param>
+        /// <param name="g_id"></param>
+
         // Constructor      
-        public User(string nickname, ID g_id)
+        public User(string nickname, int g_id)
         {
             this.g_id = g_id; 
             this.nickname = nickname; 

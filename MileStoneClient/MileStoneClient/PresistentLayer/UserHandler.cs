@@ -23,10 +23,17 @@ namespace MileStoneClient.PresistentLayer
 
         public override void ExecuteQuery(string query)
         {
+            //add new user
             if (query.Contains("INSERT"))
             {
                 Instance.addToUserTable(query);
             }
+            //update users list
+            else if (query.Contains("SELECT"))
+            {
+                allUsersList = Instance.ReadUserTable(query);
+            }
+            //check if user exist
             else if (query.Contains("select"))
             {
                 //if user exist will recieve a list with one user, else will return empty list
@@ -47,9 +54,10 @@ namespace MileStoneClient.PresistentLayer
             string query = "INSERT INTO Users ([Group_Id],[Nickname],[Password]) " +
                            "VALUES (" + user.G_id.idNumber + ", '" + user.Nickname + "','" + user.Password + "')";
 
+            //כנראה ימחק בסוף
             //check if user already exist in the table
-            if (doesExist(user) | connectionFail)
-                return false;
+            //if (doesExist(user) | connectionFail)
+              //  return false;
 
             try
             {
@@ -63,6 +71,21 @@ namespace MileStoneClient.PresistentLayer
 
             allUsersList.Add(user);
             return true;
+        }
+
+        //retrieve all users from database table
+        public void updateUsers()
+        {
+            string query = "SELECT [Group_Id],[Nickname],[Password] " +
+                    "FROM [MS3].[dbo].[Users]";
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                connectionFail = true;
+            }
         }
 
         //check if user already exists in Users table

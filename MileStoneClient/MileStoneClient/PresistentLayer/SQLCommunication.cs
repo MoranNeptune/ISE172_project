@@ -68,8 +68,9 @@ namespace MileStoneClient.PresistentLayer
             while (data_reader.Read())
             {
                 //add users from the users table to the list
-                users.Add(new User(data_reader.GetValue(2).ToString(), new ID(data_reader.GetValue(1).ToString())));
+                users.Add(new User(data_reader.GetValue(2).ToString(), int.Parse(data_reader.GetValue(1).ToString())));
                 ///////need to add password to all users some time
+                /////check if the user legal
             }
             data_reader.Close();
             command.Dispose();
@@ -81,8 +82,6 @@ namespace MileStoneClient.PresistentLayer
         //add new user to Users table - assume valid user inputed in query
         public void addToUserTable(string query)
         {
-            try
-            {
                 //open connection and set command text to be the value of query
                 connection.Open();
                 command = new SqlCommand(null, connection);
@@ -91,15 +90,8 @@ namespace MileStoneClient.PresistentLayer
                 //call Prepare after setting the Commandtext and Parameters.
                 command.Prepare();
                 int num_rows_changed = command.ExecuteNonQuery();
-                 command.Dispose();
+                command.Dispose();
                 connection.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error");
-                Console.WriteLine(ex.ToString());
-
-            }
         }
 
         public List<Message> ReadMessageTable(string query)

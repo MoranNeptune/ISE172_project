@@ -4,7 +4,6 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MileStoneClient.CommunicationLayer;
 using MileStoneClient.PresistentLayer;
 using MileStoneClient.PresentationLayer;
 
@@ -12,6 +11,9 @@ namespace MileStoneClient.BusinessLayer
 {
     public class ChatRoom
     {
+        /// <summary>
+        /// change creation of user to get int id instead of creating ID
+        /// </summary>
         // fields
         private string url;
         private User currUser;
@@ -95,6 +97,7 @@ namespace MileStoneClient.BusinessLayer
             return null;
         }
 
+        /// עדן צריכה לשנות !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /// <summary>
         /// Sends the message to the server and saves the message in the files
         /// </summary>
@@ -114,6 +117,9 @@ namespace MileStoneClient.BusinessLayer
             return false;
         }
 
+        // להוסיף פונקציה של עדדכון הודעה
+
+        /// עדן צריכה לשנות !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /// <summary>
         /// register a user to the system
         /// if the group id doest not exist, it creats a new group and add the user
@@ -126,6 +132,7 @@ namespace MileStoneClient.BusinessLayer
         /// <returns></returns>
         public bool register(string nickname, string g_id)
         {
+            //להוסיף שליפה של יוזרים
             // In case the group number exist
             if (this.groupsId != null && this.groupsId.List != null)
             {
@@ -171,7 +178,7 @@ namespace MileStoneClient.BusinessLayer
             get { return currUser; }
             set { currUser = value; }
         }
-
+        // לשנותתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתת
         /// <summary>
         /// the function returns a list of messages, by specific sort, filter and order 
         /// </summary>
@@ -213,6 +220,7 @@ namespace MileStoneClient.BusinessLayer
             return presMsgs;
         }
 
+        // לשנותתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתת
         /// <summary>
         /// the function retrieve 10 messages from the server and saves the new messages that we got, in both lists
         /// </summary>
