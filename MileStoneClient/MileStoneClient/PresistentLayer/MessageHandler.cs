@@ -8,28 +8,29 @@ namespace MileStoneClient.PresistentLayer
 {
   //  [Serializable]
     //an object that responsable to transfer the message's info to files
-    public class MessageHandler
+    public class MessageHandler : IQueryAction
     {
         private List<Message> list; //filtered & sorted list
         private String _name; // "" or nickname
         private string _id; //"" or g_id
+        private bool connectionFail;
 
         //constructor
         public MessageHandler(String name, string id)
         {
             _name = name;
             _id = id;
+            connectionFail = false;
 
             //no filter
-            if (id.Equals("") && !filterByNone()) //init the list
-                    throw new Exception("connection problem");
+            if (_id.Equals("") && !filterByNone()) //init the list
+                throw new Exception("connection problem"); /////להחליף את הקונקשיין פייל לטרו?
             //ID filter
-            else if (name.Equals("") && !filterById(id)) //init the list
-                    throw new Exception("connection problem");
-            //user filter
-            else if (!filterByUser(name, id)) //init the list
+            else if (_name.Equals("") && !filterById(_id)) //init the list
                 throw new Exception("connection problem");
-
+            //user filter
+            else if (!filterByUser(_name, _id)) //init the list
+                throw new Exception("connection problem");
 
             /*//assume name is valid
             this.name = name;
@@ -51,10 +52,10 @@ namespace MileStoneClient.PresistentLayer
                 ReadFileStream.Close();
             }*/
 
-                /*  if (filter.Equals("user"))
-                  {
-                      list=UserFilter()
-                  }*/
+            /*  if (filter.Equals("user"))
+              {
+                  list=UserFilter()
+              }*/
         }
 
         //check if the user to filter by is new and change it if so
@@ -74,7 +75,22 @@ namespace MileStoneClient.PresistentLayer
         //update the list as needed, return if sucssed
         private bool filterByNone()
         {
-            throw new NotImplementedException();
+            connectionFail = false;
+            //query to filter by user nickname
+            string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
+                    "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
+                    "WHERE [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                connectionFail = true;
+                return false;
+            }
+            return true;
         }
 
         //check if the id to filter by is new and change it if so
@@ -92,7 +108,25 @@ namespace MileStoneClient.PresistentLayer
         //add a new message to the database
         public bool send(Message msg)
         {
-            
+            //set query to add msg and executes query 
+            /////guid- ours or sqls?
+            /////user ID- need to get it from the usersTable or from the user.ID if possible
+            string query = "INSERT INTO Messages ([User_Id],[SendTime],[Body]) " +
+                           "VALUES (" + /*userID +*/ ", '" + msg.DateTime + "','" + msg.Body + "')";
+
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                connectionFail = true;
+                return false;
+            }
+
+            list.Add(msg);
+            return true;
         }
 
        /* //add a list of new message to the database
@@ -107,90 +141,163 @@ namespace MileStoneClient.PresistentLayer
             //check if this msg exist in the database- return false if not
             //delete it if it is and return true
             //else return false
-            return false;
+            string query= "DELETE FROM Messages" + "WHERE Guid =" + msg.Id;
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                connectionFail = true;
+                return false;
+            }
+            if (list.Contains(msg)) //update the list
+                list.Remove(msg);
+            return true;
         }
 
-        //input: already changed message. the function will update it's body and dateTime on the database
+        //input: the message we want to update and the new body. the function will update it's body and dateTime on the database and update the list
         //output: true for succsess, false for fail
-        public bool updateMessage(Message msg)
+        //assume valid input
+        public bool updateMessage(Message msg, String body)
         {
-            //find this message on the database and change it's time and body
-            //update the list as needed- call to retrieve?
+            DateTime time = new DateTime(); ////איך מגדירים שיהיה לעכשיו?
+            string query = "UPDATE Messages" + "SET body =" + body + ", time =" + time +"WHERE guid ="+ msg.Id;
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                connectionFail = true;
+                return false;
+            }
+            //if the update sucsed and the msg relevant to this filter, update also the list of msgs (delete it from the list and add it in the end of it)
+            if (list.Contains(msg))
+            {
+                list.Remove(msg);
+                msg.DateTime =time;
+                msg.Body = body;
+                list.Add(msg);
+            }
+            return true;
         }
 
-        //update the list with the new messages
-        public List<Message> retrieve()
+        //update the list with the new messages since the last message on the list
+        public bool retrieve()
         {
+            ///////////להוסיף בדיקה של גג משיכה של 200- האם זה גם להתחלה??
             //check for the last mesasge's dateTime and retrieve only those who sent after it and also less then 200 new messages
-            //the retrieve will be by filter and sort
+            DateTime time=list[list.Count - 1].DateTime;
+            //the retrieve will be by filter
             //add it to a new temp list, add this temp list to the end of this list and return the temp list
-        }
-
-      /*  //add a new Message to this list and afterwards to the file, return true if succsed
-        public bool updateFile(Message msg)
-        {
-            list.Add(msg);
-            if (File.Exists(name + ".bin"))
+            List<Message> tempList = new List<Message>;
+            string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
+                    "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
+                    "WHERE [MS3].[dbo].[Messages].[SendTime] > '" + time.ToString() +
+                    "' AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+            //user filter
+            if (!_name.Equals(""))
+                query = query + "[MS3].[dbo].[Users].Nickname = '" + _name +
+                    "' AND [MS3].[dbo].[Users].[Group_Id] = " + int.Parse(_id);
+            //ID filter
+            else if (!_id.Equals(""))
+                query = query + " AND [MS3].[dbo].[Users].[Group_Id] = " + int.Parse(_id);
+            try
             {
-                if (deleteFile())
-                {
-                    if (openNewFile())
-                    {
-                        Stream fileStream = File.OpenWrite(name + ".bin");
-                        BinaryFormatter serializer = new BinaryFormatter();
-                        serializer.Serialize(fileStream, list);
-                        fileStream.Close();
-                        return true;
-                    }
-                }
+                tempList = Instance.ReadMessageTable(query);
             }
-            //if the update failed- dont change this list and return false
-            list.Remove(msg);
-            return false;
-        }
-
-        //add a list of new Message's to this list and afterwards to the file, return true if succsed
-        public bool updateFile(List<Message> msgList)
-        {
-            int numThisList = list.Count;
-            int numNewList = msgList.Count;
-            list.AddRange(msgList);
-            if (File.Exists(name + ".bin"))
+            catch (Exception e)
             {
-                if (deleteFile())
-                {
-                    if (openNewFile())
-                    {
-                        Stream fileStream = File.OpenWrite(name + ".bin");
-                        BinaryFormatter serializer = new BinaryFormatter();
-                        serializer.Serialize(fileStream, list);
-                        fileStream.Close();
-                        //if (checkSuccess())
-                        return true;
-                    }
-                }
+                Console.WriteLine(e);
+                connectionFail = true;
+                return false;
             }
-            //if the update failed- dont change this list and return false
-            list.RemoveRange(numThisList + 1, numNewList);
-            return false;
+            list.AddRange(tempList);
+            return true;
         }
 
-        //delete the file with this name
-        private bool deleteFile()
+        public override void ExecuteQuery(string query)
         {
-            //assume there is a file with this name
-            File.Delete(name + ".bin");
-            return !(File.Exists(name + ".bin"));
+            //add new msg
+            if (query.Contains("SELECT"))
+            {
+                list = Instance.ReadMessageTable(query);
+            }
+            //update msgs list
+            else
+            {
+                Instance.UpdateTable(query);
+            }
         }
 
-        //open a new file with this name
-        private bool openNewFile()
-        {
-            //assume there isnt a file with this name
-            Stream fileStream = File.Create(name + ".bin");
-            fileStream.Close();
-            return File.Exists(name + ".bin");
-        }*/
+        /*  //add a new Message to this list and afterwards to the file, return true if succsed
+          public bool updateFile(Message msg)
+          {
+              list.Add(msg);
+              if (File.Exists(name + ".bin"))
+              {
+                  if (deleteFile())
+                  {
+                      if (openNewFile())
+                      {
+                          Stream fileStream = File.OpenWrite(name + ".bin");
+                          BinaryFormatter serializer = new BinaryFormatter();
+                          serializer.Serialize(fileStream, list);
+                          fileStream.Close();
+                          return true;
+                      }
+                  }
+              }
+              //if the update failed- dont change this list and return false
+              list.Remove(msg);
+              return false;
+          }
+
+          //add a list of new Message's to this list and afterwards to the file, return true if succsed
+          public bool updateFile(List<Message> msgList)
+          {
+              int numThisList = list.Count;
+              int numNewList = msgList.Count;
+              list.AddRange(msgList);
+              if (File.Exists(name + ".bin"))
+              {
+                  if (deleteFile())
+                  {
+                      if (openNewFile())
+                      {
+                          Stream fileStream = File.OpenWrite(name + ".bin");
+                          BinaryFormatter serializer = new BinaryFormatter();
+                          serializer.Serialize(fileStream, list);
+                          fileStream.Close();
+                          //if (checkSuccess())
+                          return true;
+                      }
+                  }
+              }
+              //if the update failed- dont change this list and return false
+              list.RemoveRange(numThisList + 1, numNewList);
+              return false;
+          }
+
+          //delete the file with this name
+          private bool deleteFile()
+          {
+              //assume there is a file with this name
+              File.Delete(name + ".bin");
+              return !(File.Exists(name + ".bin"));
+          }
+
+          //open a new file with this name
+          private bool openNewFile()
+          {
+              //assume there isnt a file with this name
+              Stream fileStream = File.Create(name + ".bin");
+              fileStream.Close();
+              return File.Exists(name + ".bin");
+          }*/
 
         public List<Message> List
         {

@@ -79,8 +79,9 @@ namespace MileStoneClient.PresistentLayer
             return users;
         }
 
-        //add new user to Users table - assume valid user inputed in query
-        public void addToUserTable(string query)
+        //add new user or msg to the needed table - assume valid  input in query
+        //or update a msg
+        public void UpdateTable(string query)
         {
                 //open connection and set command text to be the value of query
                 connection.Open();
@@ -94,11 +95,28 @@ namespace MileStoneClient.PresistentLayer
                 connection.Close();
         }
 
+        //read msgs' details from table and return list of msgs
         public List<Message> ReadMessageTable(string query)
         {
             List<Message> messages = new List<Message>();
+            connection.Open();
+            sql_query = query;
 
+            command = new SqlCommand(sql_query, connection);
+            data_reader = command.ExecuteReader();
+
+            while (data_reader.Read())
+            {
+                //add msgs from the msgs table to the list
+                messages.Add(new Message(data_reader.GetValue(3), /*dateTime*/data_reader.GetValue(2), /*guid*/, );
+                ///////להחליט אם בנאי חדש להודעות או שכאן לחפש משתמש
+                /////check if the msg legal
+            }
+            data_reader.Close();
+            command.Dispose();
+            connection.Close();
             return messages;
         }
+
     }
 }

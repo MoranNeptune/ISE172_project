@@ -26,7 +26,7 @@ namespace MileStoneClient.PresistentLayer
             //add new user
             if (query.Contains("INSERT"))
             {
-                Instance.addToUserTable(query);
+                Instance.UpdateTable(query); ////changed from "addToUserTable" to "updateTable", the name of the table included in the query
             }
             //update users list
             else if (query.Contains("SELECT"))
