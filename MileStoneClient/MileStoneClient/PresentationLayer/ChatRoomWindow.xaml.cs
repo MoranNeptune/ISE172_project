@@ -39,7 +39,6 @@ namespace MileStoneClient.PresentationLayer
         public ChatRoomWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
             Log.Instance.info("ChatRoom window opened"); //log
-
             this.obs = obs;
             InitializeComponent();
             this.chatRoom = chatRoom;
@@ -71,7 +70,6 @@ namespace MileStoneClient.PresentationLayer
 
         //print messages with timer
         private void dispatcherTimer_Tick(object sender, EventArgs e)
-
         {
             //if another sort/filter/order was chosen
             if (op.IsChanged & op.IsLegalData)
@@ -189,7 +187,13 @@ namespace MileStoneClient.PresentationLayer
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Message message;
+            if (obs.ListBoxSelectedValue.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
+            {
+                message = new Message(obs, chatRoom);
+                message.Show();
+            }
+                
         }
 
         /// return list of the users in a given group

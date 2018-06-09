@@ -16,9 +16,9 @@
         </Grid.ColumnDefinitions>
         <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Margin="217,299,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=GroupIdContent, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="163" Margin="217,347,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding Path=NicknameContent, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="94,444,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnRegister_Click" IsEnabled="{Binding BtnRegIsEnabled,Mode=OneWay}"/>
-        <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="234,444,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnBack_Click"/>
-        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,402,0,0" Width="420" Height="30" FontWeight="Bold" Background="{x:Null}" Foreground="Red" FontSize="14" FontFamily="MV Boli" RenderTransformOrigin="0.5,0.5" Visibility="{Binding LblRegErrorVisibility, Mode=OneWay}" Content="{Binding LblRegErrorContent, Mode=OneWay}" >
+        <Button Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="92,458,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnRegister_Click" IsEnabled="{Binding BtnRegIsEnabled,Mode=OneWay}"/>
+        <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="236,456,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnBack_Click"/>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,422,0,0" Width="420" Height="30" FontWeight="Bold" Background="{x:Null}" Foreground="Red" FontSize="14" FontFamily="MV Boli" RenderTransformOrigin="0.5,0.5" Visibility="{Binding LblRegErrorVisibility, Mode=OneWay}" Content="{Binding LblRegErrorContent, Mode=OneWay}" >
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -30,5 +30,7 @@
         </Label>
         <Label HorizontalAlignment="Left" Margin="10,511,0,0" VerticalAlignment="Top" Width="277" Foreground="#FF00B7E0" FontSize="20" FontFamily="MV Boli" FontWeight="ExtraBold" Height="35" Visibility="{Binding LblAddLoginVisibility, Mode=OneWay}" Content="{Binding LblAddLoginContent, Mode=OneWay}"/>
         <Button Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="310,511,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnLogin_Click" Visibility="{Binding BtnLoginVisibility,Mode=OneWay}" />
+        <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="163" Margin="217,347,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding NicknameContent, UpdateSourceTrigger=PropertyChanged}"/>
+        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" TextInput="{Binding Path=PasswordContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" Margin="217,400,0,0" VerticalAlignment="Top" Width="163" FontSize="24"/>
     </Grid>
 </Window>

@@ -13,7 +13,7 @@ namespace MileStoneClient.PresentationLayer
         public ObservableObject()
         {
             Messages.CollectionChanged += Messages_CollectionChanged;
-           // Messages.CollectionChanged += List_Scroll;
+            // Messages.CollectionChanged += List_Scroll;
             UserList.CollectionChanged += UserList_CollectionChanged;
         }
 
@@ -22,8 +22,6 @@ namespace MileStoneClient.PresentationLayer
         {
             OnPropertyChanged("Messages");
         }
-
-
 
         #region ChatRoomWindowBinding
 
@@ -46,7 +44,6 @@ namespace MileStoneClient.PresentationLayer
                 }
             }
         }
-
 
         /// <summary>
         /// A binding function that connects between the "options" button to source
@@ -84,6 +81,26 @@ namespace MileStoneClient.PresentationLayer
                 {
                     btnSendIsEnabled = value;
                     OnPropertyChanged("BtnSendIsEnabled");
+                }
+            }
+        }
+
+        /// <summary>
+        /// A binding function that connects between the source to "BtnSend" enabled button 
+        /// </summary>
+        private String listBoxSelectedValue = "";
+        public String ListBoxSelectedValue
+        {
+            get
+            {
+                return listBoxSelectedValue;
+            }
+            set
+            {
+                if (listBoxSelectedValue != value)
+                {
+                    listBoxSelectedValue = value;
+                    OnPropertyChanged("listBoxSelectedValue");
                 }
             }
         }
@@ -200,6 +217,24 @@ namespace MileStoneClient.PresentationLayer
         #endregion
 
         #region RegisterWindowBinding
+
+
+        /// <summary>
+        /// A binding function that connects between the "password" input to source
+        /// </summary>
+        private string passwordContent = "";
+        public string PasswordContent
+        {
+            get
+            {
+                return passwordContent;
+            }
+            set
+            {
+                passwordContent = value;
+                OnPropertyChanged("passwordContent");
+            }
+        }
 
         /// <summary>
         /// A binding function that connects between the "btnReg" button to source
@@ -616,6 +651,30 @@ namespace MileStoneClient.PresentationLayer
         }
         #endregion
 
+        #region EditMessageWindowBinding
+
+        /// <summary>
+        /// A binding function that connects between the "Edit" textbox to source
+        /// </summary
+        private string txtEditContent = "";
+        public string TxtEditContent
+        {
+            get
+            {
+                return txtEditContent;
+            }
+            set
+            {
+                if (!txtEditContent.Equals(value))
+                {
+                    txtEditContent = value;
+                    OnPropertyChanged("txtEditContent");
+                }
+            }
+        }
+
+
+        #endregion
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

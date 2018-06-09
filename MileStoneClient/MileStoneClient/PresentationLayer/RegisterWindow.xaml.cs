@@ -26,6 +26,8 @@ namespace MileStoneClient.PresentationLayer
         private ObservableObject obs;
         private String nickname;
         private String groupId;
+        private Hashing hashing;
+        private readonly String salt;
 
         public RegisterWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
@@ -36,6 +38,8 @@ namespace MileStoneClient.PresentationLayer
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
             this.DataContext = obs; //binding
+            this.hashing = new Hashing();
+            this.salt = "1337";
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnRegIsEnabled = false;
             obs.LblRegErrorVisibility = "Hidden";
@@ -90,8 +94,9 @@ namespace MileStoneClient.PresentationLayer
                 }
                 Log.Instance.warn("Invalid input - Invalid ID");//log 
             }
+            /// להוסיףףףף את הבדיקה של הסיסמאאא bool isLegalMessage = obs.TxtSendContent.Length <= msgLength;
             // checks if the user is already registered or not
-            else if (this.chatRoom.register(this.nickname, this.groupId) == false)
+            else if (this.chatRoom.register(this.nickname, this.groupId, hashing.GetHashString(obs.PasswordContent + salt)) == false)
             {
                 Log.Instance.warn("Invalid input - nickname already exist");//log
                 obs.LblRegErrorVisibility = "Hidden";

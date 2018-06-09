@@ -18,7 +18,7 @@
         <TextBox HorizontalAlignment="Left" Height="35" Margin="230,598,0,0" TextWrapping="Wrap" Text="{Binding TxtSendContent}" VerticalAlignment="Top" Width="607" />
         <Button Content="Send" HorizontalAlignment="Left" Height="35" Margin="839,598,0,0" VerticalAlignment="Top" Width="68" Click="Send" IsEnabled="{Binding btnSendIsEnabled}" FontWeight="Bold" FontSize="16"/>
         <Button ToolTip="Choose message order, sort and filter" Content="Options" HorizontalAlignment="Left" VerticalAlignment="Top" Width="88" Margin="55,202,0,0" Height="68" Click="Options" FontWeight="Bold" FontSize="20"/>
-        <ListBox ItemsSource="{Binding Messages}" IsSynchronizedWithCurrentItem="True" ScrollViewer.CanContentScroll="True" Loaded="updateMessages" HorizontalAlignment="Left" Height="481" Margin="230,112,0,0" VerticalAlignment="Top" Width="678"/>
+        <ListBox SelectedValue="{Binding ListBoxSelectedValue}" ItemsSource="{Binding Messages}" IsSynchronizedWithCurrentItem="True" ScrollViewer.CanContentScroll="True" Loaded="updateMessages" HorizontalAlignment="Left" Height="481" Margin="230,112,0,0" VerticalAlignment="Top" Width="678"/>
         <Frame NavigationUIVisibility="Hidden" HorizontalAlignment="Left" Height="400" Margin="148,202,0,0" VerticalAlignment="Top" Width="320.8" Content="{Binding IsOptionVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

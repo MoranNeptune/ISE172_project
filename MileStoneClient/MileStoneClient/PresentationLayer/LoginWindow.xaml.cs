@@ -26,6 +26,8 @@ namespace MileStoneClient.PresentationLayer
         private MainWindow mainWindow;
         private ChatRoom chatRoom;
         private ObservableObject obs;//binding
+        private Hashing hashing;
+        private readonly String salt;
 
         public LoginWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
@@ -36,6 +38,8 @@ namespace MileStoneClient.PresentationLayer
             DataContext = obs;
             this.mainWindow = mainWindow;
             this.chatRoom = chatRoom;
+            this.hashing = new Hashing();
+            this.salt="1337";
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnLoginIsEnabled = false;
             obs.LblAddRegVisibility = "Hidden";
@@ -72,8 +76,9 @@ namespace MileStoneClient.PresentationLayer
                     obs.NicknameContent = "";
                 }
             }
+            /// להוסיףףףף את הבדיקה של הסיסמאאא bool isLegalMessage = obs.TxtSendContent.Length <= msgLength;
             // checks if the user is already registered or not
-            else if (this.chatRoom.login(obs.NicknameContent, obs.GroupIdContent) == false)
+            else if (this.chatRoom.login(obs.NicknameContent, obs.GroupIdContent , hashing.GetHashString(obs.PasswordContent + salt)) == false)
             {
                 Log.Instance.error("Log-in fail - User not registered");//log
 
