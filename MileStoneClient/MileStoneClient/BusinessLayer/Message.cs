@@ -77,7 +77,7 @@ namespace MileStoneClient.BusinessLayer
 
         public string toString()
         {
-            return "Group ID: " + this.user.G_id.idNumber + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body + '\n' + "GUID: " + this.id;
+            return "Group ID: " + this.user.G_id + ", Nickname: " + this.user.Nickname + ", (" + this.dateTime.ToString() + "), Message Body: " + this.body + '\n' + "GUID: " + this.id;
         }
     }
 }
