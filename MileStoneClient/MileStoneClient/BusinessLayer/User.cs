@@ -14,9 +14,10 @@ namespace MileStoneClient.BusinessLayer
     [Serializable]
     public class User
     {
+        // בשביל מה צריך את ה-hendler??? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         private String nickname;
-        private ID g_id;
-        private MessageHandler handler;
+        private int g_id;
+       // private MessageHandler handler;
         private bool loggedIn;
         private string password;
 
@@ -28,11 +29,12 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="g_id"></param>
 
         // Constructor      
-        public User(string nickname, int g_id)
+        public User(string nickname, string g_id, string pass)
         {
-            this.g_id = g_id; 
-            this.nickname = nickname; 
-            handler = new MessageHandler(g_id.idNumber + nickname);
+            this.g_id = int.Parse(g_id); 
+            this.nickname = nickname;
+            this.password = pass;
+            //handler = new MessageHandler(g_id + nickname);
         }
 
         //Getters and Setters
@@ -42,18 +44,18 @@ namespace MileStoneClient.BusinessLayer
             set { nickname = value; }
         }
 
-        public ID G_id
+        public int G_id
         {
             get { return g_id; }
             set { g_id = value; }
         }
-
-        public MessageHandler msgHandler
+        // **************** אולי להוריד ************************************
+     /*   public MessageHandler msgHandler
         {
             get { return handler; }
             set { handler = value; }
         }
-
+*/
         public bool LoggedIn
         {
             get { return loggedIn; }
@@ -65,7 +67,7 @@ namespace MileStoneClient.BusinessLayer
             get { return password; }
             set { password = value; }
         }
-
+        // **************** אולי להוריד ************************************
         //methods
         /// <summary>
         /// Sends message to the fileSystem
@@ -83,15 +85,15 @@ namespace MileStoneClient.BusinessLayer
 
             return message;
         }
-
+        // **************** אולי להוריד ************************************
         /// <summary>
         /// Add message to the fileSystem for this user
         /// </summary>
         /// <param name="msg"> A parameter of type Message representing the users' message </param>
-        public void addMessage(Message msg)
+   /*     public void addMessage(Message msg)
         {
             this.handler.updateFile(msg);
-        }
+        }*/
 
         public void logout()
         {
@@ -104,14 +106,14 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="nickname">A parameter of type string representing the users' nickname </param>
         /// <param name="g_id">A parameter of type string representing the users' group id </param>
         /// <returns> Returns true if this is equal to other, else return false </returns>
-        public bool isEqual(string nickname, string g_id)
+        public bool isEqual(string nickname, int g_id, string pass)
         {
-            return (this.nickname.Equals(nickname) & (this.g_id.isEqual(g_id)));
+            return this.nickname.Equals(nickname) & this.g_id == g_id & password.Equals(pass);
         }
 
         public string toString()
         {
-            return "Group Id: " + g_id.idNumber + ", Nickname: " + nickname + ", LoggedIn: " + loggedIn;
+            return "Group Id: " + g_id + ", Nickname: " + nickname + ", LoggedIn: " + loggedIn;
         }
     }
 }

@@ -32,9 +32,9 @@ namespace MileStoneClient.BusinessLayer
             sort = new SortByTime();
             filter = null;
             allMessages = new MessageHandler("allMessages");
-            allUsers = new UserHandler("allUsers");
-            for (int i = 0; i < allUsers.List.Count; i++)
-                allUsers.List[i].msgHandler = new MessageHandler(allUsers.List[i].G_id.idNumber + allUsers.List[i].Nickname);
+            allUsers = new UserHandler();
+            //for (int i = 0; i < allUsers.List.Count; i++)
+             //   allUsers.List[i].msgHandler = new MessageHandler(allUsers.List[i].G_id.idNumber + allUsers.List[i].Nickname);
             this.groupsId = new IdHandler("allGroups");
         }
 
@@ -45,11 +45,11 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="nickname">User's nickname</param>
         /// <param name="g_id">User's group id</param>
         /// <returns>true if we foud the user and the user logged in</returns>
-        public bool login(string nickname, string g_id)
+        public bool login(string nickname, string g_id, string pass)
         {
             // check if the group id exist and if it does, check if the user is in that group
             if (this.currUser == null)
-                this.currUser = findUser(nickname, g_id);
+                this.currUser = findUser(nickname, g_id, pass);
             if (this.currUser != null)
                 return true;
             return false;
@@ -61,11 +61,11 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="nickname">User's nickname</param>
         /// <param name="g_id">User's group id</param>
         /// <returns>The user</returns>
-        public User findUser(string nickname, string g_id)
+        public User findUser(string nickname, string g_id, string pass)
         {
             for (int i = 0; i < allUsers.List.Count; i++)
             {
-                if (allUsers.List[i].isEqual(nickname, g_id))
+                if (allUsers.List[i].isEqual(nickname, int.Parse(g_id), pass))
                     return allUsers.List[i];
             }
             return null;
@@ -105,16 +105,18 @@ namespace MileStoneClient.BusinessLayer
         /// <returns>true if was sent to the server succsesfully, else false</returns>
         public bool send(string message)
         {
-            IMessage Imsg = Communication.Instance.Send(url, currUser.G_id.idNumber, currUser.Nickname, message);
+            Message msg = new Message();
+            if()
+            /*IMessage Imsg = Communication.Instance.Send(url, currUser.G_id.idNumber, currUser.Nickname, message);
             Message msg = currUser.send(Imsg);
             // check if the 
             if (msg != null)
             {
                 allMessages.updateFile(msg);
-                presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id.idNumber));
+                presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id));
                 return true;
             }
-            return false;
+            return false;*/
         }
 
         // להוסיף פונקציה של עדדכון הודעה
@@ -130,8 +132,9 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="nickname">User's nickname to register</param>
         /// <param name="g_id">Group id to register to</param>
         /// <returns></returns>
-        public bool register(string nickname, string g_id)
+        public bool register(string nickname, string g_id, string pass)
         {
+            // להוסיף עדכון לגבי הסיסמה, לבדוק לפי מה אנחנו את הסיסמה בשביל הרשמה - לקרוא על salt
             //להוסיף שליפה של יוזרים
             // In case the group number exist
             if (this.groupsId != null && this.groupsId.List != null)
@@ -146,7 +149,7 @@ namespace MileStoneClient.BusinessLayer
                         if (gId.addMember(nickname))
                         {
                             //update of users file
-                            this.allUsers.updateFile(new User(nickname, gId));
+                            this.allUsers.updateFile(new User(nickname, g_id, pass));
                             this.groupsId.updateFile(gId);
                             return true;
                         }
@@ -158,8 +161,9 @@ namespace MileStoneClient.BusinessLayer
                 // In case the group doesn't exist, creats a new group
                 ID newG_ID = new ID(g_id);
                 newG_ID.addMember(nickname);
+                // לבדוק איך אנחנו מעדכנות את הרשימה של הקבוצות
                 this.groupsId.updateFile(newG_ID);
-                this.allUsers.updateFile(new User(nickname, newG_ID));
+                this.allUsers.updateFile(new User(nickname, g_id, pass));
                 return true;
             }
             return false;
@@ -260,9 +264,9 @@ namespace MileStoneClient.BusinessLayer
                 // check if the message aleardy exist 
                 if (!allMessages.List.Contains(newMsg))
                 {
-                    newUser.addMessage(newMsg);
+                    //newUser.addMessage(newMsg);
                     msgToUpdate.Add(newMsg);
-                    presMsgs.Add(new GuiMessage(newMsg.Body, newMsg.DateTime, newMsg.Id, newMsg.User.Nickname, newMsg.User.G_id.idNumber));
+                    presMsgs.Add(new GuiMessage(newMsg.Body, newMsg.DateTime, newMsg.Id, newMsg.User.Nickname, newMsg.User.G_id));
                 }
             }
             // update messages file
@@ -282,7 +286,7 @@ namespace MileStoneClient.BusinessLayer
                 for (int i = 0; i < allMessages.List.Count; i++)
                 {
                     Message m = allMessages.List[i];
-                    presMsgs.Add(new GuiMessage(m.Body, m.DateTime, m.Id, m.User.Nickname, m.User.G_id.idNumber));
+                    presMsgs.Add(new GuiMessage(m.Body, m.DateTime, m.Id, m.User.Nickname, m.User.G_id));
                 }
         }
         

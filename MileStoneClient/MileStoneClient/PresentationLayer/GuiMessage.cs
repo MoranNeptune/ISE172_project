@@ -10,12 +10,12 @@ namespace MileStoneClient.PresentationLayer
     {
         private string body;
         private string userName;
-        private string g_id;
+        private int g_id;
         private DateTime dateTime;
         private string id;
 
         //Constructor
-        public GuiMessage(string body, DateTime time, Guid id, string userName, string g_id)
+        public GuiMessage(string body, DateTime time, Guid id, string userName, int g_id)
         {
             this.body = body;
             this.dateTime = time;
@@ -32,7 +32,7 @@ namespace MileStoneClient.PresentationLayer
         }
 
 
-        public string G_id
+        public int G_id
         {
             get { return g_id; }
             set { g_id = value; }
@@ -64,7 +64,7 @@ namespace MileStoneClient.PresentationLayer
         public string toString()
         {
             DateTime updateTime = dateTime.AddHours(3);
-            return "Group ID: " + this.g_id + ", Nickname: " + this.userName + ", (" + updateTime.ToString() + "), Message Body: " + this.body + '\n' + "GUID: " + this.id;
+            return "Group ID: " + this.g_id + ", Nickname: " + this.userName + ", (" + updateTime.ToString() + "), Message Body: " + this.body;
         }
     }
 }
