@@ -22,7 +22,7 @@ namespace MileStoneClient.PresentationLayer
     /// </summary>
     public partial class ChatRoomWindow : Window
     {
-        private const int msgLength = 150;
+        private const int msgLength = 100;
         private ChatRoom chatRoom;
         private MainWindow mainWindow;
         private ObservableObject obs;
@@ -185,6 +185,7 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
+        // if the selection changed in the list box
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Message message;
@@ -192,8 +193,7 @@ namespace MileStoneClient.PresentationLayer
             {
                 message = new Message(obs, chatRoom);
                 message.Show();
-            }
-                
+            } 
         }
 
         /// return list of the users in a given group
@@ -248,6 +248,7 @@ namespace MileStoneClient.PresentationLayer
             get { return msgs; }
         }
 
+        // if the message that sent contains only spaces
         private bool isMsgOnlySpaces()
         {
             bool ans = true;

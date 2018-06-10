@@ -15,6 +15,7 @@
         </Grid.ColumnDefinitions>
         <Label Content="Edit your message:" HorizontalAlignment="Left" Height="30" Margin="10,10,0,0" VerticalAlignment="Top" Width="145" FontFamily="Narkisim" FontSize="18" FontWeight="Bold"/>
         <TextBox HorizontalAlignment="Left" Height="100" Margin="160,10,0,0" TextWrapping="Wrap" Text="{Binding TxtEditContent}" VerticalAlignment="Top" Width="220"/>
-        <Button Content="Edit message" Click="BtnEditMessage_Click" HorizontalAlignment="Left" Height="25" Margin="300,134,0,0" VerticalAlignment="Top" Width="80"/>
+        <Button Content="Edit message" Click="BtnEditMessage_Click" HorizontalAlignment="Left" Height="25" Margin="180,135,0,0" VerticalAlignment="Top" Width="80"/>
+        <Button Content="I don't want to edit" Click="BtnIgnoreMessage_Click" HorizontalAlignment="Left" Height="25" Margin="275,135,0,0" VerticalAlignment="Top" Width="110"/>
     </Grid>
 </Window>

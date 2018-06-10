@@ -2,7 +2,7 @@
 using System.Text;
 using System.Security.Cryptography;
 
-namespace MileStoneClient.PresentationLayer
+namespace MileStoneClient.BusinessLayer
 {
     class Hashing
     {

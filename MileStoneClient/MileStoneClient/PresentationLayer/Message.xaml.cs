@@ -34,9 +34,16 @@ namespace MileStoneClient.PresentationLayer
         }
 
         // לאתחל שוב ברגע שעדן יוצרת עריכת הודעהההההההההה
+        // if the user edit his message
         private void BtnEditMessage_Click(object sender, RoutedEventArgs e)
         {
             //chatRoom.editMessage(obs.TxtEditContent);
+        }
+
+        // if the user don't eant to edit his message
+        private void BtnIgnoreMessage_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
