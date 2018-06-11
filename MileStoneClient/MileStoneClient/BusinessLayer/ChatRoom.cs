@@ -22,6 +22,7 @@ namespace MileStoneClient.BusinessLayer
         private IdHandler groupsId;
         private List<GuiMessage> presMsgs;
         private PresentationLayer.Action sort, filter;
+        private string NONE = "";
 
         // constractors
         public ChatRoom(string url)
@@ -31,10 +32,9 @@ namespace MileStoneClient.BusinessLayer
             presMsgs = new List<GuiMessage>();
             sort = new SortByTime();
             filter = null;
-            allMessages = new MessageHandler("allMessages");
+            // initialize the messages handler with a default filter - NONE
+            allMessages = new MessageHandler(NONE, NONE);
             allUsers = new UserHandler();
-            //for (int i = 0; i < allUsers.List.Count; i++)
-             //   allUsers.List[i].msgHandler = new MessageHandler(allUsers.List[i].G_id.idNumber + allUsers.List[i].Nickname);
             this.groupsId = new IdHandler("allGroups");
         }
 
@@ -48,13 +48,13 @@ namespace MileStoneClient.BusinessLayer
         public bool login(string nickname, string g_id, string pass)
         {
             // check if the group id exist and if it does, check if the user is in that group
-            if (this.currUser == null)
-                this.currUser = findUser(nickname, g_id, pass);
+            if (this.currUser == null && allUsers.doesExist(nickname, g_id, pass))
+                this.currUser = allUsers.UserExist; //findUser(nickname, g_id, pass);
             if (this.currUser != null)
                 return true;
             return false;
         }
-
+/* אולי אפשר להוריד ***************************************************************************
         /// <summary>
         /// Find a specific user
         /// </summary>
@@ -69,7 +69,7 @@ namespace MileStoneClient.BusinessLayer
                     return allUsers.List[i];
             }
             return null;
-        }
+        }*/
 
         /// <summary>
         /// Find a specific group id
@@ -105,8 +105,8 @@ namespace MileStoneClient.BusinessLayer
         /// <returns>true if was sent to the server succsesfully, else false</returns>
         public bool send(string message)
         {
-            Message msg = new Message();
-            if()
+            // Message msg = new Message();
+            // if()
             /*IMessage Imsg = Communication.Instance.Send(url, currUser.G_id.idNumber, currUser.Nickname, message);
             Message msg = currUser.send(Imsg);
             // check if the 
@@ -117,6 +117,7 @@ namespace MileStoneClient.BusinessLayer
                 return true;
             }
             return false;*/
+            return true;
         }
 
         // להוסיף פונקציה של עדדכון הודעה
@@ -230,6 +231,7 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         public void retrieveMessages()
         {
+            /*
             // retrives last 10 messages from the server
             List<IMessage> msgs = Communication.Instance.GetTenMessages(this.url);
             List<Message> msgToUpdate = new List<Message>();
@@ -273,7 +275,7 @@ namespace MileStoneClient.BusinessLayer
             if (msgToUpdate.Count > 0)
             {
                 allMessages.updateFile(msgToUpdate);
-            }
+            }*/
         }
 
         /// <summary>
@@ -299,7 +301,7 @@ namespace MileStoneClient.BusinessLayer
                 nicknames.Add(allUsers.List[i].Nickname);
             return nicknames;
         }
-
+        
         /// <returns>list of all the messages of the certain user</returns>
         public List<string> getGroups()
         {

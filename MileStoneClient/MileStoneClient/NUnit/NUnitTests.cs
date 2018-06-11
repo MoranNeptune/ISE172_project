@@ -22,7 +22,9 @@ namespace MileStoneClient.NUnit
         public void RegisterValid()
         {
             ChatRoom c = new ChatRoom(url);
-            bool observedResult = c.register("name_", "1");
+            // הוספתי להכל את הערך של הסיסמה, צריך לבדוק האם זה תקין
+            //bool observedResult = c.register("name_", "1"); הקודם 
+            bool observedResult = c.register("name_", "1","");// העדכון
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -34,8 +36,8 @@ namespace MileStoneClient.NUnit
         public void RegisterInvalid()
         {
             ChatRoom c = new ChatRoom(url);
-            c.register("name", "1");
-            bool observedResult = c.register("name", "1");
+            c.register("name", "1","");
+            bool observedResult = c.register("name", "1", "");
             bool expectedResult = false;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -47,8 +49,8 @@ namespace MileStoneClient.NUnit
         public void Login()
         {
             ChatRoom c = new ChatRoom(url);
-            c.register("name", "1");
-            bool observedResult = c.login("name", "1");
+            c.register("name", "1", "");
+            bool observedResult = c.login("name", "1", "");
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -60,8 +62,8 @@ namespace MileStoneClient.NUnit
         public void Send()
         {
             ChatRoom c = new ChatRoom(url);
-            c.register("Batman", "21");
-            c.login("Batman", "21");
+            c.register("Batman", "21", "");
+            c.login("Batman", "21", "");
              bool observedResult = c.send("Hi");
             bool expectedResult = true;
              Assert.AreEqual(expectedResult, observedResult);
@@ -74,7 +76,7 @@ namespace MileStoneClient.NUnit
         public void GetMembersOf()
         {
             ChatRoom c = new ChatRoom(url);
-            c.register("MickyMouse", "21");
+            c.register("MickyMouse", "21", "");
             bool observedResult = c.getMembersOf("21").Contains("MickyMouse");
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
@@ -87,8 +89,8 @@ namespace MileStoneClient.NUnit
         public void FindUser()
         {
             ChatRoom c = new ChatRoom(url);
-            c.register("MickyMouse", "21");
-            bool observedResult = c.findUser("MickyMouse", "21")!=null;
+            c.register("MickyMouse", "21", "");
+            bool observedResult = c.findUser("MickyMouse", "21", "") !=null;
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -100,8 +102,8 @@ namespace MileStoneClient.NUnit
         public void filterByUser()
         {
             ChatRoom c = new ChatRoom(url);
-            c.register("Batman", "21");
-            c.login("Batman", "21");
+            c.register("Batman", "21", "");
+            c.login("Batman", "21", "");
             List<PresentationLayer.Action> action = new List<PresentationLayer.Action>();
             FilterByUser filter = new FilterByUser("Batman", "21");//the user
             SortByTime sort = new SortByTime();
@@ -125,8 +127,8 @@ namespace MileStoneClient.NUnit
          public void filterByGroupID()
          {
              ChatRoom c = new ChatRoom(url);
-             c.register("Batman", "21");
-             c.login("Batman", "21");
+             c.register("Batman", "21", "");
+             c.login("Batman", "21", "");
             List<PresentationLayer.Action> action = new List<PresentationLayer.Action>();
             FilterByGroup filter = new FilterByGroup("20");//another g_id
             SortByTime sort = new SortByTime();

@@ -16,8 +16,8 @@ namespace MileStoneClient.PresistentLayer
             //query to filter by group id
             string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
                     "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                    "WHERE [MS3].[dbo].[Users].[Group_Id] = " + int.Parse(g_id) +
-                    " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                    "WHERE [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
+                    "' AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
             try
             {
                 ExecuteQuery(query);

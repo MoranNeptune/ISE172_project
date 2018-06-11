@@ -31,6 +31,6 @@
         <Label HorizontalAlignment="Left" Margin="10,511,0,0" VerticalAlignment="Top" Width="277" Foreground="#FF00B7E0" FontSize="20" FontFamily="MV Boli" FontWeight="ExtraBold" Height="35" Visibility="{Binding LblAddLoginVisibility, Mode=OneWay}" Content="{Binding LblAddLoginContent, Mode=OneWay}"/>
         <Button Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="310,511,0,0" Height="35" FontSize="24" FontWeight="Bold" Click="BtnLogin_Click" Visibility="{Binding BtnLoginVisibility,Mode=OneWay}" />
         <TextBox HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="163" Margin="217,347,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" Text="{Binding NicknameContent, UpdateSourceTrigger=PropertyChanged}"/>
-        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" TextInput="{Binding Path=PasswordContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" Margin="217,400,0,0" VerticalAlignment="Top" Width="163" FontSize="24"/>
+        <PasswordBox TextInput="{Binding Path=PasswordContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" Margin="217,400,0,0" VerticalAlignment="Top" Width="163" FontSize="24"/>
     </Grid>
 </Window>

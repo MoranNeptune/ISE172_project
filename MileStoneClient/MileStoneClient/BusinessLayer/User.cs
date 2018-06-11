@@ -15,8 +15,8 @@ namespace MileStoneClient.BusinessLayer
     public class User
     {
         // בשביל מה צריך את ה-hendler??? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        private String nickname;
-        private int g_id;
+        private string nickname;
+        private string g_id;
        // private MessageHandler handler;
         private bool loggedIn;
         private string password;
@@ -31,7 +31,7 @@ namespace MileStoneClient.BusinessLayer
         // Constructor      
         public User(string nickname, string g_id, string pass)
         {
-            this.g_id = int.Parse(g_id); 
+            this.g_id = g_id; 
             this.nickname = nickname;
             this.password = pass;
             //handler = new MessageHandler(g_id + nickname);
@@ -44,7 +44,7 @@ namespace MileStoneClient.BusinessLayer
             set { nickname = value; }
         }
 
-        public int G_id
+        public string G_id
         {
             get { return g_id; }
             set { g_id = value; }
@@ -74,7 +74,7 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         /// <param name="msg"> A parameter of type IMessage </param>
         /// <returns> Returns a parameter of type Message </returns>
-        public Message send(IMessage msg)
+   /*     public Message send(IMessage msg)
         {
             Message message = new Message(msg.MessageContent.ToString(), msg.Date, msg.Id, this);
             bool msgRegistered = this.handler.updateFile(message);
@@ -84,7 +84,7 @@ namespace MileStoneClient.BusinessLayer
                 message = null;
 
             return message;
-        }
+        }*/
         // **************** אולי להוריד ************************************
         /// <summary>
         /// Add message to the fileSystem for this user
@@ -108,7 +108,7 @@ namespace MileStoneClient.BusinessLayer
         /// <returns> Returns true if this is equal to other, else return false </returns>
         public bool isEqual(string nickname, int g_id, string pass)
         {
-            return this.nickname.Equals(nickname) & this.g_id == g_id & password.Equals(pass);
+            return this.nickname.Equals(nickname) & this.g_id.Equals(g_id) & password.Equals(pass);
         }
 
         public string toString()
