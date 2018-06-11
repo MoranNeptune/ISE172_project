@@ -68,7 +68,7 @@ namespace MileStoneClient.PresistentLayer
             while (data_reader.Read())
             {
                 //add users from the users table to the list
-                users.Add(new User(data_reader.GetValue(2).ToString(), data_reader.GetValue(1).ToString(), data_reader.GetValue(3).ToString()));
+                users.Add(new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
             }
             data_reader.Close();
             command.Dispose();

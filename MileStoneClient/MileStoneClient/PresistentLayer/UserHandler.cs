@@ -7,7 +7,9 @@ namespace MileStoneClient.PresistentLayer
     //an object that's responsable to transfer the users' info to the database
     public class UserHandler : IQueryAction
     {
+        //אולי למחוק את האתחול של הרשימה 
         private List<User> allUsersList;
+
         private User userExist;
         private bool exist;
         private bool connectionFail;
@@ -26,7 +28,7 @@ namespace MileStoneClient.PresistentLayer
             //add new user
             if (query.Contains("INSERT"))
             {
-                Instance.UpdateTable(query); ////changed from "addToUserTable" to "updateTable", the name of the table included in the query
+                Instance.UpdateTable(query); 
             }
             //update users list
             else if (query.Contains("SELECT"))
@@ -52,16 +54,11 @@ namespace MileStoneClient.PresistentLayer
         }
 
         //add a new User to Users table and then to list if the user doesn't alreay exist, return true if user is added
-        public bool updateFile(User user)
+        public bool addUser(User user)
         {
             //set query to add user and executes query 
             string query = "INSERT INTO Users ([Group_Id],[Nickname],[Password]) " +
-                           "VALUES (" + user.G_id + ", '" + user.Nickname + "','" + user.Password + "')";
-
-            //כנראה ימחק בסוף
-            //check if user already exist in the table
-            if (doesExist(user.Nickname,user.G_id,user.Password) | connectionFail)
-                return false;
+                           "VALUES ('" + user.G_id + "', '" + user.Nickname + "','" + user.Password + "')";
 
             try
             {
@@ -98,8 +95,8 @@ namespace MileStoneClient.PresistentLayer
             //set query to find user with same details and executes query
             string query = "select top (1) [Group_Id],[Nickname],[Password] " +
                     "from [MS3].[dbo].[Users] " +
-                    "where [MS3].[dbo].[Users].[Group_Id] = " + g_id +
-                    " and [MS3].[dbo].[Users].[Nickname] = '" + nickname +
+                    "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
+                    "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname +
                     "' and [MS3].[dbo].[Users].[Password] = '" + pass + "'";
             try
             {
