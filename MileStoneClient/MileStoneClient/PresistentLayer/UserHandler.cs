@@ -7,12 +7,11 @@ namespace MileStoneClient.PresistentLayer
     //an object that's responsable to transfer the users' info to the database
     public class UserHandler : IQueryAction
     {
-        //אולי למחוק את האתחול של הרשימה 
         private List<User> allUsersList;
-
         private User userExist;
         private bool exist;
         private bool connectionFail;
+        private string UserId;
 
         //constructor
         public UserHandler()
@@ -21,6 +20,7 @@ namespace MileStoneClient.PresistentLayer
             userExist = null;
             exist = false;
             connectionFail = false;
+            UserId = "";
         }
 
         public override void ExecuteQuery(string query)
@@ -75,7 +75,7 @@ namespace MileStoneClient.PresistentLayer
         }
 
         //retrieve all users from database table
-        public void updateUsers()
+        public void getAllUsers()
         {
             string query = "SELECT [Group_Id],[Nickname],[Password] " +
                     "FROM [MS3].[dbo].[Users]";
@@ -108,6 +108,44 @@ namespace MileStoneClient.PresistentLayer
                 return false;
             }
             return exist;
+        }
+
+        //get members of group g_id
+        public bool getMembers(string g_id)
+        {
+            //set query to find user with same details and executes query
+            string query = "SELECT [Group_Id],[Nickname],[Password] " +
+                "from [MS3].[dbo].[Users] " +
+                "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id + "'";
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                connectionFail = true;
+                return false;
+            }
+            return true;
+        }
+
+        //get id number for user
+        public string getUserId(string g_id, string nickname)
+        {
+            //set query to find user with same details and executes query
+            string query = "SELECT [Id] " +
+                "from [MS3].[dbo].[Users] " +
+                "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
+                "' and [MS3].[dbo].[Users].Nickname = '" + nickname + "'";
+            try
+            {
+                ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                connectionFail = true;
+            }
+            return UserId;
         }
 
         public List<User> List
