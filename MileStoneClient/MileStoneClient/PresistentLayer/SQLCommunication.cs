@@ -105,6 +105,7 @@ namespace MileStoneClient.PresistentLayer
 
             while (data_reader.Read())
             {
+                // צריך לשים לב לעשות בדיקה לזמן שמתקבל כמו שעשו בתרגול
                 //add msgs from the msgs table to the list
                // messages.Add(new Message(data_reader.GetValue(3), /*dateTime*/data_reader.GetValue(2), /*guid*/, );
                 ///////להחליט אם בנאי חדש להודעות או שכאן לחפש משתמש
