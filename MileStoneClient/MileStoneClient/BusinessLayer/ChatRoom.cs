@@ -19,7 +19,6 @@ namespace MileStoneClient.BusinessLayer
         private User currUser;
         private MessageHandler allMessages;
         private UserHandler allUsers;
-        private IdHandler groupsId;
         private List<GuiMessage> presMsgs;
         private PresentationLayer.Action sort, filter;
         private string NONE = "";
@@ -35,7 +34,7 @@ namespace MileStoneClient.BusinessLayer
             // initialize the messages handler with a default filter - NONE
             allMessages = new MessageHandler(NONE, NONE);
             allUsers = new UserHandler();
-            this.groupsId = new IdHandler("allGroups");
+            //this.groupsId = new IdHandler("allGroups");
         }
 
         // methods
@@ -73,13 +72,13 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         /// <param name="g_id">gourp id to find</param>
         /// <returns>the group ID</returns>
-        private ID findGroupId(string g_id)
+      /*  private ID findGroupId(string g_id)
         {
             for (int i = 0; i < groupsId.List.Count; i++)
                 if (groupsId.List[i].isEqual(g_id))
                     return groupsId.List[i];
             return null;
-        }
+        }*/
 
         /// <summary>
         /// return list of the users in a given group
@@ -88,38 +87,16 @@ namespace MileStoneClient.BusinessLayer
         /// <returns>List of the group's members</returns>
         public List<string> getMembersOf(string g_id)
         {
-            ID id = findGroupId(g_id);
-            if (id != null)
-                return id.Members;
-            return null;
-        }
-
-        /// עדן צריכה לשנות !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        /// <summary>
-        /// Sends the message to the server and saves the message in the files
-        /// </summary>
-        /// <param name="message">message body to send</param>
-        /// <returns>true if was sent to the server succsesfully, else false</returns>
-        public bool send(string message)
-        {
-            // Message msg = new Message();
-            // if()
-            /*IMessage Imsg = Communication.Instance.Send(url, currUser.G_id.idNumber, currUser.Nickname, message);
-            Message msg = currUser.send(Imsg);
-            // check if the 
-            if (msg != null)
+            List<string> names = new List<string>();
+            if (allUsers.getMembers(g_id))
             {
-                allMessages.updateFile(msg);
-                presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id));
-                return true;
+                for (int i = 0; i < allUsers.List.Count; i++)
+                    names.Add(allUsers.List[i].Nickname);
             }
-            return false;*/
-            return true;
+            return names;
         }
 
-        // להוסיף פונקציה של עדדכון הודעה
 
-        /// עדן צריכה לשנות !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /// <summary>
         /// register a user to the system
         /// if the group id doest not exist, it creats a new group and add the user
@@ -140,56 +117,59 @@ namespace MileStoneClient.BusinessLayer
             // add new user to the database
             allUsers.addUser(user);
             return true;
+        }
 
-        /*
-            //להוסיף שליפה של יוזרים
-            // In case the group number exist
-            if (this.groupsId != null && this.groupsId.List != null)
+        /// <returns>list of all the messages of the certain user</returns>
+        public List<string> getGroups()
+        {
+            allUsers.getAllUsers();
+            List<string> grp = new List<string>();
+            grp.Add("Groups");
+            // checking for all groups in the list of the users
+            for (int i = 0; i < allUsers.List.Count; i++)
+                // check if the group already exist on the list of groups
+                if (!grp.Contains(allUsers.List[i].G_id))
+                    grp.Add(allUsers.List[i].G_id);
+            return grp;
+        }
+
+        // ****************************************************************************************************************************************************************************
+        /// עדן צריכה לשנות !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        /// <summary>
+        /// Sends the message to the server and saves the message in the files
+        /// </summary>
+        /// <param name="message">message body to send</param>
+        /// <returns>true if was sent to the server succsesfully, else false</returns>
+        public bool send(string message)
+        {
+            // get the users id in the data base
+            string userId = getUserId(currUser.G_id, currUser.Nickname);
+            // if we couldn't find the user
+            if (userId == "")
+                return false;
+            // שינוי הזמן
+            //  שינוי הgiud
+            Message newMsg = new Message(message, time, Guid, currUser);
+            allMessages.send(newMsg, userId);
+            // Message msg = new Message();
+            // if()
+            /*IMessage Imsg = Communication.Instance.Send(url, currUser.G_id.idNumber, currUser.Nickname, message);
+            Message msg = currUser.send(Imsg);
+            // check if the 
+            if (msg != null)
             {
-                for (int i = 0; i < this.groupsId.List.Count; i++)
-                {
-                    ID gId = (this.groupsId.List)[i];
-                    //if found the corect group
-                    if (gId.isEqual(g_id))
-                    {
-                        // if we added successfuly the user to the current group
-                        if (gId.addMember(nickname))
-                        {
-                            //update of users file
-                            this.allUsers.updateFile(new User(nickname, g_id, pass));
-                            this.groupsId.updateFile(gId);
-                            return true;
-                        }
-                        else
-                            return false;
-                    }
-                }
-
-                // In case the group doesn't exist, creats a new group
-                ID newG_ID = new ID(g_id);
-                newG_ID.addMember(nickname);
-                // לבדוק איך אנחנו מעדכנות את הרשימה של הקבוצות
-                this.groupsId.updateFile(newG_ID);
-                this.allUsers.updateFile(new User(nickname, g_id, pass));
+                allMessages.updateFile(msg);
+                presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id));
                 return true;
             }
-            return false;
-            */
-        }
-        /// <summary>
-        /// updates the user's status and logout from the system. 
-        /// </summary>
-        public void logOut()
-        {
-            this.currUser.logout();
-            this.currUser = null;
+            return false;*/
+            return true;
         }
 
-        public User CurrUser
-        {
-            get { return currUser; }
-            set { currUser = value; }
-        }
+        // להוסיף פונקציה של עדדכון הודעה
+
+      
+
         // לשנותתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתת
         /// <summary>
         /// the function returns a list of messages, by specific sort, filter and order 
@@ -299,24 +279,20 @@ namespace MileStoneClient.BusinessLayer
                 }
         }
         
-        /// <returns>list of all the messages of the certain user</returns>
-        public List<string> getNicknames()
+
+        /// <summary>
+        /// updates the user's status and logout from the system. 
+        /// </summary>
+        public void logOut()
         {
-            List<string> nicknames = new List<string>();
-            nicknames.Add("Users");
-            for (int i = 0; i < allUsers.List.Count; i++)
-                nicknames.Add(allUsers.List[i].Nickname);
-            return nicknames;
+            this.currUser.logout();
+            this.currUser = null;
         }
-        
-        /// <returns>list of all the messages of the certain user</returns>
-        public List<string> getGroups()
+
+        public User CurrUser
         {
-            List<string> grp = new List<string>();
-            grp.Add("Groups");
-            for (int i = 0; i < groupsId.List.Count; i++)
-                grp.Add(groupsId.List[i].idNumber);
-            return grp;
+            get { return currUser; }
+            set { currUser = value; }
         }
     }
 }

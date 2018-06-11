@@ -20,7 +20,7 @@ namespace MileStoneClient.PresentationLayer
         private string userChoice, groupChoice;
 
 
-        public Options(ChatRoomWindow cr, List<string> nicknames, List<string> groups, ObservableObject obs)
+        public Options(ChatRoomWindow cr, List<string> groups, ObservableObject obs)
         {
             chatRoom = cr;
             this.obs = obs;
@@ -28,7 +28,7 @@ namespace MileStoneClient.PresentationLayer
             InitializeComponent();
             isChanged = false;
             isLegalData = true;
-            users = nicknames;
+            users = new List<string>();
             this.groups = groups;
 
             //initialize with ascending sort, none filter and sort by timestamp

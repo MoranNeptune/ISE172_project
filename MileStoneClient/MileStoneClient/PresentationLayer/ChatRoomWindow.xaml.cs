@@ -32,7 +32,7 @@ namespace MileStoneClient.PresentationLayer
         private List<Action> actionList;
         private int order;
         private List<GuiMessage> msgs;
-        private List<string> nicknames, groups;
+        private List<string> groups;
         private DispatcherTimer dispatcherTimer;
         private ListBox listBox;
 
@@ -44,9 +44,9 @@ namespace MileStoneClient.PresentationLayer
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
             this.DataContext = obs;
-            nicknames = chatRoom.getNicknames();
+           // nicknames = chatRoom.getNicknames();
             groups = chatRoom.getGroups();
-            op = new Options(this, nicknames, groups, obs);
+            op = new Options(this, groups, obs);
             actionList = new List<Action>();
             actionList.Add(new SortByTime());
             actionList.Add(null);
