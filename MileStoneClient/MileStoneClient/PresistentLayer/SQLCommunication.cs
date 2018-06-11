@@ -68,9 +68,7 @@ namespace MileStoneClient.PresistentLayer
             while (data_reader.Read())
             {
                 //add users from the users table to the list
-                users.Add(new User(data_reader.GetValue(2).ToString(), int.Parse(data_reader.GetValue(1).ToString())));
-                ///////need to add password to all users some time
-                /////check if the user legal
+                users.Add(new User(data_reader.GetValue(2).ToString(), data_reader.GetValue(1).ToString(), data_reader.GetValue(3).ToString()));
             }
             data_reader.Close();
             command.Dispose();
@@ -108,7 +106,7 @@ namespace MileStoneClient.PresistentLayer
             while (data_reader.Read())
             {
                 //add msgs from the msgs table to the list
-                messages.Add(new Message(data_reader.GetValue(3), /*dateTime*/data_reader.GetValue(2), /*guid*/, );
+               // messages.Add(new Message(data_reader.GetValue(3), /*dateTime*/data_reader.GetValue(2), /*guid*/, );
                 ///////להחליט אם בנאי חדש להודעות או שכאן לחפש משתמש
                 /////check if the msg legal
             }
