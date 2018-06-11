@@ -69,6 +69,9 @@ namespace MileStoneClient.PresentationLayer
         //a function that check validity of the value's the user insert, them regiester him
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
+            // בינתיים אפשר לבצע בדיקה רק על יוזר a, 21
+            // הוספתי --- למחוק *************************************************************
+            obs.PasswordContent = "12345";
             int number;
             // A validity check of the NickName
             if (this.nickname[0] == ' ')// if the user presses space 

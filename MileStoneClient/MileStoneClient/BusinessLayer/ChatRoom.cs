@@ -48,13 +48,13 @@ namespace MileStoneClient.BusinessLayer
         public bool login(string nickname, string g_id, string pass)
         {
             // check if the group id exist and if it does, check if the user is in that group
-            if (this.currUser == null && allUsers.doesExist(nickname, g_id, pass))
-                this.currUser = allUsers.UserExist; //findUser(nickname, g_id, pass);
+            if (this.currUser == null)
+                this.currUser = findUser(nickname, g_id, pass);
             if (this.currUser != null)
                 return true;
             return false;
         }
-/* אולי אפשר להוריד ***************************************************************************
+
         /// <summary>
         /// Find a specific user
         /// </summary>
@@ -63,13 +63,10 @@ namespace MileStoneClient.BusinessLayer
         /// <returns>The user</returns>
         public User findUser(string nickname, string g_id, string pass)
         {
-            for (int i = 0; i < allUsers.List.Count; i++)
-            {
-                if (allUsers.List[i].isEqual(nickname, int.Parse(g_id), pass))
-                    return allUsers.List[i];
-            }
+            if (allUsers.doesExist(nickname, g_id, pass))
+                return allUsers.UserExist;
             return null;
-        }*/
+        }
 
         /// <summary>
         /// Find a specific group id
@@ -135,7 +132,16 @@ namespace MileStoneClient.BusinessLayer
         /// <returns></returns>
         public bool register(string nickname, string g_id, string pass)
         {
-            // להוסיף עדכון לגבי הסיסמה, לבדוק לפי מה אנחנו את הסיסמה בשביל הרשמה - לקרוא על salt
+            // check if the user exist int the data base
+            User found = findUser(nickname, g_id, pass);
+            if (found != null)
+                return false;
+            User user = new User(nickname, g_id, pass);
+            // add new user to the database
+            allUsers.addUser(user);
+            return true;
+
+        /*
             //להוסיף שליפה של יוזרים
             // In case the group number exist
             if (this.groupsId != null && this.groupsId.List != null)
@@ -168,6 +174,7 @@ namespace MileStoneClient.BusinessLayer
                 return true;
             }
             return false;
+            */
         }
         /// <summary>
         /// updates the user's status and logout from the system. 

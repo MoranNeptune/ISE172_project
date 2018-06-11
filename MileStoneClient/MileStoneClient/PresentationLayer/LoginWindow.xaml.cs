@@ -49,6 +49,8 @@ namespace MileStoneClient.PresentationLayer
         //check validity of the login, if not- let the user option to regiester
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
+            // הוספתייי  ****************************************** צריך למחוק
+            obs.PasswordContent = "12345";
             int number;
             // A validity check of the NickName
             if (obs.NicknameContent[0] == ' ')// if the user presses space 
