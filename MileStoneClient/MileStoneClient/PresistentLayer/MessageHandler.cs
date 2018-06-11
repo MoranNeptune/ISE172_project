@@ -193,7 +193,7 @@ namespace MileStoneClient.PresistentLayer
             DateTime time=list[list.Count - 1].DateTime;
             //the retrieve will be by filter
             //add it to a new temp list, add this temp list to the end of this list and return the temp list
-            List<Message> tempList = new List<Message>;
+            List<Message> tempList = new List<Message>();
             string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
                     "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                     "WHERE [MS3].[dbo].[Messages].[SendTime] > '" + time.ToString() +

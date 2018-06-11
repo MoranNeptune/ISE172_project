@@ -20,6 +20,6 @@
         <TextBox Text="{Binding Path=NicknameContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Margin="220,361,0,0" TextChanged="TxtBox_TextChanged" FontSize="24" />
         <Label Content="{Binding LblAddRegContent,Mode=OneWay}" HorizontalAlignment="Left" Margin="59,477,0,0" VerticalAlignment="Top" Width="200" Foreground="#FF00B7E0" FontSize="20" FontFamily="MV Boli" FontWeight="ExtraBold" Height="50" Visibility="{Binding LblAddRegVisibility,Mode=OneWay}" />
         <Button Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="283,491,0,0" Height="36" FontSize="24" FontWeight="Bold" Click="BtnRegister_Click" Visibility="{Binding BtnRegisterVisibility,Mode=OneWay}" />
-        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" TextInput="{Binding Path=PasswordContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" Margin="217,400,0,0" VerticalAlignment="Top" Width="163" FontSize="24"/>
+        <PasswordBox TextInput="{Binding Path=PasswordContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="35" Margin="217,400,0,0" VerticalAlignment="Top" Width="163" FontSize="24"/>
     </Grid>
 </Window>

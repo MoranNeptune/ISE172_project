@@ -191,8 +191,9 @@ namespace MileStoneClient.PresentationLayer
             Message message;
             if (obs.ListBoxSelectedValue.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
             {
-                message = new Message(obs, chatRoom);
-                message.Show();
+        
+              //  message = new Message(obs, chatRoom);
+                MessageBox.Show("dfg");
             } 
         }
 

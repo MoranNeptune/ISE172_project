@@ -75,6 +75,7 @@
     <Compile Include="BusinessLayer\ChatRoom.cs" />
     <Compile Include="BusinessLayer\FilterByGroup.cs" />
     <Compile Include="BusinessLayer\FilterByUser.cs" />
+    <Compile Include="BusinessLayer\Hashing.cs" />
     <Compile Include="BusinessLayer\Id.cs" />
     <Compile Include="BusinessLayer\Message.cs" />
     <Compile Include="BusinessLayer\SortByGNT.cs" />
