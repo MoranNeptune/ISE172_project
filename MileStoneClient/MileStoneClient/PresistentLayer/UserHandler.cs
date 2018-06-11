@@ -8,7 +8,7 @@ namespace MileStoneClient.PresistentLayer
     public class UserHandler : IQueryAction
     {
         private List<User> allUsersList;
-        private List<User> userExist;
+        private User userExist;
         private bool exist;
         private bool connectionFail;
 
@@ -16,7 +16,7 @@ namespace MileStoneClient.PresistentLayer
         public UserHandler()
         {
             allUsersList = new List<User>();
-            userExist = new List<User>();
+            userExist = null;
             exist = false;
             connectionFail = false;
         }
@@ -37,13 +37,17 @@ namespace MileStoneClient.PresistentLayer
             else if (query.Contains("select"))
             {
                 //if user exist will recieve a list with one user, else will return empty list
-                userExist = Instance.ReadUserTable(query);
-                if (userExist != null)
+                List<User> exist = Instance.ReadUserTable(query);
+                
+                if (exist != null)
                 {
                     //if the list contains a user, then user already exist it table
-                    if (userExist.Count <= 1)
-                        exist = true;
-                }
+                    if (exist.Count <= 1)
+                    {
+                        this.exist = true;
+                        userExist = exist[0];
+                    }
+                }                    
             }
         }
 
@@ -52,12 +56,12 @@ namespace MileStoneClient.PresistentLayer
         {
             //set query to add user and executes query 
             string query = "INSERT INTO Users ([Group_Id],[Nickname],[Password]) " +
-                           "VALUES (" + user.G_id.idNumber + ", '" + user.Nickname + "','" + user.Password + "')";
+                           "VALUES (" + user.G_id + ", '" + user.Nickname + "','" + user.Password + "')";
 
             //כנראה ימחק בסוף
             //check if user already exist in the table
-            //if (doesExist(user) | connectionFail)
-              //  return false;
+            if (doesExist(user.Nickname,user.G_id,user.Password) | connectionFail)
+                return false;
 
             try
             {
@@ -89,14 +93,14 @@ namespace MileStoneClient.PresistentLayer
         }
 
         //check if user already exists in Users table
-        public bool doesExist(User u)
+        public bool doesExist(string nickname, string g_id, string pass)
         {
             //set query to find user with same details and executes query
             string query = "select top (1) [Group_Id],[Nickname],[Password] " +
                     "from [MS3].[dbo].[Users] " +
-                    "where [MS3].[dbo].[Users].[Group_Id] = " + u.G_id.idNumber +
-                    " and [MS3].[dbo].[Users].[Nickname] = '" + u.Nickname +
-                    "' and [MS3].[dbo].[Users].[Password] = '" + u.Password + "'";
+                    "where [MS3].[dbo].[Users].[Group_Id] = " + g_id +
+                    " and [MS3].[dbo].[Users].[Nickname] = '" + nickname +
+                    "' and [MS3].[dbo].[Users].[Password] = '" + pass + "'";
             try
             {
                 ExecuteQuery(query);
@@ -119,6 +123,12 @@ namespace MileStoneClient.PresistentLayer
         {
             get { return connectionFail; }
             set { connectionFail = value; }
+        }
+
+        public User UserExist
+        {
+            get { return userExist; }
+            set { userExist = value; }
         }
     }
 }
