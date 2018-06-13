@@ -8,6 +8,8 @@ namespace MileStoneClient.PresistentLayer
     {
         private bool connectionFail;
         private List<Message> msgs;
+        private string nickname;
+        private string g_id;
 
         public UserFilter(string nickname, string g_id)
         {
@@ -15,9 +17,11 @@ namespace MileStoneClient.PresistentLayer
             //query to filter by user nickname
             string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
                     "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                    "WHERE [MS3].[dbo].[Users].Nickname = '" + nickname +
-                    "' AND [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
-                    "' AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                    "WHERE [MS3].[dbo].[Users].Nickname = = @user_Nickname" +
+                    " AND [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
+                    " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+            this.nickname = nickname;
+            this.g_id = g_id;
             try
             {
                 ExecuteQuery(query);
@@ -29,7 +33,9 @@ namespace MileStoneClient.PresistentLayer
 
         public override void ExecuteQuery(string query)
         {
-            msgs = Instance.ReadMessageTable(query);
+            msgs = Instance.FilterQuery(query, nickname, g_id);
+            nickname = "";
+            g_id = "";
         }
 
         public List<Message> Msgs

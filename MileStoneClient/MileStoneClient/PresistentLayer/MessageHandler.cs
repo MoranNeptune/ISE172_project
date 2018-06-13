@@ -14,6 +14,7 @@ namespace MileStoneClient.PresistentLayer
         private String _name; // "" or nickname
         private string _id; //"" or g_id
         private bool connectionFail;
+        private Message queryMessage;
 
         //constructor
         public MessageHandler(String name, string id)
@@ -21,6 +22,7 @@ namespace MileStoneClient.PresistentLayer
             _name = name;
             _id = id;
             connectionFail = false;
+            queryMessage = null;
 
             //no filter
             if (_id.Equals("") && !filterByNone()) //init the list
@@ -112,8 +114,10 @@ namespace MileStoneClient.PresistentLayer
             /////guid- ours or sqls?
             /////user ID- need to get it from the usersTable or from the user.ID if possible
             string query = "INSERT INTO Messages ([User_Id],[SendTime],[Body]) " +
-                           "VALUES (" + /*userID +*/ ", '" + msg.DateTime + "','" + msg.Body + "')";
+                                   "VALUES (@user_id, @msg_DateTime,@msg_Body)";
 
+          //  "VALUES (" + /*userID +*/ ", '" + msg.DateTime + "','" + msg.Body + "')";
+            queryMessage = msg;
             try
             {
                 ExecuteQuery(query);
@@ -126,6 +130,7 @@ namespace MileStoneClient.PresistentLayer
             }
 
             list.Add(msg);
+            queryMessage = null;
             return true;
         }
 
@@ -141,7 +146,8 @@ namespace MileStoneClient.PresistentLayer
             //check if this msg exist in the database- return false if not
             //delete it if it is and return true
             //else return false
-            string query= "DELETE FROM Messages" + "WHERE Guid =" + msg.Id;
+            queryMessage = msg;
+            string query= "DELETE FROM Messages" + "WHERE Guid =@msg_Id";
             try
             {
                 ExecuteQuery(query);
@@ -154,6 +160,7 @@ namespace MileStoneClient.PresistentLayer
             }
             if (list.Contains(msg)) //update the list
                 list.Remove(msg);
+            queryMessage = null;
             return true;
         }
 
@@ -162,8 +169,8 @@ namespace MileStoneClient.PresistentLayer
         //assume valid input
         public bool updateMessage(Message msg, String body)
         {
-            DateTime time = new DateTime(); ////איך מגדירים שיהיה לעכשיו?
-            string query = "UPDATE Messages" + "SET body =" + body + ", time =" + time +"WHERE guid ="+ msg.Id;
+            //DateTime time = new DateTime(); ////איך מגדירים שיהיה לעכשיו? //////להעביר לקומיוניקשן
+            string query = "UPDATE Messages" + "SET body =" + body + ", time = @msg_DateTime"+"WHERE guid = @msg_guid";
             try
             {
                 ExecuteQuery(query);
@@ -188,13 +195,12 @@ namespace MileStoneClient.PresistentLayer
         //update the list with the new messages since the last message on the list
         public bool retrieve()
         {
-            ///////////להוסיף בדיקה של גג משיכה של 200- האם זה גם להתחלה??
             //check for the last mesasge's dateTime and retrieve only those who sent after it and also less then 200 new messages
             DateTime time=list[list.Count - 1].DateTime;
             //the retrieve will be by filter
             //add it to a new temp list, add this temp list to the end of this list and return the temp list
             List<Message> tempList = new List<Message>();
-            string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
+            string query = "SELECT TOP (200) [Group_Id],[Nickname],[SendTime],[Body] " +
                     "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                     "WHERE [MS3].[dbo].[Messages].[SendTime] > '" + time.ToString() +
                     "' AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
@@ -224,12 +230,12 @@ namespace MileStoneClient.PresistentLayer
             //add new msg
             if (query.Contains("SELECT"))
             {
-                list = Instance.ReadMessageTable(query);
+                list = Instance.FilterQuery(query, "", "");
             }
             //update msgs list
             else
             {
-                Instance.UpdateTable(query);
+                Instance.ExecuteMessageQuery(query, queryMessage);
             }
         }
 
