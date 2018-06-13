@@ -245,63 +245,52 @@ namespace MileStoneClient.PresistentLayer
             
             /////////////close
             command.Prepare();
-            int num_rows_changed = command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
             command.Dispose();
             connection.Close();
             return users;
         }
 
-        public List<Message> FilterQuery (String query, string nickname, string g_id)
+
+        
+
+        public List<Message> FilterQuery (string query1, List<SqlParam> param)
         {
             List<Message> msgs = new List<Message>();
             //open connection and set command text to be the value of query
             connection.Open();
             command = new SqlCommand(null, connection);
+            command.CommandText = query1;
 
-            SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Text, 20);
+            /*SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Text, 20);
             SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.Text, 20);
 
             user_G_id_param.Value = g_id;
-            user_Nickname_param.Value = nickname;
-          
-            //update users list or check if user exist
-            if (query.Contains("SELECT") | query.Contains("select"))
+            user_Nickname_param.Value = nickname;*/
+            for (int i = 0; i < param.Count; i++)
             {
-                command.CommandText = query;
+                //add the parameters to the query
+                SqlParameter tParam = new SqlParameter(param[i].Name, SqlDbType.Text, 20);
+                tParam.Value = param[i].Value;
+                command.Parameters.Add(tParam);
+            }
+            
                 data_reader = command.ExecuteReader();
                 while (data_reader.Read())
                 {
-                    //add users from the users table to the list
-                    msgs.Add(new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
+                    //add msg from the msgs table to the list
+                    //////////לחכות לבנאי חדש ולשנות בהתאם
+                    msgs.Add(new Message(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
                 }
                 data_reader.Close();
-            }
+            
             /////////////close
             command.Prepare();
-            int num_rows_changed = command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
             command.Dispose();
             connection.Close();
             return msgs;
-            if (!nickname.Equals(""))
-            {
-
-            }
-            //query to filter by user nickname
-            string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
-                "VALUES (@user_G_id, @user_Nickname)" +
-                    "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-            "WHERE [MS3].[dbo].[Users].Nickname = @user_Nickname" +
-                    " AND [MS3].[dbo].[Users].[Group_Id] = @user_G_id" + 
-                    " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
-            try
-            {
-                ExecuteQuery(query);
-            }
-            catch (Exception e)
-            {
-                connectionFail = true;
-            }
-            return connectionFail;
+      
         }
 
     }

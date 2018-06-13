@@ -24,6 +24,7 @@ namespace MileStoneClient.PresistentLayer
             connectionFail = false;
             queryMessage = null;
 
+            ///////////////////////////////להוסיף קליר לפארם בכל מקום!!!
             //no filter
             if (_id.Equals("") && !filterByNone()) //init the list
                 throw new Exception("connection problem"); /////להחליף את הקונקשיין פייל לטרו?
@@ -79,7 +80,7 @@ namespace MileStoneClient.PresistentLayer
         {
             connectionFail = false;
             //query to filter by user nickname
-            string query = "SELECT [Group_Id],[Nickname],[SendTime],[Body] " +
+            string query = "SELECT TOP (200) [Group_Id],[Nickname],[SendTime],[Body] " +
                     "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                     "WHERE [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
             try
@@ -117,7 +118,7 @@ namespace MileStoneClient.PresistentLayer
                                    "VALUES (@user_id, @msg_DateTime,@msg_Body)";
 
           //  "VALUES (" + /*userID +*/ ", '" + msg.DateTime + "','" + msg.Body + "')";
-            queryMessage = msg;
+            //queryMessage = msg;
             try
             {
                 ExecuteQuery(query);
@@ -130,7 +131,7 @@ namespace MileStoneClient.PresistentLayer
             }
 
             list.Add(msg);
-            queryMessage = null;
+            //queryMessage = null;
             return true;
         }
 
@@ -140,7 +141,7 @@ namespace MileStoneClient.PresistentLayer
             //bool? list?
         }*/
 
-        //delete a message from the database
+        /*//delete a message from the database
         public bool delete (Message msg)
         {
             //check if this msg exist in the database- return false if not
@@ -162,7 +163,7 @@ namespace MileStoneClient.PresistentLayer
                 list.Remove(msg);
             queryMessage = null;
             return true;
-        }
+        }*/
 
         //input: the message we want to update and the new body. the function will update it's body and dateTime on the database and update the list
         //output: true for succsess, false for fail
@@ -200,27 +201,38 @@ namespace MileStoneClient.PresistentLayer
             //the retrieve will be by filter
             //add it to a new temp list, add this temp list to the end of this list and return the temp list
             List<Message> tempList = new List<Message>();
+            List<SqlParam> param = new List<SqlParam>();
             string query = "SELECT TOP (200) [Group_Id],[Nickname],[SendTime],[Body] " +
                     "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                    "WHERE [MS3].[dbo].[Messages].[SendTime] > '" + time.ToString() +
-                    "' AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                    "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time" + time.ToString() +
+                    "AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+            SqlParam msg_time = new SqlParam("@msg_time", time.ToString());
+            param.Add(msg_time);
+            //ID filter & user filter
+            if (!_id.Equals(""))
+            {
+                query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id" ;
+                SqlParam user_g_id = new SqlParam("@user_g_id", _id);
+                param.Add(user_g_id);
+            }
             //user filter
-            if (!_name.Equals(""))
-                query = query + "[MS3].[dbo].[Users].Nickname = '" + _name +
-                    "' AND [MS3].[dbo].[Users].[Group_Id] = " + int.Parse(_id);
-            //ID filter
-            else if (!_id.Equals(""))
-                query = query + " AND [MS3].[dbo].[Users].[Group_Id] = " + int.Parse(_id);
-            try
+            else if (!_name.Equals(""))
             {
-                tempList = Instance.ReadMessageTable(query);
+                query = query + "[MS3].[dbo].[Users].Nickname = @user_name";
+                SqlParam user_name = new SqlParam("@user_name", _name);
+                param.Add(user_name);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                connectionFail = true;
-                return false;
-            }
+            else
+                try
+                {
+                    tempList = Instance.FilterQuery(query, param);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    connectionFail = true;
+                    return false;
+                }
             list.AddRange(tempList);
             return true;
         }
@@ -230,8 +242,9 @@ namespace MileStoneClient.PresistentLayer
             //add new msg
             if (query.Contains("SELECT"))
             {
-                list = Instance.FilterQuery(query, "", "");
+                list = Instance.FilterQuery(query, param);
             }
+            ////////לשנות
             //update msgs list
             else
             {
@@ -311,5 +324,6 @@ namespace MileStoneClient.PresistentLayer
             set { list = value; }
         }
 
+        public List<SqlParam> param { get; private set; }
     }
 }
