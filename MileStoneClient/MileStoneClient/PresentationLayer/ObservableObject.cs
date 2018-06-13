@@ -218,24 +218,6 @@ namespace MileStoneClient.PresentationLayer
 
         #region RegisterWindowBinding
 
-
-        /// <summary>
-        /// A binding function that connects between the "password" input to source
-        /// </summary>
-        private string passwordContent = "";
-        public string PasswordContent
-        {
-            get
-            {
-                return passwordContent;
-            }
-            set
-            {
-                passwordContent = value;
-                OnPropertyChanged("passwordContent");
-            }
-        }
-
         /// <summary>
         /// A binding function that connects between the "btnReg" button to source
         /// </summary>

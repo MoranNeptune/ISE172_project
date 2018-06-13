@@ -27,6 +27,8 @@ namespace MileStoneClient.PresentationLayer
         private ChatRoom chatRoom;
         private ObservableObject obs;//binding
         private Hashing hashing;
+        private String HashedPassword;
+        private bool correctPass;
         private readonly String salt;
 
         public LoginWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
@@ -35,11 +37,13 @@ namespace MileStoneClient.PresentationLayer
 
             InitializeComponent();
             this.obs = obs;
+            this.HashedPassword = "";
             DataContext = obs;
             this.mainWindow = mainWindow;
             this.chatRoom = chatRoom;
             this.hashing = new Hashing();
-            this.salt="1337";
+            this.salt = "1337";
+            this.correctPass = false;
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnLoginIsEnabled = false;
             obs.LblAddRegVisibility = "Hidden";
@@ -49,9 +53,7 @@ namespace MileStoneClient.PresentationLayer
         //check validity of the login, if not- let the user option to regiester
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            // הוספתייי  ****************************************** צריך למחוק
-            obs.PasswordContent = "12345";
-            int number;
+            int number; // מה זה האינט הההההההההההההזההההההההההההההההההה
             // A validity check of the NickName
             if (obs.NicknameContent[0] == ' ')// if the user presses space 
             {
@@ -78,38 +80,8 @@ namespace MileStoneClient.PresentationLayer
                     obs.NicknameContent = "";
                 }
             }
-            // A validity check of the password
-            else if (!(4 <= obs.PasswordContent.Length && obs.PasswordContent.Length <= 16))
-            {
-                if (MessageBox.Show("password length should be between 4 to 16 letters", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
-                {// if the length of 
-                    obs.GroupIdText = "";
-                    obs.NicknameText = "";
-                    obs.PasswordContent = "";
-                }
-                else if (obs.PasswordContent.Equals("") || isPassOnlySpaces() || obs.PasswordContent[0] == 13)
-                {// if the password is empty or full with spaces or enter 
-                    if (MessageBox.Show("Message cannot be empty or with spaces", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
-                    {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
-                        obs.PasswordContent = "";
-                    }
-                }
-                else if (!PasswordVlidity())
-                {// if the password conteins the correct letters
-                    if (MessageBox.Show("Message should include only letters and numbers", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
-                    {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
-                        obs.PasswordContent = "";
-                    }
-                }
-                Log.Instance.warn("Invalid input - Invalid Password");//log
-            }
-            // checks if the user is already registered or not
-            else if (this.chatRoom.login(obs.NicknameContent, obs.GroupIdContent , hashing.GetHashString(obs.PasswordContent + salt)) == false)
-            {
+            else if (correctPass & this.chatRoom.login(obs.NicknameContent, obs.GroupIdContent, this.HashedPassword) == false)
+            {// checks if the user is already registered or not
                 Log.Instance.error("Log-in fail - User not registered");//log
 
                 string message = "please register first and then try to login again";
@@ -118,6 +90,7 @@ namespace MileStoneClient.PresentationLayer
                 {
                     this.obs.GroupIdContent = "";
                     this.obs.NicknameContent = "";
+
                 }
                 obs.GroupIdContent = "";
                 obs.NicknameContent = "";
@@ -132,6 +105,7 @@ namespace MileStoneClient.PresentationLayer
 
                 obs.GroupIdContent = "";
                 obs.NicknameContent = "";
+                HashedPassword = "";
                 obs.LblAddRegVisibility = "Visible";
                 this.Close();
                 ChatRoomWindow chatRoomWin = new ChatRoomWindow(this.mainWindow, this.chatRoom, obs);
@@ -139,31 +113,7 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
-        // if the passeord contains the correct letters
-        private bool PasswordVlidity()
-        {
-            String str = obs.PasswordContent;
-            for (int i = 0; i < str.Length; i++)
-                if (!((str[i] <= 48 && str[i] <= 57) || (str[i] <= 65 && str[i] <= 90) || (str[i] <= 97 && str[i] <= 122)))
-                    return false;
-            return true;
-        }
-
-        // if the password contains only spaces
-        private bool isPassOnlySpaces()
-        {
-            bool ans = true;
-            string tMsg = obs.TxtSendContent;
-
-            for (int i = 0; i < tMsg.Length; i++)
-            {
-                if (tMsg[i] != ' ')
-                {
-                    ans = false;
-                }
-            }
-            return ans;
-        }
+       
 
         //click this button let the user to return to the previous window (the menu)
         private void BtnBack_Click(object sender, RoutedEventArgs e)
@@ -195,6 +145,72 @@ namespace MileStoneClient.PresentationLayer
             RegisterWindow register = new RegisterWindow(this.mainWindow, this.chatRoom, obs);
             this.Close();
             register.Show();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordBox pb = sender as PasswordBox;
+            if (4 <= pb.Password.Length) {
+                // A validity check of the password
+                if (!(pb.Password.Length <= 16))
+                {// if the length of the password is not correct
+                    if (MessageBox.Show("password length should be between 4 to 16 letters", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
+                    {
+                        obs.GroupIdText = "";
+                        obs.NicknameText = "";
+                        pb.Password = "";
+                    }
+                    Log.Instance.warn("Invalid input - Invalid Password");//log
+                    this.correctPass = false;
+                }
+                else if (pb.Password.Equals("") || isPassOnlySpaces(pb.Password) || pb.Password[0] == 13)
+                {// if the password is empty or full with spaces or enter 
+                    if (MessageBox.Show("Message cannot be empty or with spaces", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
+                    {
+                        obs.GroupIdText = "";
+                        obs.NicknameText = "";
+                        pb.Password = "";
+                    }
+                    Log.Instance.warn("Invalid input - Invalid Password");//log
+                    this.correctPass = false;
+                }
+                else if (!PasswordVlidity(pb.Password))
+                {// if the password conteins the correct letters
+                    if (MessageBox.Show("Message should include only letters and numbers", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
+                    {
+                        obs.GroupIdText = "";
+                        obs.NicknameText = "";
+                        pb.Password = "";
+                    }
+                    Log.Instance.warn("Invalid input - Invalid Password");//log
+                    this.correctPass = false;
+                }
+                else correctPass = true;
+
+                if (correctPass)
+                {
+                    this.HashedPassword = hashing.GetHashString(pb.Password + salt);
+                }
+            }
+        }
+        // if the passeord contains the correct letters
+        private bool PasswordVlidity(String pb)
+        {
+            for (int i = 0; i < pb.Length; i++)
+                if (!((pb[i] >= 48 && pb[i] <= 57) || (pb[i] >= 65 && pb[i] <= 90) || (pb[i] >= 97 && pb[i] <= 122)))
+                    return false;
+            return true;
+        }
+
+        // if the password contains only spaces
+        private bool isPassOnlySpaces(String pb)
+        {
+            bool ans = true;
+
+            for (int i = 0; i < pb.Length; i++)
+                if (pb[i] != ' ')
+                    ans = false;
+            return ans;
         }
     }
 }
