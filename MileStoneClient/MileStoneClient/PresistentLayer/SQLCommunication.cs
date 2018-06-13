@@ -121,6 +121,22 @@ namespace MileStoneClient.PresistentLayer
             return messages;
         }*/
 
+        public void InsertQuery(string query, List<SqlParam> param)
+        {
+            //open connection and set command text to be the value of query
+            connection.Open();
+            command = new SqlCommand(null, connection);
+            command.CommandText = query;
+             for (int i = 0; i < param.Count; i++)
+                {
+                    //add the parameters to the query
+                    SqlParameter tParam = new SqlParameter(param[i].Name, SqlDbType.Text, 20);
+                    tParam.Value = param[i].Value;
+                    command.Parameters.Add(tParam);
+                }
+            
+        }
+        ///לא רלוונטי יותר- מוחלף על ידי אינסרט קוורי
         public List<User> ExecuteUserQuery(string query, User user)
         {
             List<User> users = new List<User>();
@@ -165,7 +181,7 @@ namespace MileStoneClient.PresistentLayer
             connection.Close();
             return users;
         }
-
+        ///לא רלוונטי- הופך לאינסרט קוורי
         public List<Message> ExecuteMessageQuery(string query, Message msg)
         {
             List<Message> msgs = new List<Message>();
@@ -211,34 +227,13 @@ namespace MileStoneClient.PresistentLayer
             return msgs;
         }
 
-        public List<User> ExecuteSelectUserQuery(string query, User user, string where)
+        ///לא באמת מעודכן, צריך לבדוק אל מול השינויים בהנדלר
+        public List<User> ExecuteSelectUserQuery(string query, string where)
         {
             List<User> users = new List<User>();
             //open connection and set command text to be the value of query
             connection.Open();
             command = new SqlCommand(null, connection);
-
-            //////להעביר לתוך אינסרט??
-            SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Text, 20);
-            SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.Text, 20);
-            SqlParameter Password_param = new SqlParameter(@"Password", SqlDbType.Text, 20);
-
-            user_G_id_param.Value = user.G_id;
-            user_Nickname_param.Value = user.Nickname;
-            Password_param.Value = user.Password;
-
-            //add new user
-            if (query.Contains("INSERT"))
-            {
-                command.CommandText = query;
-                //add the parameters to the query
-                command.Parameters.Add(user_G_id_param);
-                command.Parameters.Add(user_Nickname_param);
-                command.Parameters.Add(Password_param);
-            }
-            //update users list or check if user exist
-            else if (query.Contains("SELECT") | query.Contains("select"))
-            {
                 command.CommandText = query;
                 data_reader = command.ExecuteReader();
                 while (data_reader.Read())
@@ -247,7 +242,7 @@ namespace MileStoneClient.PresistentLayer
                     users.Add(new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
                 }
                 data_reader.Close();
-            }
+            
             /////////////close
             command.Prepare();
             int num_rows_changed = command.ExecuteNonQuery();
@@ -258,7 +253,6 @@ namespace MileStoneClient.PresistentLayer
 
         public List<Message> FilterQuery (String query, string nickname, string g_id)
         {
-            bool connectionFail = false; //////להפוך למשתנה עצמי שמחזיר ערך
             List<Message> msgs = new List<Message>();
             //open connection and set command text to be the value of query
             connection.Open();
