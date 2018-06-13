@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MileStoneClient.PresistentLayer
 {
-    class SqlParam
+    public class SqlParam
     {
         private string name;
         private string data;

@@ -102,6 +102,7 @@
     <Compile Include="PresistentLayer\IQueryAction.cs" />
     <Compile Include="PresistentLayer\MessageHandler.cs" />
     <Compile Include="PresistentLayer\SQLCommunication.cs" />
+    <Compile Include="PresistentLayer\SqlParam.cs" />
     <Compile Include="PresistentLayer\UserFilter.cs" />
     <Compile Include="PresistentLayer\UserHandler.cs" />
     <Compile Include="PresentationLayer\RegisterWindow.xaml.cs">

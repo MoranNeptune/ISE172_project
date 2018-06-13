@@ -1,8 +1,6 @@
 ﻿using System;
 using MileStoneClient.BusinessLayer;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
 
 namespace MileStoneClient.PresistentLayer
 {
@@ -14,7 +12,7 @@ namespace MileStoneClient.PresistentLayer
         private bool exist;
         private bool connectionFail;
         private string UserId;
-        private User queryUser;
+        List<SqlParam> sqlParam;
 
         //constructor
         public UserHandler()
@@ -24,8 +22,7 @@ namespace MileStoneClient.PresistentLayer
             exist = false;
             connectionFail = false;
             UserId = "";
-            queryUser = null;
-
+            sqlParam = new List<SqlParam>();
         }
 
         public override void ExecuteQuery(string query)
@@ -33,69 +30,45 @@ namespace MileStoneClient.PresistentLayer
             //add new user
             if (query.Contains("INSERT"))
             {
-                Instance.ExecuteUserQuery(query, queryUser); 
+                Instance.InsertQuery(query, sqlParam);
             }
             //update users list
             else if (query.Contains("SELECT"))
             {
-                allUsersList = Instance.ExecuteUserQuery(query, queryUser);
+                //allUsersList = Instance.ReadUserTable(query, sqlParam);
+                // allUsersList = Instance.InsertQuery(query, sqlParam);
             }
             //check if user exist
             else if (query.Contains("select"))
             {
-                /////לשלוח ותחזור רשימה, צריך רק לשנות את החתימה
-                //if user exist will recieve a list with one user, else will return empty list
-                List<User> exist = Instance.ExecuteUserQuery(query, queryUser);
-                
-                if (exist != null)
-                {
-                    //if the list contains a user, then user already exist it table
-                    if (exist.Count <= 1)
-                    {
-                        this.exist = true;
-                        userExist = exist[0];
-                    }
-                }                    
+                // if user exist will recieve a list with one user, else will return empty list
+                /*       List<User> exist = Instance.ReadUserTable(query, sqlParam);
+
+                        if (exist != null)
+                        {
+                            //if the list contains a user, then user already exist it table
+                            if (exist.Count <= 1)
+                            {
+                                this.exist = true;
+                                userExist = exist[0];
+                            }
+                        } */
             }
-            /*//add new user
-            if (query.Contains("INSERT"))
-            {
-                Instance.UpdateTable(query); 
-            }
-            //update users list
-            else if (query.Contains("SELECT"))
-            {
-                allUsersList = Instance.ReadUserTable(query);
-            }
-            //check if user exist
-            else if (query.Contains("select"))
-            {
-                /////לשלוח ותחזור רשימה, צריך רק לשנות את החתימה
-                //if user exist will recieve a list with one user, else will return empty list
-                List<User> exist = Instance.ReadUserTable(query);
-                
-                if (exist != null)
-                {
-                    //if the list contains a user, then user already exist it table
-                    if (exist.Count <= 1)
-                    {
-                        this.exist = true;
-                        userExist = exist[0];
-                    }
-                }                    
-            }*/
         }
 
         //add a new User to Users table and then to list if the user doesn't alreay exist, return true if user is added
         public bool addUser(User user)
-        {            
+        {
             //set query to add user and executes query 
-            string query = "INSERT INTO Users ([Group_Id],[Nickname],[Password]) " +
-                   //   "VALUES ('" + user.G_id + "', '" + user.Nickname + "','" + user.Password + "')";
-                   "VALUES (@user_G_id, @user_Nickname,@Password)";
-            
-            queryUser = user;
-            
+            string query = "INSERT Users ([Group_Id],[Nickname],[Password]) " +
+                           "VALUES (@user_G_id, @user_Nickname,@Password)";
+
+            // updates the list of parameters
+            sqlParam.Clear();
+            sqlParam.Add(new SqlParam("user_G_id", user.G_id));
+            sqlParam.Add(new SqlParam("user_Nickname", user.Nickname));
+            sqlParam.Add(new SqlParam("Password", user.Password));
+
             try
             {
                 ExecuteQuery(query);
@@ -107,15 +80,15 @@ namespace MileStoneClient.PresistentLayer
             }
 
             allUsersList.Add(user);
-            queryUser = null;
             return true;
         }
 
         //retrieve all users from database table
         public void getAllUsers()
         {
-            string query = "SELECT [ID],[Group_Id],[Nickname],[Password] " +
+            string query = "SELECT [Group_Id],[Nickname],[Password] " +
                     "FROM [MS3].[dbo].[Users]";
+            sqlParam.Clear();
             try
             {
                 ExecuteQuery(query);
@@ -130,10 +103,15 @@ namespace MileStoneClient.PresistentLayer
         public bool doesExist(string nickname, string g_id)
         {
             //set query to find user with same details and executes query
-            string query = "select top (1) [Group_Id],[Nickname] " +
+
+            // הוספתי את ה- [Id] והורדתי את הסיסמה
+            string query = "select top (1) [Id],[Group_Id],[Nickname],[Password] " +
                     "from [MS3].[dbo].[Users] " +
                     "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
-                    "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname;
+                    "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname + "'";
+
+            sqlParam.Clear();
+
             try
             {
                 ExecuteQuery(query);
@@ -150,7 +128,7 @@ namespace MileStoneClient.PresistentLayer
         public bool getMembers(string g_id)
         {
             //set query to find user with same details and executes query
-            string query = "SELECT [ID][Group_Id],[Nickname],[Password] " +
+            string query = "SELECT [Group_Id],[Nickname],[Password] " +
                 "from [MS3].[dbo].[Users] " +
                 "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id + "'";
             try
@@ -172,7 +150,7 @@ namespace MileStoneClient.PresistentLayer
             string query = "SELECT [Id] " +
                 "from [MS3].[dbo].[Users] " +
                 "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
-                "' and [MS3].[dbo].[Users].Nickname = '" + nickname + "'";
+                "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname + "'";
             try
             {
                 ExecuteQuery(query);

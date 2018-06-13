@@ -134,7 +134,10 @@ namespace MileStoneClient.PresistentLayer
                     tParam.Value = param[i].Value;
                     command.Parameters.Add(tParam);
                 }
-            
+            command.Prepare();
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
         }
         ///לא רלוונטי יותר- מוחלף על ידי אינסרט קוורי
         public List<User> ExecuteUserQuery(string query, User user)
