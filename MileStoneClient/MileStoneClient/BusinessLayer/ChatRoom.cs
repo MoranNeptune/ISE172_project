@@ -48,9 +48,12 @@ namespace MileStoneClient.BusinessLayer
         {
             // check if the group id exist and if it does, check if the user is in that group
             if (this.currUser == null)
-                this.currUser = findUser(nickname, g_id, pass);
-            if (this.currUser != null)
+                this.currUser = findUser(nickname, g_id);
+            if (this.currUser != null && currUser.Password.Equals(pass))
+            {
+                currUser.Nickname = nickname;
                 return true;
+            }
             return false;
         }
 
@@ -60,9 +63,10 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="nickname">User's nickname</param>
         /// <param name="g_id">User's group id</param>
         /// <returns>The user</returns>
-        public User findUser(string nickname, string g_id, string pass)
+        public User findUser(string nickname, string g_id)
         {
-            if (allUsers.doesExist(nickname, g_id, pass))
+            // לשנות אצל עינת שליפה ל
+            if (allUsers.doesExist(nickname, g_id))
                 return allUsers.UserExist;
             return null;
         }
@@ -110,7 +114,7 @@ namespace MileStoneClient.BusinessLayer
         public bool register(string nickname, string g_id, string pass)
         {
             // check if the user exist int the data base
-            User found = findUser(nickname, g_id, pass);
+            User found = findUser(nickname, g_id);
             if (found != null)
                 return false;
             User user = new User(nickname, g_id, pass);
@@ -142,31 +146,21 @@ namespace MileStoneClient.BusinessLayer
         /// <returns>true if was sent to the server succsesfully, else false</returns>
         public bool send(string message)
         {
-            // get the users id in the data base
-            string userId = getUserId(currUser.G_id, currUser.Nickname);
-            // if we couldn't find the user
-            if (userId == "")
-                return false;
-            // שינוי הזמן
-            //  שינוי הgiud
-            Message newMsg = new Message(message, time, Guid, currUser);
-            allMessages.send(newMsg, userId);
-            // Message msg = new Message();
-            // if()
-            /*IMessage Imsg = Communication.Instance.Send(url, currUser.G_id.idNumber, currUser.Nickname, message);
-            Message msg = currUser.send(Imsg);
-            // check if the 
-            if (msg != null)
-            {
-                allMessages.updateFile(msg);
-                presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id));
+            // changes the time from local time to UTC
+            DateTime localDateTimeExample = DateTime.Now;
+            DateTime UtcTime = localDateTimeExample.ToUniversalTime();
+
+            // sends the message to the dataBase
+            if (allMessages.send(new Message(message, UtcTime, Guid.NewGuid(), currUser)))
                 return true;
-            }
-            return false;*/
-            return true;
+
+            return false;
         }
 
-        // להוסיף פונקציה של עדדכון הודעה
+        public bool updateMessage()
+        {
+            return false;
+        }
 
       
 
@@ -275,7 +269,7 @@ namespace MileStoneClient.BusinessLayer
                 for (int i = 0; i < allMessages.List.Count; i++)
                 {
                     Message m = allMessages.List[i];
-                    presMsgs.Add(new GuiMessage(m.Body, m.DateTime, m.Id, m.User.Nickname, m.User.G_id));
+                    presMsgs.Add(new GuiMessage(m.Body, m.DateTime.ToLocalTime(), m.Id, m.User.Nickname, m.User.G_id));
                 }
         }
         

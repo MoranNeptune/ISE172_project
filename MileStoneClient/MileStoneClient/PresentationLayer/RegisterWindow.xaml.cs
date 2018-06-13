@@ -97,7 +97,7 @@ namespace MileStoneClient.PresentationLayer
                 Log.Instance.warn("Invalid input - Invalid ID");//log 
             }
             // A validity check of the password
-            else if (correctPass & this.chatRoom.login(obs.NicknameContent, obs.GroupIdContent, this.HashedPassword) == false)
+            else if (correctPass & this.chatRoom.register(obs.NicknameContent, obs.GroupIdContent, this.HashedPassword) == false)
             {// checks if the user is already registered or not
                 Log.Instance.warn("Invalid input - nickname already exist");//log
 

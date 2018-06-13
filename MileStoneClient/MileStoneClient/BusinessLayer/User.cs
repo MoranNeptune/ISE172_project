@@ -20,6 +20,7 @@ namespace MileStoneClient.BusinessLayer
        // private MessageHandler handler;
         private bool loggedIn;
         private string password;
+        private string user_id;
 
         /// <summary>
         /// //change constructor to get int id instead of ID 
@@ -49,13 +50,19 @@ namespace MileStoneClient.BusinessLayer
             get { return g_id; }
             set { g_id = value; }
         }
-        // **************** אולי להוריד ************************************
-     /*   public MessageHandler msgHandler
+
+        public string User_id
         {
-            get { return handler; }
-            set { handler = value; }
+            get { return user_id; }
+            set { user_id = value; }
         }
-*/
+        // **************** אולי להוריד ************************************
+        /*   public MessageHandler msgHandler
+           {
+               get { return handler; }
+               set { handler = value; }
+           }
+   */
         public bool LoggedIn
         {
             get { return loggedIn; }
