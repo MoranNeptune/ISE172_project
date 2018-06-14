@@ -3,12 +3,14 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using MileStoneClient.BusinessLayer;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace MileStoneClient.PresistentLayer
 {
   //  [Serializable]
     //an object that responsable to transfer the message's info to files
-    public class MessageHandler : IQueryAction
+    public class MessageHandler : ConnectionHandler
     {
         private List<Message> list; //filtered & sorted list
         private String _name; // "" or nickname
@@ -109,20 +111,40 @@ namespace MileStoneClient.PresistentLayer
         }
 
         //add a new message to the database
-        public bool send(Message msg)
-        {
-            //set query to add msg and executes query 
-            /////guid- ours or sqls?
-            /////user ID- need to get it from the usersTable or from the user.ID if possible
-            string query = "INSERT INTO Messages ([User_Id],[SendTime],[Body]) " +
-                                   "VALUES (@user_id, @msg_DateTime,@msg_Body)";
-
+            public bool send(Message msg)
+        {  
+        //set query to add msg and executes query 
+        /////guid- ours or sqls?
+        /////user ID- need to get it from the usersTable or from the user.ID if possible
           //  "VALUES (" + /*userID +*/ ", '" + msg.DateTime + "','" + msg.Body + "')";
             //queryMessage = msg;
             try
             {
-                ExecuteQuery(query);
-            }
+                    string query = "INSERT INTO Messages ([User_Id],[SendTime],[Body]) " +
+                                       "VALUES (@user_id, @msg_DateTime,@msg_Body)";
+                    //open connection and set command text to be the value of query
+                    connect();
+                    SqlCommand command = new SqlCommand(null, connection);
+                    command.CommandText = query;
+
+                    //add the parameters to the query
+                    SqlParameter user_id_param = new SqlParameter(@"user_id", SqlDbType.Text, 20);
+                    SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.Text, 20);
+                    SqlParameter msg_Body_param = new SqlParameter(@"msg_Body", SqlDbType.Text, 20);
+
+                    user_id_param.Value = msg.User;
+                    msg_DateTime_param.Value = msg.DateTime;
+                    msg_Body_param.Value = msg.Body;
+
+                    command.Parameters.Add(user_id_param);
+                    command.Parameters.Add(msg_DateTime_param);
+                    command.Parameters.Add(msg_Body_param);
+
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+                    command.Dispose();
+                    disconnect();
+                }
             catch (Exception e)
             {
                 Console.WriteLine(e);
@@ -194,63 +216,65 @@ namespace MileStoneClient.PresistentLayer
         }
 
         //update the list with the new messages since the last message on the list
-        public bool retrieve()
+        public List<Message> retrieve()
         {
-            //check for the last mesasge's dateTime and retrieve only those who sent after it and also less then 200 new messages
-            DateTime time=list[list.Count - 1].DateTime;
-            //the retrieve will be by filter
-            //add it to a new temp list, add this temp list to the end of this list and return the temp list
             List<Message> tempList = new List<Message>();
-            List<SqlParam> param = new List<SqlParam>();
-            string query = "SELECT TOP (200) [Group_Id],[Nickname],[SendTime],[Body] " +
-                    "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                    "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time" + time.ToString() +
-                    "AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
-            SqlParam msg_time = new SqlParam("@msg_time", time.ToString());
-            param.Add(msg_time);
-            //ID filter & user filter
-            if (!_id.Equals(""))
+            try
             {
-                query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id" ;
-                SqlParam user_g_id = new SqlParam("@user_g_id", _id);
-                param.Add(user_g_id);
-            }
-            //user filter
-            else if (!_name.Equals(""))
-            {
-                query = query + "[MS3].[dbo].[Users].Nickname = @user_name";
-                SqlParam user_name = new SqlParam("@user_name", _name);
-                param.Add(user_name);
-            }
-            else
-                try
+                connect();
+                SqlCommand command = new SqlCommand(null, connection);
+                //check for the last mesasge's dateTime and retrieve only those who sent after it and also less then 200 new messages
+                DateTime time=list[list.Count - 1].DateTime;
+                //the retrieve will be by filter
+                //add it to a new temp list, add this temp list to the end of this list and return the temp list
+                SqlParameter user_g_id_param;
+                SqlParameter user_name_param;
+                string query = "SELECT TOP (200) [Group_Id],[Nickname],[SendTime],[Body] " +
+                        "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
+                        "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time" +  
+                        "AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                SqlParameter msg_time_param = new SqlParameter(@"msg_time", SqlDbType.DateTime, 20);
+                msg_time_param.Value = time;
+                command.Parameters.Add(msg_time_param);
+
+                    //ID filter & user filter
+                if (!_id.Equals(""))
                 {
-                    tempList = Instance.FilterQuery(query, param);
+                    query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id" ;
+                    user_g_id_param = new SqlParameter("@user_g_id", _id);
+                    command.Parameters.Add(user_g_id_param);
                 }
+                //user filter
+                if (!_name.Equals(""))
+                {
+                    query = query + "[MS3].[dbo].[Users].Nickname = @user_name";
+                    user_name_param = new SqlParameter("@user_name", _name);
+                    command.Parameters.Add(user_name_param);
+                }
+                ///////execute
+                command.CommandText = query;
+                SqlDataReader data_reader = command.ExecuteReader();
+                while (data_reader.Read())   //add msg from the msgs table to the list
+                {         /// string guid, string user id, dateTime time, string body
+                    tempList.Add(new Message(data_reader.GetValue(0), data_reader.GetValue(1).ToString(), data_reader.GetValue(2), data_reader.GetValue(3)));
+                }
+                data_reader.Close();
+                ///////////close
+                command.Prepare();
+                command.ExecuteNonQuery();
+                command.Dispose();
+                disconnect();
+
+            }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                     connectionFail = true;
-                    return false;
                 }
-            list.AddRange(tempList);
-            return true;
+            list.AddRange(tempList); ////////לבדוק אם אני מעדכנת או עדן
+            return tempList;
         }
 
-        public override void ExecuteQuery(string query)
-        {
-            //add new msg
-            if (query.Contains("SELECT"))
-            {
-                list = Instance.FilterQuery(query, param);
-            }
-            ////////לשנות
-            //update msgs list
-            else
-            {
-                Instance.ExecuteMessageQuery(query, queryMessage);
-            }
-        }
 
         /*  //add a new Message to this list and afterwards to the file, return true if succsed
           public bool updateFile(Message msg)
