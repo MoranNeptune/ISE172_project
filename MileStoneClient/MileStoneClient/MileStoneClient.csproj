@@ -97,6 +97,7 @@
     <Compile Include="PresentationLayer\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PresistentLayer\ConnectionHandler.cs" />
     <Compile Include="PresistentLayer\GroupFilter.cs" />
     <Compile Include="PresistentLayer\IdHandler.cs" />
     <Compile Include="PresistentLayer\IQueryAction.cs" />

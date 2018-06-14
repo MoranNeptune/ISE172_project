@@ -92,10 +92,11 @@ namespace MileStoneClient.BusinessLayer
         public List<string> getMembersOf(string g_id)
         {
             List<string> names = new List<string>();
-            if (allUsers.getMembers(g_id))
+            List<User> users = allUsers.getMembers(g_id);
+            if (users.Count > 0)
             {
-                for (int i = 0; i < allUsers.List.Count; i++)
-                    names.Add(allUsers.List[i].Nickname);
+                for (int i = 0; i < users.Count; i++)
+                    names.Add(users[i].Nickname);
             }
             return names;
         }

@@ -111,7 +111,7 @@ namespace MileStoneClient.PresistentLayer
             {
                 // צריך לשים לב לעשות בדיקה לזמן שמתקבל כמו שעשו בתרגול
                 //add msgs from the msgs table to the list
-               // messages.Add(new Message(data_reader.GetValue(3), /*dateTime*/data_reader.GetValue(2), /*guid*/, );
+               // messages.Add(new Message(data_reader.GetValue(3), /*dateTime*///data_reader.GetValue(2), /*guid*/, );
                 ///////להחליט אם בנאי חדש להודעות או שכאן לחפש משתמש
                 /////check if the msg legal
          /*   }
@@ -127,10 +127,11 @@ namespace MileStoneClient.PresistentLayer
             connection.Open();
             command = new SqlCommand(null, connection);
             command.CommandText = query;
+            SqlParameter tParam;
              for (int i = 0; i < param.Count; i++)
                 {
                     //add the parameters to the query
-                    SqlParameter tParam = new SqlParameter(param[i].Name, SqlDbType.Text, 20);
+                    tParam = new SqlParameter(param[i].Name, SqlDbType.Text, 20);
                     tParam.Value = param[i].Value;
                     command.Parameters.Add(tParam);
                 }
@@ -197,9 +198,9 @@ namespace MileStoneClient.PresistentLayer
             SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.Text, 20);
             SqlParameter Password_param = new SqlParameter(@"Password", SqlDbType.Text, 20);
 
-            user_G_id_param.Value = user.G_id;
-            user_Nickname_param.Value = user.Nickname;
-            Password_param.Value = user.Password;
+      //      user_G_id_param.Value = user.G_id;
+        //    user_Nickname_param.Value = user.Nickname;
+//            Password_param.Value = user.Password;
 
             //add new user
             if (query.Contains("INSERT"))
@@ -218,7 +219,7 @@ namespace MileStoneClient.PresistentLayer
                 while (data_reader.Read())
                 {
                     //add users from the users table to the list
-                    msgs.Add(new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
+   //                 msgs.Add(new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
                 }
                 data_reader.Close();
             }
@@ -283,7 +284,7 @@ namespace MileStoneClient.PresistentLayer
                 {
                     //add msg from the msgs table to the list
                     //////////לחכות לבנאי חדש ולשנות בהתאם
-                    msgs.Add(new Message(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
+        //            msgs.Add(new Message(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
                 }
                 data_reader.Close();
             

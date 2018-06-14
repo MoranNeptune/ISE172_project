@@ -90,7 +90,7 @@ namespace MileStoneClient.NUnit
         {
             ChatRoom c = new ChatRoom(url);
             c.register("MickyMouse", "21", "");
-            bool observedResult = c.findUser("MickyMouse", "21", "") !=null;
+            bool observedResult = c.findUser("MickyMouse", "21") !=null;
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }

@@ -26,14 +26,14 @@ namespace MileStoneClient.PresistentLayer
 
             ///////////////////////////////להוסיף קליר לפארם בכל מקום!!!
             //no filter
-            if (_id.Equals("") && !filterByNone()) //init the list
-                throw new Exception("connection problem"); /////להחליף את הקונקשיין פייל לטרו?
-            //ID filter
-            else if (_name.Equals("") && !filterById(_id)) //init the list
-                throw new Exception("connection problem");
-            //user filter
-            else if (!filterByUser(_name, _id)) //init the list
-                throw new Exception("connection problem");
+            //if (_id.Equals("") && !filterByNone()) //init the list
+            //    //throw new Exception("connection problem"); /////להחליף את הקונקשיין פייל לטרו?
+            ////ID filter
+            //else if (_name.Equals("") && !filterById(_id)) //init the list
+            //    throw new Exception("connection problem");
+            ////user filter
+            //else if (!filterByUser(_name, _id)) //init the list
+            //    throw new Exception("connection problem");
 
             /*//assume name is valid
             this.name = name;
@@ -186,7 +186,7 @@ namespace MileStoneClient.PresistentLayer
             if (list.Contains(msg))
             {
                 list.Remove(msg);
-                msg.DateTime =time;
+           //     msg.DateTime =time;
                 msg.Body = body;
                 list.Add(msg);
             }

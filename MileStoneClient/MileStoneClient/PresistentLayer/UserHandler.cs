@@ -1,18 +1,22 @@
 ﻿using System;
 using MileStoneClient.BusinessLayer;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace MileStoneClient.PresistentLayer
 {
     //an object that's responsable to transfer the users' info to the database
-    public class UserHandler : IQueryAction
+    public class UserHandler : ConnectionHandler
     {
+
+
+
         private List<User> allUsersList;
         private User userExist;
         private bool exist;
         private bool connectionFail;
-        private string UserId;
-        List<SqlParam> sqlParam;
+
 
         //constructor
         public UserHandler()
@@ -21,57 +25,37 @@ namespace MileStoneClient.PresistentLayer
             userExist = null;
             exist = false;
             connectionFail = false;
-            UserId = "";
-            sqlParam = new List<SqlParam>();
         }
 
-        public override void ExecuteQuery(string query)
-        {
-            //add new user
-            if (query.Contains("INSERT"))
-            {
-                Instance.InsertQuery(query, sqlParam);
-            }
-            //update users list
-            else if (query.Contains("SELECT"))
-            {
-                //allUsersList = Instance.ReadUserTable(query, sqlParam);
-                // allUsersList = Instance.InsertQuery(query, sqlParam);
-            }
-            //check if user exist
-            else if (query.Contains("select"))
-            {
-                // if user exist will recieve a list with one user, else will return empty list
-                /*       List<User> exist = Instance.ReadUserTable(query, sqlParam);
-
-                        if (exist != null)
-                        {
-                            //if the list contains a user, then user already exist it table
-                            if (exist.Count <= 1)
-                            {
-                                this.exist = true;
-                                userExist = exist[0];
-                            }
-                        } */
-            }
-        }
 
         //add a new User to Users table and then to list if the user doesn't alreay exist, return true if user is added
         public bool addUser(User user)
         {
-            //set query to add user and executes query 
-            string query = "INSERT Users ([Group_Id],[Nickname],[Password]) " +
-                           "VALUES (@user_G_id, @user_Nickname,@Password)";
-
-            // updates the list of parameters
-            sqlParam.Clear();
-            sqlParam.Add(new SqlParam("user_G_id", user.G_id));
-            sqlParam.Add(new SqlParam("user_Nickname", user.Nickname));
-            sqlParam.Add(new SqlParam("Password", user.Password));
-
             try
             {
-                ExecuteQuery(query);
+                //set query to add user and executes query 
+                string query = "INSERT INTO Users ([Group_Id],[Nickname],[Password]) " +
+                               "VALUES (@user_G_id, @user_Nickname ,@Password)";
+                connect();
+                SqlCommand command = new SqlCommand(null, connection);
+                command.CommandText = query;
+                // updates the list of parameters
+                SqlParameter id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
+                SqlParameter name_param = new SqlParameter(@"user_Nickname", SqlDbType.Text, 20);
+                SqlParameter pass_param = new SqlParameter(@"Password", SqlDbType.Text, 64);
+
+                id_param.Value = user.G_id;
+                name_param.Value = user.Nickname;
+                pass_param.Value = user.Password;
+
+                command.Parameters.Add(id_param);
+                command.Parameters.Add(name_param);
+                command.Parameters.Add(pass_param);
+                
+                command.Prepare();
+                command.ExecuteNonQuery();
+                command.Dispose();
+                disconnect();
             }
             catch (Exception e)
             {
@@ -83,15 +67,31 @@ namespace MileStoneClient.PresistentLayer
             return true;
         }
 
-        //retrieve all users from database table
+        ////retrieve all users from database table
         public void getAllUsers()
         {
-            string query = "SELECT [Group_Id],[Nickname],[Password] " +
-                    "FROM [MS3].[dbo].[Users]";
-            sqlParam.Clear();
             try
             {
-                ExecuteQuery(query);
+                allUsersList.Clear();
+
+                string query = "SELECT [Id],[Group_Id],[Nickname],[Password] " +
+                        "FROM [MS3].[dbo].[Users]";
+
+                connect();
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlDataReader data_reader = command.ExecuteReader();
+
+                int index = 0;
+                while (data_reader.Read())
+                {
+                    //add users from the users table to the list
+                    allUsersList.Add(new User(data_reader.GetValue(2).ToString(), data_reader.GetValue(1).ToString(), data_reader.GetValue(3).ToString()));
+                    allUsersList[index].User_id = data_reader.GetValue(0).ToString();
+                    index++;
+                }
+                data_reader.Close();
+                command.Dispose();
+                disconnect();
             }
             catch (Exception e)
             {
@@ -102,65 +102,114 @@ namespace MileStoneClient.PresistentLayer
         //check if user already exists in Users table
         public bool doesExist(string nickname, string g_id)
         {
-            //set query to find user with same details and executes query
-
-            // הוספתי את ה- [Id] והורדתי את הסיסמה
-            string query = "select top (1) [Id],[Group_Id],[Nickname],[Password] " +
-                    "from [MS3].[dbo].[Users] " +
-                    "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
-                    "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname + "'";
-
-            sqlParam.Clear();
-
             try
             {
-                ExecuteQuery(query);
+                //set query to find user with same details and executes query
+                string query = "select top (1) [Id],[Group_Id],[Nickname],[Password] " +
+                        "from [MS3].[dbo].[Users] " +
+                        "where [MS3].[dbo].[Users].[Group_Id] = @g_id" +//+ g_id +
+                        " and [MS3].[dbo].[Users].[Nickname] = @nickname";// + nickname + "'";
+
+
+                List<User> exist = new List<User>();
+                connect();
+                SqlCommand command = new SqlCommand(query, connection);
+                
+                SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
+                SqlParameter name_param = new SqlParameter(@"nickname", SqlDbType.Char, 20);
+                g_id_param.Value = g_id;
+                name_param.Value = nickname;
+                command.Parameters.Add(g_id_param);
+                command.Parameters.Add(name_param);
+
+                SqlDataReader data_reader = command.ExecuteReader();
+                while (data_reader.Read())
+                {
+                    //add users from the users table to the list
+                    exist.Add(new User(data_reader.GetValue(2).ToString(), data_reader.GetValue(1).ToString(), data_reader.GetValue(3).ToString()));
+                    exist[0].User_id = data_reader.GetValue(0).ToString();
+                }
+                data_reader.Close();
+                command.Dispose();
+                disconnect();
+
+                // set the user if we found one
+                if (exist != null)
+
+                    //if the list contains a user, then user already exist it table
+                    if (exist.Count > 0)
+                    {
+                        this.exist = true;
+                        userExist = exist[0];
+                    }
             }
             catch (Exception e)
             {
-                connectionFail = true;
+                //connectionFail = true;
                 return false;
             }
-            return exist;
-        }
-
-        //get members of group g_id
-        public bool getMembers(string g_id)
-        {
-            //set query to find user with same details and executes query
-            string query = "SELECT [Group_Id],[Nickname],[Password] " +
-                "from [MS3].[dbo].[Users] " +
-                "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id + "'";
-            try
-            {
-                ExecuteQuery(query);
-            }
-            catch (Exception e)
-            {
-                connectionFail = true;
-                return false;
-            }
+            //return exist;
             return true;
         }
 
-        //get id number for user
-        public string getUserId(string g_id, string nickname)
+        ////get members of group g_id
+        public List<User> getMembers(string g_id)
         {
-            //set query to find user with same details and executes query
-            string query = "SELECT [Id] " +
-                "from [MS3].[dbo].[Users] " +
-                "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
-                "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname + "'";
+            List<User> members = new List<User>();
             try
             {
-                ExecuteQuery(query);
+                //set query to find user with same details and executes query
+                string query = "SELECT [Group_Id],[Nickname],[Password] " +
+                    "from [MS3].[dbo].[Users] " +
+                    "where [MS3].[dbo].[Users].[Group_Id] = @g_id";
+
+                
+                connect();
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlDataReader data_reader = command.ExecuteReader();
+
+                SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
+                g_id_param.Value = g_id;
+                command.Parameters.Add(g_id_param);
+
+                int index = 0;
+                while (data_reader.Read())
+                {
+                    //add users from the users table to the list
+                    members.Add(new User(data_reader.GetValue(2).ToString(), data_reader.GetValue(1).ToString(), data_reader.GetValue(3).ToString()));
+                    members[index].User_id = data_reader.GetValue(0).ToString();
+                    index++;
+                }
+                data_reader.Close();
+                command.Dispose();
+                disconnect();
             }
             catch (Exception e)
             {
                 connectionFail = true;
+                return null;
             }
-            return UserId;
+            return members;
         }
+
+        ////get id number for user
+        //public string getUserId(string g_id, string nickname)
+        //{
+        //    //set query to find user with same details and executes query
+        //    string query = "SELECT [Id] " +
+        //        "from [MS3].[dbo].[Users] " +
+        //        "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
+        //        "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname + "'";
+        //    try
+        //    {
+        //        ExecuteQuery(query);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        connectionFail = true;
+        //    }
+        //    return UserId;
+        //}
 
         public List<User> List
         {
