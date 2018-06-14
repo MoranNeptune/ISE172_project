@@ -29,7 +29,8 @@ namespace MileStoneClient.PresentationLayer
         private bool isOptionsVisible;
         private Options op;
         private string orderChoice, filterChoice, sortChoice;
-        private List<Action> actionList;
+        private Action sortAction;
+        private List<string> filterInfo;
         private int order;
         private List<GuiMessage> msgs;
         private List<string> groups;
@@ -44,12 +45,15 @@ namespace MileStoneClient.PresentationLayer
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
             this.DataContext = obs;
-           // nicknames = chatRoom.getNicknames();
+            // nicknames = chatRoom.getNicknames();
             groups = chatRoom.getGroups();
             op = new Options(this, groups, obs);
-            actionList = new List<Action>();
-            actionList.Add(new SortByTime());
-            actionList.Add(null);
+            // actionList = new List<Action>();
+            //actionList.Add(new SortByTime());
+            //actionList.Add(null);
+            sortAction = new SortByTime();
+            filterInfo = new List<string>();
+            filterInfo.Add("NONE");
             msgs = new List<GuiMessage>();
             isOptionsVisible = false;
             orderChoice = "ascending";
@@ -80,7 +84,7 @@ namespace MileStoneClient.PresentationLayer
                 filterChoice = op.FilterChoice;
                 sortChoice = op.SortChoice;
                 op.IsChanged = false;
-                actionList.Clear();
+                filterInfo.Clear();
 
                 //list == order,sort,filter
                 switch (orderChoice)
@@ -97,28 +101,35 @@ namespace MileStoneClient.PresentationLayer
                 switch (sortChoice)
                 {
                     case "name":
-                        actionList.Add(new SortByName());
+                        sortAction = new SortByName();
                         break;
                     case "all":
-                        actionList.Add(new SortByGNT());
+                        sortAction = new SortByGNT();
                         break;
                     case "time":
-                        actionList.Add(new SortByTime());
+                        sortAction = new SortByTime();
                         break;
                 }
                 // adds the choosen filter to the action list
                 switch (filterChoice)
                 {
                     case "none":
-                        actionList.Add(null);
+                        filterInfo.Add("NONE");
                         break;
                     case "group":
                         if (op.GroupChoice != null)
-                            actionList.Add(new FilterByGroup(op.GroupChoice));
+                        {
+                            filterInfo.Add("ByGroup");
+                            filterInfo.Add(op.GroupChoice);
+                        }
                         break;
                     case "user":
                         if (op.UserChoice != null && op.GroupChoice != null)
-                            actionList.Add(new FilterByUser(op.UserChoice, op.GroupChoice));
+                        {
+                            filterInfo.Add("ByGroup");
+                            filterInfo.Add(op.GroupChoice);
+                            filterInfo.Add(op.UserChoice);
+                        }
                         break;
                 }
                 if (op.UserChoice != null && op.GroupChoice != null)
@@ -191,10 +202,10 @@ namespace MileStoneClient.PresentationLayer
             Message message;
             if (obs.ListBoxSelectedValue.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
             {
-        
-              // message = new Message(obs, chatRoom);
+
+                // message = new Message(obs, chatRoom);
                 MessageBox.Show("dfg");
-            } 
+            }
         }
 
         /// return list of the users in a given group
@@ -210,7 +221,7 @@ namespace MileStoneClient.PresentationLayer
         {
             obs.Messages.Clear();
             // לשנות
-            msgs = chatRoom.getMessages(order, new SortByTime(), null);
+            msgs = chatRoom.getMessages(order, sortAction, filterInfo);
             // convers all the Gui Messages to a string
             for (int i = 0; i < msgs.Count; i++)
             {
@@ -224,7 +235,7 @@ namespace MileStoneClient.PresentationLayer
         private void updateMessages(object sender, RoutedEventArgs e)
         {
             //לשנות
-            msgs = chatRoom.getMessages(0, new SortByTime(), null);
+            msgs = chatRoom.getMessages(0, sortAction, filterInfo);
             for (int i = 0; i < msgs.Count; i++)
             {
                 obs.Messages.Add(msgs[i].toString());
