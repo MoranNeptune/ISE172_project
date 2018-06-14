@@ -22,22 +22,22 @@ namespace MileStoneClient.PresentationLayer
     {
         private ObservableObject obs;//binding
         private ChatRoom chatRoom;
+        private String lastMSG;
 
-        public Message(ObservableObject obs, ChatRoom chatRoom)
+        public Message(ObservableObject obs, ChatRoom chatRoom,String lastMSG)
         {
             InitializeComponent();
             this.obs = obs;
             DataContext = obs;
             this.chatRoom = chatRoom;
-
+            this.lastMSG = lastMSG;
             obs.TxtEditContent = obs.ListBoxSelectedValue;
         }
 
-        // לאתחל שוב ברגע שעדן יוצרת עריכת הודעהההההההההה
         // if the user edit his message
         private void BtnEditMessage_Click(object sender, RoutedEventArgs e)
         {
-            //chatRoom.editMessage(obs.TxtEditContent);
+            //chatRoom.editMessage(obs.TxtEditContent,lastMSG);
         }
 
         // if the user don't eant to edit his message

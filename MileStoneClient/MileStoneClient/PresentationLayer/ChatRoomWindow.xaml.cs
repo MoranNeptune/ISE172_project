@@ -200,11 +200,12 @@ namespace MileStoneClient.PresentationLayer
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Message message;
-            if (obs.ListBoxSelectedValue.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
+            String lastMSG = obs.ListBoxSelectedValue;
+            if (lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
             {
 
-                // message = new Message(obs, chatRoom);
-                MessageBox.Show("dfg");
+                message = new Message(obs, chatRoom,lastMSG);
+                message.Show();
             }
         }
 
