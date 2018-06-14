@@ -72,30 +72,34 @@ namespace MileStoneClient.PresistentLayer
         {  
             try
             {
-                    string query = "INSERT INTO Messages ([Guid],[SendTime],[Body]) " +
-                                       "VALUES (@msg_guid, @msg_DateTime, @msg_Body)";
-                    //open connection and set command text to be the value of query
-                    connect();
-                    SqlCommand command = new SqlCommand(null, connection);
-                    command.CommandText = query;
+                string query = "INSERT INTO Messages ([Guid],[User_Id],[SendTime],[Body]) " +
+                                    "VALUES (@msg_guid, @user_id,@msg_DateTime, @msg_Body)";
+                //open connection and set command text to be the value of query
+                disconnect();
+                connect();
+                SqlCommand command = new SqlCommand(null, connection);
+                command.CommandText = query;
 
-                    //add the parameters to the query
-                    SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Text, 20);
-                    SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.Text, 20);
-                    SqlParameter msg_Body_param = new SqlParameter(@"msg_Body", SqlDbType.Text, 20);
+                //add the parameters to the query
+                SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Text, 20);
+                SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.DateTime, 20);
+                SqlParameter msg_Body_param = new SqlParameter(@"msg_Body", SqlDbType.Text, 20);
+                SqlParameter user_id_param = new SqlParameter(@"user_id", SqlDbType.Int, 20);
 
-                    msg_guid_param.Value = msg.User;
-                    msg_DateTime_param.Value = msg.DateTime;
-                    msg_Body_param.Value = msg.Body;
+                msg_guid_param.Value = msg.Id.ToString();
+                msg_DateTime_param.Value = msg.DateTime;
+                msg_Body_param.Value = msg.Body;
+                user_id_param.Value = msg.User.User_id;
 
-                    command.Parameters.Add(msg_guid_param);
-                    command.Parameters.Add(msg_DateTime_param);
-                    command.Parameters.Add(msg_Body_param);
+                command.Parameters.Add(msg_guid_param);
+                command.Parameters.Add(msg_DateTime_param);
+                command.Parameters.Add(msg_Body_param);
+                command.Parameters.Add(user_id_param);
 
-                    command.Prepare();
-                    command.ExecuteNonQuery();
-                    command.Dispose();
-                    disconnect();
+                command.Prepare();
+                command.ExecuteNonQuery();
+                command.Dispose();
+                disconnect();
             }
             catch (Exception e)
             {

@@ -31,7 +31,7 @@ namespace MileStoneClient.BusinessLayer
             this.currUser = null;
             presMsgs = new List<GuiMessage>();
             sort = new SortByTime();
-            filter = null;
+            filter = "";
             // initialize the messages handler with a default filter - NONE
             //   allMessages = new MessageHandler(NONE, NONE);
             //   allUsers = new UserHandler();
@@ -169,8 +169,6 @@ namespace MileStoneClient.BusinessLayer
             return false;
         }
 
-      
-
         // לשנותתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתת
         /// <summary>
         /// the function returns a list of messages, by specific sort, filter and order 
@@ -204,7 +202,7 @@ namespace MileStoneClient.BusinessLayer
                 updatePresMessages();
             retrieveMessages();
            // if (filter != null)
-            //    filter.action(presMsgs);
+           //    filter.action(presMsgs);
 
             if (sort != null)
             {
