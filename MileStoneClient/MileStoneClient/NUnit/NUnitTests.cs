@@ -13,6 +13,7 @@ namespace MileStoneClient.NUnit
     [TestFixture]
     class NUnitTests
     {
+        /*
         private const String url = "http://ise172.ise.bgu.ac.il:80";
 
         /// <summary>
@@ -141,5 +142,6 @@ namespace MileStoneClient.NUnit
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
+        */
     }
 }

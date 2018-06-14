@@ -192,7 +192,7 @@ namespace MileStoneClient.PresentationLayer
             if (obs.ListBoxSelectedValue.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
             {
         
-              //  message = new Message(obs, chatRoom);
+              // message = new Message(obs, chatRoom);
                 MessageBox.Show("dfg");
             } 
         }
@@ -209,7 +209,8 @@ namespace MileStoneClient.PresentationLayer
         private void getMessagesList()
         {
             obs.Messages.Clear();
-            msgs = chatRoom.getMessages(order, actionList);
+            // לשנות
+            msgs = chatRoom.getMessages(order, new SortByTime(), null);
             // convers all the Gui Messages to a string
             for (int i = 0; i < msgs.Count; i++)
             {
@@ -222,7 +223,8 @@ namespace MileStoneClient.PresentationLayer
         //initiate listBox wuth the messages list
         private void updateMessages(object sender, RoutedEventArgs e)
         {
-            msgs = chatRoom.getMessages(0, actionList);
+            //לשנות
+            msgs = chatRoom.getMessages(0, new SortByTime(), null);
             for (int i = 0; i < msgs.Count; i++)
             {
                 obs.Messages.Add(msgs[i].toString());

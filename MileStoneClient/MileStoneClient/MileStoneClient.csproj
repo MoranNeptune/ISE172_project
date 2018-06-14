@@ -98,14 +98,9 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PresistentLayer\ConnectionHandler.cs" />
-    <Compile Include="PresistentLayer\GroupFilter.cs" />
     <Compile Include="PresistentLayer\HandlerFactory.cs" />
     <Compile Include="PresistentLayer\IdHandler.cs" />
-    <Compile Include="PresistentLayer\IQueryAction.cs" />
     <Compile Include="PresistentLayer\MessageHandler.cs" />
-    <Compile Include="PresistentLayer\SQLCommunication.cs" />
-    <Compile Include="PresistentLayer\SqlParam.cs" />
-    <Compile Include="PresistentLayer\UserFilter.cs" />
     <Compile Include="PresistentLayer\UserHandler.cs" />
     <Compile Include="PresentationLayer\RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
