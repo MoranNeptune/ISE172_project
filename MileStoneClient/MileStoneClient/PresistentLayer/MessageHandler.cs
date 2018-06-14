@@ -16,7 +16,7 @@ namespace MileStoneClient.PresistentLayer
         private String _name; // "" or nickname
         private string _id; //"" or g_id
         private bool connectionFail;
-        private Message queryMessage;
+       // private Message queryMessage;
 
         //constructor
         public MessageHandler(String name, string id)
@@ -24,7 +24,7 @@ namespace MileStoneClient.PresistentLayer
             _name = name;
             _id = id;
             connectionFail = false;
-            queryMessage = null;
+           // queryMessage = null;
 
             ///////////////////////////////להוסיף קליר לפארם בכל מקום!!!
             //no filter
@@ -65,7 +65,7 @@ namespace MileStoneClient.PresistentLayer
 
         //check if the user to filter by is new and change it if so
         //update the list as needed, return if sucssed
-        private bool filterByUser(string name, string id)
+       /* private bool filterByUser(string name, string id)
         {
             if (!id.Equals(_id))
                 _id = id;
@@ -75,7 +75,7 @@ namespace MileStoneClient.PresistentLayer
             if(!uf.ConnectionFail)
                 list = uf.Msgs;
             return !uf.ConnectionFail;
-        }
+        }*/
 
         //update the list as needed, return if sucssed
         private bool filterByNone()
@@ -87,7 +87,7 @@ namespace MileStoneClient.PresistentLayer
                     "WHERE [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
             try
             {
-                ExecuteQuery(query);
+               // ExecuteQuery(query);
             }
             catch (Exception e)
             {
@@ -100,7 +100,7 @@ namespace MileStoneClient.PresistentLayer
 
         //check if the id to filter by is new and change it if so
         //update the list as needed, return if sucssed
-        private bool filterById(String id)
+       /* private bool filterById(String id)
         {
             if (!id.Equals( _id))
                 _id = id;
@@ -108,35 +108,30 @@ namespace MileStoneClient.PresistentLayer
             if(!gf.ConnectionFail)
                 list = gf.Msgs;
             return !gf.ConnectionFail;
-        }
+        }*/
 
         //add a new message to the database
             public bool send(Message msg)
         {  
-        //set query to add msg and executes query 
-        /////guid- ours or sqls?
-        /////user ID- need to get it from the usersTable or from the user.ID if possible
-          //  "VALUES (" + /*userID +*/ ", '" + msg.DateTime + "','" + msg.Body + "')";
-            //queryMessage = msg;
             try
             {
-                    string query = "INSERT INTO Messages ([User_Id],[SendTime],[Body]) " +
-                                       "VALUES (@user_id, @msg_DateTime,@msg_Body)";
+                    string query = "INSERT INTO Messages ([Guid],[SendTime],[Body]) " +
+                                       "VALUES (@msg_guid, @msg_DateTime, @msg_Body)";
                     //open connection and set command text to be the value of query
                     connect();
                     SqlCommand command = new SqlCommand(null, connection);
                     command.CommandText = query;
 
                     //add the parameters to the query
-                    SqlParameter user_id_param = new SqlParameter(@"user_id", SqlDbType.Text, 20);
+                    SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Text, 20);
                     SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.Text, 20);
                     SqlParameter msg_Body_param = new SqlParameter(@"msg_Body", SqlDbType.Text, 20);
 
-                    user_id_param.Value = msg.User;
+                    msg_guid_param.Value = msg.User;
                     msg_DateTime_param.Value = msg.DateTime;
                     msg_Body_param.Value = msg.Body;
 
-                    command.Parameters.Add(user_id_param);
+                    command.Parameters.Add(msg_guid_param);
                     command.Parameters.Add(msg_DateTime_param);
                     command.Parameters.Add(msg_Body_param);
 
@@ -144,16 +139,14 @@ namespace MileStoneClient.PresistentLayer
                     command.ExecuteNonQuery();
                     command.Dispose();
                     disconnect();
-                }
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 connectionFail = true;
                 return false;
             }
-
             list.Add(msg);
-            //queryMessage = null;
             return true;
         }
 
@@ -196,7 +189,7 @@ namespace MileStoneClient.PresistentLayer
             string query = "UPDATE Messages" + "SET body =" + body + ", time = @msg_DateTime"+"WHERE guid = @msg_guid";
             try
             {
-                ExecuteQuery(query);
+              //  ExecuteQuery(query);
             }
             catch (Exception e)
             {
@@ -229,7 +222,7 @@ namespace MileStoneClient.PresistentLayer
                 //add it to a new temp list, add this temp list to the end of this list and return the temp list
                 SqlParameter user_g_id_param;
                 SqlParameter user_name_param;
-                string query = "SELECT TOP (200) [Group_Id],[Nickname],[SendTime],[Body] " +
+                string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                         "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time" +  
                         "AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
@@ -255,8 +248,9 @@ namespace MileStoneClient.PresistentLayer
                 command.CommandText = query;
                 SqlDataReader data_reader = command.ExecuteReader();
                 while (data_reader.Read())   //add msg from the msgs table to the list
-                {         /// string guid, string user id, dateTime time, string body
-                    tempList.Add(new Message(data_reader.GetValue(0), data_reader.GetValue(1).ToString(), data_reader.GetValue(2), data_reader.GetValue(3)));
+                {         
+                    tempList.Add(new Message(data_reader.GetValue(4).ToString(), data_reader.GetValue(3), 
+                        data_reader.GetValue(2), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();
                 ///////////close
@@ -273,6 +267,96 @@ namespace MileStoneClient.PresistentLayer
                 }
             list.AddRange(tempList); ////////לבדוק אם אני מעדכנת או עדן
             return tempList;
+        }
+
+        //check if the id to filter by is new and change it if so
+        //update the list as needed, return if sucssed
+        public bool FilterByGroup(string g_id)
+        {
+            if (!g_id.Equals(_id))
+                _id = g_id;
+            try
+            {
+                connect();
+                SqlCommand command = new SqlCommand(null, connection);
+                //query to filter by group id
+                string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
+                        "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
+                        "WHERE [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
+                        " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.DateTime, 20);
+                user_G_id_param.Value = g_id;
+                command.Parameters.Add(user_G_id_param);
+                ///////execute
+                command.CommandText = query;
+                SqlDataReader data_reader = command.ExecuteReader();
+                while (data_reader.Read())   //add msg from the msgs table to the list
+                {         /// string guid, string user id, dateTime time, string body
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), data_reader.GetValue(3),
+                        data_reader.GetValue(2), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
+                }
+                data_reader.Close();
+                ///////////close
+                command.Prepare();
+                command.ExecuteNonQuery();
+                command.Dispose();
+                disconnect();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        //check if the user to filter by is new and change it if so
+        //update the list as needed, return true if sucssed
+        public bool FilterByUser(string nickname, string g_id)
+        {
+            if (!g_id.Equals(_id))
+                _id = g_id;
+            if (!nickname.Equals(_name))
+                _name = nickname;
+            try
+            {
+                connect();
+                SqlCommand command = new SqlCommand(null, connection);
+                //query to filter by user nickname
+                string query = "SELECT TOP (200) [Group_Id],[Nickname], [Guid],[SendTime],[Body] " +
+                        "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
+                        "WHERE [MS3].[dbo].[Users].Nickname = = @user_Nickname" +
+                        " AND [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
+                        " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+      
+                SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.DateTime, 20);
+                SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.DateTime, 20);
+
+                user_Nickname_param.Value = nickname;
+                user_G_id_param.Value = g_id;
+
+                command.Parameters.Add(user_Nickname_param);
+                command.Parameters.Add(user_G_id_param);
+
+                ///////execute
+                command.CommandText = query;
+                SqlDataReader data_reader = command.ExecuteReader();
+                while (data_reader.Read())   //add msg from the msgs table to the list
+                {         /// string guid, string user id, dateTime time, string body
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), data_reader.GetValue(3),
+                        data_reader.GetValue(2), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
+                }
+                data_reader.Close();
+                ///////////close
+                command.Prepare();
+                command.ExecuteNonQuery();
+                command.Dispose();
+                disconnect();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
 
@@ -348,6 +432,5 @@ namespace MileStoneClient.PresistentLayer
             set { list = value; }
         }
 
-        public List<SqlParam> param { get; private set; }
     }
 }
