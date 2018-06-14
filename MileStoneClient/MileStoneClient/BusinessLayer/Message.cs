@@ -30,7 +30,7 @@ namespace MileStoneClient.BusinessLayer
                 this.id = Guid.Parse(guid);
             this.body = body;
             this.dateTime = time;
-            user = new User(g_id, user_nickname,"");
+            user = new User(user_nickname, g_id, "");
         }
 
 
