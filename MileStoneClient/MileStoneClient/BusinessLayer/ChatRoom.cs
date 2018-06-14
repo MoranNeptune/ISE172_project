@@ -20,7 +20,8 @@ namespace MileStoneClient.BusinessLayer
         private MessageHandler allMessages;
         private UserHandler allUsers;
         private List<GuiMessage> presMsgs;
-        private PresentationLayer.Action sort, filter;
+        private PresentationLayer.Action sort;
+        private string filter;
         //private string NONE = "";
 
         // constractors
@@ -38,6 +39,8 @@ namespace MileStoneClient.BusinessLayer
             HandlerFactory handler = new HandlerFactory();
             allMessages = handler.createMessageHandler();
             allUsers = handler.createUserHandler();
+            allMessages.filterByNone();
+            updatePresMessages();
         }
 
         // methods
@@ -175,32 +178,38 @@ namespace MileStoneClient.BusinessLayer
         /// <param name="order">The wanted order of the list</param>
         /// <param name="actions">Sort and filter</param>
         /// <returns></returns>
-        public List<GuiMessage> getMessages(int order, List<PresentationLayer.Action> actions)
+        public List<GuiMessage> getMessages(int order, PresentationLayer.Action sortAction, List<string> filterInfo)
         {
             bool update = false;
             // check if the sort or filter had changed, if they did, we update the current sort/filter
-            if (actions.Count > 0 && sort != actions[0])
+            if (sort != sortAction)
             {
-                sort = actions[0];
+                sort = sortAction;
                 update = true;
             }
-            if (actions.Count > 1 && this.filter != actions[1])
+            // the list filterInfo contains - [0] - filter name, [1]- group id, [2]- nickname
+            if (!this.filter.Equals(filterInfo[0]))
             {
-                filter = actions[1];
+                this.filter = filterInfo[0];
                 update = true;
+                if (filter.Equals("NONE"))
+                    allMessages.filterByNone();
+                if (filter.Equals("ByGroup"))
+                    allMessages.FilterByGroup(filterInfo[1]);
+                if (filter.Equals("ByUser"))
+                    allMessages.FilterByUser(filterInfo[2], filterInfo[1]);
             }
             // if the filter/sort is changed, update the list of the presentation messages
             if (update)
                 updatePresMessages();
             retrieveMessages();
-            if (filter != null)
-                filter.action(presMsgs);
+           // if (filter != null)
+            //    filter.action(presMsgs);
 
             if (sort != null)
             {
                 // ascending sort - defult sort
                 sort.action(presMsgs);
-
                 // if descending sort
                 if (order == 1)
                 {
@@ -216,52 +225,17 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         public void retrieveMessages()
         {
-            // retrives last 10 messages from the server
+            // retrives last messages from the server
             List<Message> msgToUpdate = allMessages.retrieve();
-        //    List<Message> msgToUpdate = new List<Message>();
-            // List<GuiMessage> msgToRetrive = new List<GuiMessage>();
+
             // check which messages we should update in our files
             for (int i = 0; i < msgToUpdate.Count; i++)
             {
-
-                // for each message we'll take the user details from the database
-                msgToUpdate[i].User = allUsers.getUserById(msgToUpdate[i].User_id);
                 if (msgToUpdate[i].User == null)
                     throw new Exception("an error with getUserByID");
                 // creates a GuiMessage for the curr message
                 presMsgs.Add(new GuiMessage(msgToUpdate[i].Body, msgToUpdate[i].DateTime, msgToUpdate[i].Id, msgToUpdate[i].User.Nickname, msgToUpdate[i].User.G_id));
 
-           /*     Message newMsg;
-                User newUser = findUser(msgs[i].UserName, msgs[i].GroupID);
-                // if the user already exist in the list
-                if (newUser != null)
-                {
-                    newMsg = new Message(msgs[i].MessageContent, msgs[i].Date, msgs[i].Id, newUser);
-                }
-                // if the user doest not exist on our lists.
-                // and updates the lists with new group id, users and messages
-                else
-                {
-                    ID newId = findGroupId(msgs[i].GroupID);
-                    // if the group id already exist on the system
-                    if (newId == null)
-                    {
-                        newId = new ID(msgs[i].GroupID);
-                        this.groupsId.updateFile(newId);
-                    }
-                    newUser = new User(msgs[i].UserName, newId);
-                    newId.addMember(newUser.Nickname);
-                    allUsers.updateFile(newUser);
-                    newMsg = new Message(msgs[i].MessageContent, msgs[i].Date, msgs[i].Id, newUser);
-                }
-
-                // check if the message aleardy exist 
-                if (!allMessages.List.Contains(newMsg))
-                {
-                    //newUser.addMessage(newMsg);
-                    msgToUpdate.Add(newMsg);
-                    presMsgs.Add(new GuiMessage(newMsg.Body, newMsg.DateTime, newMsg.Id, newMsg.User.Nickname, newMsg.User.G_id));
-                }*/
             }
             // update messages list
             if (msgToUpdate.Count > 0)
