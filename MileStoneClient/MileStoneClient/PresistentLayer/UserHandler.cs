@@ -144,7 +144,7 @@ namespace MileStoneClient.PresistentLayer
             }
             catch (Exception e)
             {
-                //connectionFail = true;
+                connectionFail = true;
                 return false;
             }
             //return exist;
@@ -162,11 +162,9 @@ namespace MileStoneClient.PresistentLayer
                     "from [MS3].[dbo].[Users] " +
                     "where [MS3].[dbo].[Users].[Group_Id] = @g_id";
 
-                
                 connect();
                 SqlCommand command = new SqlCommand(query, connection);
                 
-
                 SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
                 g_id_param.Value = g_id;
                 command.Parameters.Add(g_id_param);
@@ -194,23 +192,38 @@ namespace MileStoneClient.PresistentLayer
         }
 
         ////get id number for user
-        //public string getUserId(string g_id, string nickname)
-        //{
-        //    //set query to find user with same details and executes query
-        //    string query = "SELECT [Id] " +
-        //        "from [MS3].[dbo].[Users] " +
-        //        "where [MS3].[dbo].[Users].[Group_Id] = '" + g_id +
-        //        "' and [MS3].[dbo].[Users].[Nickname] = '" + nickname + "'";
-        //    try
-        //    {
-        //        ExecuteQuery(query);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        connectionFail = true;
-        //    }
-        //    return UserId;
-        //}
+        public User getUserById(string user_id)
+        {
+            User user = null;
+            try
+            {
+                //set query to find user with same user id
+                string query = "SELECT [Group_Id],[Nickname],[Password] " +
+                    "from [MS3].[dbo].[Users] " +
+                    "where [MS3].[dbo].[Users].[Id] = @user_id";
+
+                connect();
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlParameter user_id_param = new SqlParameter(@"user_id", SqlDbType.Int, 20);
+                user_id_param.Value = user_id;
+                command.Parameters.Add(user_id_param);
+
+                SqlDataReader data_reader = command.ExecuteReader();
+                if(data_reader.Read())
+                    //creates the user
+                    user = new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString());
+
+                data_reader.Close();
+                command.Dispose();
+                disconnect();
+
+            }
+            catch (Exception e)
+            {
+                connectionFail = true;
+            }
+            return user;
+        }
 
         public List<User> List
         {

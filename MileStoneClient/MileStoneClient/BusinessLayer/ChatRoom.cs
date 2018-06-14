@@ -216,15 +216,22 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         public void retrieveMessages()
         {
-            /*
             // retrives last 10 messages from the server
-            List<IMessage> msgs = Communication.Instance.GetTenMessages(this.url);
-            List<Message> msgToUpdate = new List<Message>();
+            List<Message> msgToUpdate = allMessages.retrieve();
+        //    List<Message> msgToUpdate = new List<Message>();
             // List<GuiMessage> msgToRetrive = new List<GuiMessage>();
             // check which messages we should update in our files
-            for (int i = 0; i < msgs.Count; i++)
+            for (int i = 0; i < msgToUpdate.Count; i++)
             {
-                Message newMsg;
+
+                // for each message we'll take the user details from the database
+                msgToUpdate[i].User = allUsers.getUserById(msgToUpdate[i].User_id);
+                if (msgToUpdate[i].User == null)
+                    throw new Exception("an error with getUserByID");
+                // creates a GuiMessage for the curr message
+                presMsgs.Add(new GuiMessage(msgToUpdate[i].Body, msgToUpdate[i].DateTime, msgToUpdate[i].Id, msgToUpdate[i].User.Nickname, msgToUpdate[i].User.G_id));
+
+           /*     Message newMsg;
                 User newUser = findUser(msgs[i].UserName, msgs[i].GroupID);
                 // if the user already exist in the list
                 if (newUser != null)
@@ -254,13 +261,13 @@ namespace MileStoneClient.BusinessLayer
                     //newUser.addMessage(newMsg);
                     msgToUpdate.Add(newMsg);
                     presMsgs.Add(new GuiMessage(newMsg.Body, newMsg.DateTime, newMsg.Id, newMsg.User.Nickname, newMsg.User.G_id));
-                }
+                }*/
             }
-            // update messages file
+            // update messages list
             if (msgToUpdate.Count > 0)
             {
-                allMessages.updateFile(msgToUpdate);
-            }*/
+                allMessages.List.AddRange(msgToUpdate);
+            }
         }
 
         /// <summary>
