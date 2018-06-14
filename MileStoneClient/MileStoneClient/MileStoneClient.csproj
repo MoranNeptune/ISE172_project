@@ -90,6 +90,9 @@
     </Compile>
     <Compile Include="PresentationLayer\GuiMessage.cs" />
     <Compile Include="PresentationLayer\ListBox.cs" />
+    <Compile Include="PresentationLayer\Message.xaml.cs">
+      <DependentUpon>Message.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\ObservableObject.cs" />
     <Compile Include="PresentationLayer\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
@@ -108,6 +111,10 @@
     <Page Include="PresentationLayer\ChatRoomWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentationLayer\Message.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="PresentationLayer\Options.xaml">
       <Generator>MSBuild:Compile</Generator>
