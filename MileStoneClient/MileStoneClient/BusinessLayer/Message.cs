@@ -14,7 +14,7 @@ namespace MileStoneClient.BusinessLayer
         private User user;
         private DateTime dateTime;
         private Guid id;
-        private string user_id;
+        
 
         //Constructor
         public Message(string body, DateTime time, Guid id, User user)
@@ -24,13 +24,13 @@ namespace MileStoneClient.BusinessLayer
             this.id = id;
             this.user = user;
         }
-        public Message(string body, DateTime time, string id, string user_id)
+        public Message(string body, DateTime time, string guid, string g_id, string user_nickname)
         {
-            if (Guid.TryParse(id, out Guid id2))
-                this.id = Guid.Parse(id);
+            if (Guid.TryParse(guid, out Guid id2))
+                this.id = Guid.Parse(guid);
             this.body = body;
             this.dateTime = time;
-            this.user_id = user_id;
+            user = new User(g_id, user_nickname,"");
         }
 
 
@@ -40,11 +40,7 @@ namespace MileStoneClient.BusinessLayer
             get { return body; }
             set { body = value; }
         }
-        public string User_id
-        {
-            get { return user_id; }
-            set { user_id = value; }
-        }
+
         public User User
         {
             get { return user; }

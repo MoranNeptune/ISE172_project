@@ -225,7 +225,7 @@ namespace MileStoneClient.BusinessLayer
             {
 
                 // for each message we'll take the user details from the database
-                msgToUpdate[i].User = allUsers.getUserById(msgs[i].User_id);
+                msgToUpdate[i].User = allUsers.getUserById(msgToUpdate[i].User_id);
                 if (msgToUpdate[i].User == null)
                     throw new Exception("an error with getUserByID");
                 // creates a GuiMessage for the curr message
