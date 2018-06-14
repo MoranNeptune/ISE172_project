@@ -110,7 +110,7 @@ namespace MileStoneClient.PresistentLayer
         //input: the message we want to update and the new body. the function will update it's body and dateTime on the database and update the list
         //output: true for succsess, false for fail
         //assume valid input
-        public bool updateMessage(Message msg, string body, DateTime time)
+        public bool updateMessage(string guid, string body, DateTime time)
         {
             try
             {
@@ -124,12 +124,12 @@ namespace MileStoneClient.PresistentLayer
 
                 //add the parameters to the query
                 SqlParameter msg_Body_param = new SqlParameter(@"msg_Body", SqlDbType.Text, 20);
-                SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.Text, 20);
+                SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.DateTime, 20);
                 SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Text, 20);
 
                 msg_Body_param.Value = body; 
                 msg_DateTime_param.Value = time;
-                msg_guid_param.Value = msg.Id;
+                msg_guid_param.Value = guid;
 
                 command.Parameters.Add(msg_Body_param);
                 command.Parameters.Add(msg_DateTime_param);
@@ -148,13 +148,13 @@ namespace MileStoneClient.PresistentLayer
             }
             //if the update sucsed and the msg relevant to this filter, update also the list of msgs (delete it from the list and add it in the end of it)
             /////////////עדן צריכה להוסיף אצלה
-            if (list.Contains(msg))
+            /*if (list.Contains(msg))
             {
                 list.Remove(msg);
                 msg.DateTime =time;
                 msg.Body = body;
                 list.Add(msg);
-            }
+            }*/
             return true;
         }
 
@@ -235,7 +235,7 @@ namespace MileStoneClient.PresistentLayer
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                         "WHERE [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
                         " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
-                SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.DateTime, 20);
+                SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
                 user_G_id_param.Value = g_id;
                 command.Parameters.Add(user_G_id_param);
                 ///////execute
@@ -276,12 +276,12 @@ namespace MileStoneClient.PresistentLayer
                 //query to filter by user nickname
                 string query = "SELECT TOP (200) [Group_Id],[Nickname], [Guid],[SendTime],[Body] " +
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                        "WHERE [MS3].[dbo].[Users].Nickname = = @user_Nickname" +
+                        "WHERE [MS3].[dbo].[Users].Nickname = @user_Nickname" +
                         " AND [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
                         " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
       
-                SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.DateTime, 20);
-                SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.DateTime, 20);
+                SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.Char, 20);
+                SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
 
                 user_Nickname_param.Value = nickname;
                 user_G_id_param.Value = g_id;
@@ -294,7 +294,7 @@ namespace MileStoneClient.PresistentLayer
                 list.Clear();
                 SqlDataReader data_reader = command.ExecuteReader();
                 while (data_reader.Read())   //add msg from the msgs table to the list
-                {         /// string guid, string user id, dateTime time, string body
+                {         
                     list.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
                         data_reader.GetValue(2).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
