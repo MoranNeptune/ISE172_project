@@ -24,70 +24,35 @@ namespace MileStoneClient.PresistentLayer
             _name = name;
             _id = id;
             connectionFail = false;
-           // queryMessage = null;
-
-            ///////////////////////////////להוסיף קליר לפארם בכל מקום!!!
-            //no filter
-            //if (_id.Equals("") && !filterByNone()) //init the list
-            //    //throw new Exception("connection problem"); /////להחליף את הקונקשיין פייל לטרו?
-            ////ID filter
-            //else if (_name.Equals("") && !filterById(_id)) //init the list
-            //    throw new Exception("connection problem");
-            ////user filter
-            //else if (!filterByUser(_name, _id)) //init the list
-            //    throw new Exception("connection problem");
-
-            /*//assume name is valid
-            this.name = name;
-            //check if there is already a file with this needed data, and open a new one if not
-            if (!File.Exists(name + ".bin"))
-            {
-                Stream myFileStream = File.Create(name + ".bin");
-                myFileStream.Close();
-                list = new List<Message>();
-            }
-            //deserialize the list of Message's from the file with this name
-            else
-            {
-                Stream ReadFileStream = File.OpenRead(name + ".bin");
-                BinaryFormatter deserializer = new BinaryFormatter();
-                if (new FileInfo(name + ".bin").Length != 0)
-                    list = (List<Message>)deserializer.Deserialize(ReadFileStream);
-                else this.list = new List<Message>();
-                ReadFileStream.Close();
-            }*/
-
-            /*  if (filter.Equals("user"))
-              {
-                  list=UserFilter()
-              }*/
+            filterByNone();
         }
-
-        //check if the user to filter by is new and change it if so
-        //update the list as needed, return if sucssed
-       /* private bool filterByUser(string name, string id)
-        {
-            if (!id.Equals(_id))
-                _id = id;
-            if (!name.Equals(_name))
-                _name = name;
-            UserFilter uf = new UserFilter(name, id);
-            if(!uf.ConnectionFail)
-                list = uf.Msgs;
-            return !uf.ConnectionFail;
-        }*/
 
         //update the list as needed, return if sucssed
         private bool filterByNone()
-        {
-            connectionFail = false;
-            //query to filter by user nickname
-            string query = "SELECT TOP (200) [Group_Id],[Nickname],[SendTime],[Body] " +
-                    "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                    "WHERE [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+        { 
             try
             {
-               // ExecuteQuery(query);
+                connect();
+                SqlCommand command = new SqlCommand(null, connection);
+                //query to filter by user nickname
+                string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
+                    "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
+                    "WHERE [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                ///////execute
+                command.CommandText = query;
+                SqlDataReader data_reader = command.ExecuteReader();
+                list.Clear();
+                while (data_reader.Read())   //add msg from the msgs table to the list
+                {
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
+                        data_reader.GetValue(2).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
+                }
+                data_reader.Close();
+                ///////////close
+                command.Prepare();
+                command.ExecuteNonQuery();
+                command.Dispose();
+                disconnect();
             }
             catch (Exception e)
             {
@@ -98,20 +63,8 @@ namespace MileStoneClient.PresistentLayer
             return true;
         }
 
-        //check if the id to filter by is new and change it if so
-        //update the list as needed, return if sucssed
-       /* private bool filterById(String id)
-        {
-            if (!id.Equals( _id))
-                _id = id;
-            GroupFilter gf = new GroupFilter(_id);
-            if(!gf.ConnectionFail)
-                list = gf.Msgs;
-            return !gf.ConnectionFail;
-        }*/
-
         //add a new message to the database
-            public bool send(Message msg)
+        public bool send(Message msg)
         {  
             try
             {
@@ -149,36 +102,6 @@ namespace MileStoneClient.PresistentLayer
             list.Add(msg);
             return true;
         }
-
-       /* //add a list of new message to the database
-        public bool send(List<Message> msgs)
-        {
-            //bool? list?
-        }*/
-
-        /*//delete a message from the database
-        public bool delete (Message msg)
-        {
-            //check if this msg exist in the database- return false if not
-            //delete it if it is and return true
-            //else return false
-            queryMessage = msg;
-            string query= "DELETE FROM Messages" + "WHERE Guid =@msg_Id";
-            try
-            {
-                ExecuteQuery(query);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                connectionFail = true;
-                return false;
-            }
-            if (list.Contains(msg)) //update the list
-                list.Remove(msg);
-            queryMessage = null;
-            return true;
-        }*/
 
         //input: the message we want to update and the new body. the function will update it's body and dateTime on the database and update the list
         //output: true for succsess, false for fail
@@ -248,9 +171,9 @@ namespace MileStoneClient.PresistentLayer
                 command.CommandText = query;
                 SqlDataReader data_reader = command.ExecuteReader();
                 while (data_reader.Read())   //add msg from the msgs table to the list
-                {         
-                    tempList.Add(new Message(data_reader.GetValue(4).ToString(), data_reader.GetValue(3), 
-                        data_reader.GetValue(2), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
+                {
+                    tempList.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
+                        data_reader.GetValue(2).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();
                 ///////////close
@@ -290,10 +213,11 @@ namespace MileStoneClient.PresistentLayer
                 ///////execute
                 command.CommandText = query;
                 SqlDataReader data_reader = command.ExecuteReader();
+                list.Clear();
                 while (data_reader.Read())   //add msg from the msgs table to the list
-                {         /// string guid, string user id, dateTime time, string body
-                    list.Add(new Message(data_reader.GetValue(4).ToString(), data_reader.GetValue(3),
-                        data_reader.GetValue(2), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
+                {        
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime) data_reader.GetValue(3),
+                        data_reader.GetValue(2).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();
                 ///////////close
@@ -339,11 +263,12 @@ namespace MileStoneClient.PresistentLayer
 
                 ///////execute
                 command.CommandText = query;
+                list.Clear();
                 SqlDataReader data_reader = command.ExecuteReader();
                 while (data_reader.Read())   //add msg from the msgs table to the list
                 {         /// string guid, string user id, dateTime time, string body
-                    list.Add(new Message(data_reader.GetValue(4).ToString(), data_reader.GetValue(3),
-                        data_reader.GetValue(2), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
+                        data_reader.GetValue(2).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();
                 ///////////close
@@ -358,73 +283,6 @@ namespace MileStoneClient.PresistentLayer
             }
             return true;
         }
-
-
-        /*  //add a new Message to this list and afterwards to the file, return true if succsed
-          public bool updateFile(Message msg)
-          {
-              list.Add(msg);
-              if (File.Exists(name + ".bin"))
-              {
-                  if (deleteFile())
-                  {
-                      if (openNewFile())
-                      {
-                          Stream fileStream = File.OpenWrite(name + ".bin");
-                          BinaryFormatter serializer = new BinaryFormatter();
-                          serializer.Serialize(fileStream, list);
-                          fileStream.Close();
-                          return true;
-                      }
-                  }
-              }
-              //if the update failed- dont change this list and return false
-              list.Remove(msg);
-              return false;
-          }
-
-          //add a list of new Message's to this list and afterwards to the file, return true if succsed
-          public bool updateFile(List<Message> msgList)
-          {
-              int numThisList = list.Count;
-              int numNewList = msgList.Count;
-              list.AddRange(msgList);
-              if (File.Exists(name + ".bin"))
-              {
-                  if (deleteFile())
-                  {
-                      if (openNewFile())
-                      {
-                          Stream fileStream = File.OpenWrite(name + ".bin");
-                          BinaryFormatter serializer = new BinaryFormatter();
-                          serializer.Serialize(fileStream, list);
-                          fileStream.Close();
-                          //if (checkSuccess())
-                          return true;
-                      }
-                  }
-              }
-              //if the update failed- dont change this list and return false
-              list.RemoveRange(numThisList + 1, numNewList);
-              return false;
-          }
-
-          //delete the file with this name
-          private bool deleteFile()
-          {
-              //assume there is a file with this name
-              File.Delete(name + ".bin");
-              return !(File.Exists(name + ".bin"));
-          }
-
-          //open a new file with this name
-          private bool openNewFile()
-          {
-              //assume there isnt a file with this name
-              Stream fileStream = File.Create(name + ".bin");
-              fileStream.Close();
-              return File.Exists(name + ".bin");
-          }*/
 
         public List<Message> List
         {
