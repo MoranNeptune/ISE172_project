@@ -24,12 +24,16 @@ namespace MileStoneClient.PresistentLayer
             _name = name;
             _id = id;
             connectionFail = false;
-            filterByNone();
+            list=new List<Message>();
         }
 
         //update the list as needed, return if sucssed
-        private bool filterByNone()
-        { 
+        public bool filterByNone()
+        {
+            if (!_name.Equals(""))
+                _name = "";
+            if (!_id.Equals(""))
+                _id = "";
             try
             {
                 connect();
@@ -106,13 +110,35 @@ namespace MileStoneClient.PresistentLayer
         //input: the message we want to update and the new body. the function will update it's body and dateTime on the database and update the list
         //output: true for succsess, false for fail
         //assume valid input
-        public bool updateMessage(Message msg, String body)
+        public bool updateMessage(Message msg, string body, DateTime time)
         {
-            //DateTime time = new DateTime(); ////איך מגדירים שיהיה לעכשיו? //////להעביר לקומיוניקשן
-            string query = "UPDATE Messages" + "SET body =" + body + ", time = @msg_DateTime"+"WHERE guid = @msg_guid";
             try
             {
-              //  ExecuteQuery(query);
+                string query = "UPDATE Messages " +
+                    "SET [MS3].[dbo].[Messages].[Body] = @msg_body, " +
+                    "[MS3].[dbo].[Messages].[SendTime] = @msg_DateTime " +
+                    "WHERE [MS3].[dbo].[Messages].[Guid] = @msg_guid";
+                connect();
+                SqlCommand command = new SqlCommand(null, connection);
+                command.CommandText = query;
+
+                //add the parameters to the query
+                SqlParameter msg_Body_param = new SqlParameter(@"msg_Body", SqlDbType.Text, 20);
+                SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.Text, 20);
+                SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Text, 20);
+
+                msg_Body_param.Value = body; 
+                msg_DateTime_param.Value = time;
+                msg_guid_param.Value = msg.Id;
+
+                command.Parameters.Add(msg_Body_param);
+                command.Parameters.Add(msg_DateTime_param);
+                command.Parameters.Add(msg_guid_param);
+
+                command.Prepare();
+                command.ExecuteNonQuery();
+                command.Dispose();
+                disconnect();
             }
             catch (Exception e)
             {
@@ -121,10 +147,11 @@ namespace MileStoneClient.PresistentLayer
                 return false;
             }
             //if the update sucsed and the msg relevant to this filter, update also the list of msgs (delete it from the list and add it in the end of it)
+            /////////////עדן צריכה להוסיף אצלה
             if (list.Contains(msg))
             {
                 list.Remove(msg);
-           //     msg.DateTime =time;
+                msg.DateTime =time;
                 msg.Body = body;
                 list.Add(msg);
             }
@@ -188,7 +215,6 @@ namespace MileStoneClient.PresistentLayer
                     Console.WriteLine(e);
                     connectionFail = true;
                 }
-            list.AddRange(tempList); ////////לבדוק אם אני מעדכנת או עדן
             return tempList;
         }
 
@@ -198,6 +224,8 @@ namespace MileStoneClient.PresistentLayer
         {
             if (!g_id.Equals(_id))
                 _id = g_id;
+            if (!_name.Equals(""))
+                _name = "";
             try
             {
                 connect();
