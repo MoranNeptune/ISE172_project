@@ -11,16 +11,6 @@ namespace MileStoneClient.PresistentLayer
     {
         protected SqlConnection connection;
 
-        public ConnectionHandler()
-        {
-            string server_address = "ise172.ise.bgu.ac.il,1433\\DB_LAB";
-            string database_name = "MS3";
-            string user_name = "publicUser";
-            string password = "isANerd";
-            string connetion_string = $"Data Source={server_address};Initial Catalog={database_name };User ID={user_name};Password={password}";
-            connection = new SqlConnection(connetion_string);
-        }
-
         public void connect()
         {
             connection.Open();
@@ -35,9 +25,5 @@ namespace MileStoneClient.PresistentLayer
         {
             connection = con;
         }
-
-        protected List<Object> Select() { return null; }
-        protected List<Object> Insert() { return null; }
-        protected List<Object> Update() { return null; }
     }
 }

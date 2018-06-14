@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="PresistentLayer\ConnectionHandler.cs" />
     <Compile Include="PresistentLayer\GroupFilter.cs" />
+    <Compile Include="PresistentLayer\HandlerFactory.cs" />
     <Compile Include="PresistentLayer\IdHandler.cs" />
     <Compile Include="PresistentLayer\IQueryAction.cs" />
     <Compile Include="PresistentLayer\MessageHandler.cs" />

@@ -10,8 +10,6 @@ namespace MileStoneClient.PresistentLayer
     public class UserHandler : ConnectionHandler
     {
 
-
-
         private List<User> allUsersList;
         private User userExist;
         private bool exist;
@@ -72,6 +70,7 @@ namespace MileStoneClient.PresistentLayer
         {
             try
             {
+                // אולי לא צריך את הרשימה
                 allUsersList.Clear();
 
                 string query = "SELECT [Id],[Group_Id],[Nickname],[Password] " +
@@ -166,19 +165,21 @@ namespace MileStoneClient.PresistentLayer
                 
                 connect();
                 SqlCommand command = new SqlCommand(query, connection);
-                SqlDataReader data_reader = command.ExecuteReader();
+                
 
                 SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
                 g_id_param.Value = g_id;
                 command.Parameters.Add(g_id_param);
 
-                int index = 0;
+                SqlDataReader data_reader = command.ExecuteReader();
+
+                //  int index = 0;
                 while (data_reader.Read())
                 {
                     //add users from the users table to the list
-                    members.Add(new User(data_reader.GetValue(2).ToString(), data_reader.GetValue(1).ToString(), data_reader.GetValue(3).ToString()));
-                    members[index].User_id = data_reader.GetValue(0).ToString();
-                    index++;
+                    members.Add(new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
+                   //// members[index].User_id = data_reader.GetValue(0).ToString();
+                    //index++;
                 }
                 data_reader.Close();
                 command.Dispose();

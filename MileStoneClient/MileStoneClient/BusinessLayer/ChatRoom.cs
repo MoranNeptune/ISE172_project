@@ -21,7 +21,7 @@ namespace MileStoneClient.BusinessLayer
         private UserHandler allUsers;
         private List<GuiMessage> presMsgs;
         private PresentationLayer.Action sort, filter;
-        private string NONE = "";
+        //private string NONE = "";
 
         // constractors
         public ChatRoom(string url)
@@ -32,9 +32,12 @@ namespace MileStoneClient.BusinessLayer
             sort = new SortByTime();
             filter = null;
             // initialize the messages handler with a default filter - NONE
-            allMessages = new MessageHandler(NONE, NONE);
-            allUsers = new UserHandler();
+            //   allMessages = new MessageHandler(NONE, NONE);
+            //   allUsers = new UserHandler();
             //this.groupsId = new IdHandler("allGroups");
+            HandlerFactory handler = new HandlerFactory();
+            allMessages = handler.createMessageHandler();
+            allUsers = handler.createUserHandler();
         }
 
         // methods
