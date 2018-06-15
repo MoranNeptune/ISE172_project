@@ -23,23 +23,25 @@ namespace MileStoneClient.PresentationLayer
         private ObservableObject obs;//binding
         private ChatRoom chatRoom;
         private String lastMSG;
+        private List<GuiMessage> msgs;
 
-        public Message(ObservableObject obs, ChatRoom chatRoom, GuiMessage msg)//String lastMSG)
+        public Message(ObservableObject obs, ChatRoom chatRoom, GuiMessage msg,List<GuiMessage> msgs)//String lastMSG)
         {
             InitializeComponent();
             this.obs = obs;
             DataContext = obs;
             this.chatRoom = chatRoom;
-            //this.lastMSG = lastMSG;
+            this.ResizeMode = ResizeMode.NoResize;
 
-            /// להחזיר !!!!!!!!!!!!!!!!!!!!
-         //   obs.TxtEditContent = obs.ListBoxSelectedValue;
+            //this.lastMSG = lastMSG;
+            this.msgs= msgs;
+            obs.TxtEditContent = msgs[obs.ListBoxSelectedIndex].Body;
         }
 
         // if the user edit his message
         private void BtnEditMessage_Click(object sender, RoutedEventArgs e)
         {
-            //chatRoom.editMessage(obs.TxtEditContent,lastMSG);
+            chatRoom.updateMessage(obs.TxtEditContent,msgs[obs.ListBoxSelectedIndex]);
         }
 
         // if the user don't eant to edit his message

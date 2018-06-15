@@ -89,19 +89,19 @@ namespace MileStoneClient.PresentationLayer
         /// <summary>
         /// A binding function that connects between the source to "BtnSend" enabled button 
         /// </summary>
-        private int listBoxSelectedValue = 0;
-        public int ListBoxSelectedValue
+        private int listBoxSelectedIndex = 0;
+        public int ListBoxSelectedIndex
         {
             get
             {
-                return listBoxSelectedValue;
+                return listBoxSelectedIndex;
             }
             set
             {
-                if (listBoxSelectedValue != value)
+                if (listBoxSelectedIndex != value)
                 {
-                    listBoxSelectedValue = value;
-                    OnPropertyChanged("listBoxSelectedValue");
+                    listBoxSelectedIndex = value;
+                    OnPropertyChanged("listBoxSelectedIndex");
                 }
             }
         }

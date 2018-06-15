@@ -42,6 +42,8 @@ namespace MileStoneClient.PresentationLayer
             DataContext = obs;
             this.mainWindow = mainWindow;
             this.chatRoom = chatRoom;
+            this.ResizeMode = ResizeMode.NoResize;
+
             this.hashing = new Hashing();
             this.salt = "1337";
             this.correctPass = false;

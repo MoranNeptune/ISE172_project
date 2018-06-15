@@ -41,6 +41,7 @@ namespace MileStoneClient.PresentationLayer
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
             this.DataContext = obs; //binding
+            this.ResizeMode = ResizeMode.NoResize;
             this.hashing = new Hashing();
             this.salt = "1337";
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option

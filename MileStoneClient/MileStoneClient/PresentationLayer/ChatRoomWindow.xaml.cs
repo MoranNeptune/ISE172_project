@@ -45,6 +45,8 @@ namespace MileStoneClient.PresentationLayer
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
             this.DataContext = obs;
+            this.ResizeMode = ResizeMode.NoResize;
+
             // nicknames = chatRoom.getNicknames();
             groups = chatRoom.getGroups();
             op = new Options(this, groups, obs);
@@ -197,11 +199,11 @@ namespace MileStoneClient.PresentationLayer
         {
             Message message;
             // String lastMSG = obs.ListBoxSelectedValue;
-            int index = obs.ListBoxSelectedValue;
+            int index = obs.ListBoxSelectedIndex;
          //   if (lastMSG != null && lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
          if((msgs.Count > 0  & index >=0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
             {
-                message = new Message(obs, chatRoom, msgs[index]);
+                message = new Message(obs, chatRoom, msgs[index],msgs);
                 listBox.SelectedIndex = -1;
                 listBox.SelectedItem = null;
                 message.Show();
