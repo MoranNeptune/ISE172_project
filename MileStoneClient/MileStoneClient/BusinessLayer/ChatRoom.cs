@@ -21,8 +21,8 @@ namespace MileStoneClient.BusinessLayer
         private UserHandler allUsers;
         private List<GuiMessage> presMsgs;
         private PresentationLayer.Action sort;
-        private string filter;
-        //private string NONE = "";
+        private List<string> filter;
+
 
         // constractors
         public ChatRoom(string url)
@@ -31,7 +31,7 @@ namespace MileStoneClient.BusinessLayer
             this.currUser = null;
             presMsgs = new List<GuiMessage>();
             sort = new SortByTime();
-            filter = "";
+            filter = new List<string>();
             // initialize the messages handler with a default filter - NONE
             //   allMessages = new MessageHandler(NONE, NONE);
             //   allUsers = new UserHandler();
@@ -158,9 +158,13 @@ namespace MileStoneClient.BusinessLayer
             DateTime UtcTime = localDateTimeExample.ToUniversalTime();
 
             // sends the message to the dataBase
-            if (allMessages.send(new Message(message, UtcTime, Guid.NewGuid(), currUser)))
+            Message msg = new Message(message, UtcTime, Guid.NewGuid(), currUser);
+            if (allMessages.send(msg))
+            {
+                allMessages.List.Add(msg);
                 return true;
-
+            }
+                
             return false;
         }
 
@@ -178,27 +182,32 @@ namespace MileStoneClient.BusinessLayer
         /// <returns></returns>
         public List<GuiMessage> getMessages(int order, PresentationLayer.Action sortAction, List<string> filterInfo)
         {
-            bool update = false;
+            bool update = false, filterChanged = false;
             // check if the sort or filter had changed, if they did, we update the current sort/filter
             if (sort != sortAction)
             {
                 sort = sortAction;
                 update = true;
             }
+            // check if the filter was change
+            for (int i = 0; i < Math.Min(filter.Count, filterInfo.Count) & !filterChanged; i++)
+                if (!filter[i].Equals(filterInfo[i]))
+                    filterChanged = true;
+
             // the list filterInfo contains - [0] - filter name, [1]- group id, [2]- nickname
-            if (!this.filter.Equals(filterInfo[0]))
+           // if (filterChanged)
             {
-                this.filter = filterInfo[0];
                 update = true;
-                if (filter.Equals("NONE"))
+                if (filterInfo[0].Equals("NONE"))
                     allMessages.filterByNone();
-                if (filter.Equals("ByGroup"))
+                else if (filterInfo[0].Equals("ByGroup"))
                     allMessages.FilterByGroup(filterInfo[1]);
-                if (filter.Equals("ByUser"))
+                else if (filterInfo[0].Equals("ByUser"))
                     allMessages.FilterByUser(filterInfo[2], filterInfo[1]);
+                this.filter = filterInfo;
             }
             // if the filter/sort is changed, update the list of the presentation messages
-            if (update)
+           /// if (update)
                 updatePresMessages();
             retrieveMessages();
            // if (filter != null)
@@ -223,8 +232,17 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         public void retrieveMessages()
         {
+            // check for the last message retrieved from the data base
+            SortByTime s = new SortByTime();
+            s.action(presMsgs);
+            DateTime time;
+            if (presMsgs.Count > 0)
+                time = presMsgs[presMsgs.Count - 1].DateTime.ToUniversalTime();
+            ///////////////////////////////////////
+            else time = DateTime.Now;
+            sort.action(presMsgs);
             // retrives last messages from the server
-            List<Message> msgToUpdate = allMessages.retrieve();
+            List<Message> msgToUpdate = allMessages.retrieve(time);
 
             // check which messages we should update in our files
             for (int i = 0; i < msgToUpdate.Count; i++)
@@ -232,7 +250,7 @@ namespace MileStoneClient.BusinessLayer
                 if (msgToUpdate[i].User == null)
                     throw new Exception("an error with getUserByID");
                 // creates a GuiMessage for the curr message
-                presMsgs.Add(new GuiMessage(msgToUpdate[i].Body, msgToUpdate[i].DateTime, msgToUpdate[i].Id, msgToUpdate[i].User.Nickname, msgToUpdate[i].User.G_id));
+                presMsgs.Add(new GuiMessage(msgToUpdate[i].Body, msgToUpdate[i].DateTime.ToLocalTime(), msgToUpdate[i].Id, msgToUpdate[i].User.Nickname, msgToUpdate[i].User.G_id));
 
             }
             // update messages list

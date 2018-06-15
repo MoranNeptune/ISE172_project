@@ -36,7 +36,8 @@ namespace MileStoneClient.PresistentLayer
                 _id = "";
             try
             {
-                connect();
+                if(connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 //query to filter by user nickname
                 string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
@@ -75,8 +76,8 @@ namespace MileStoneClient.PresistentLayer
                 string query = "INSERT INTO Messages ([Guid],[User_Id],[SendTime],[Body]) " +
                                     "VALUES (@msg_guid, @user_id,@msg_DateTime, @msg_Body)";
                 //open connection and set command text to be the value of query
-                disconnect();
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 command.CommandText = query;
 
@@ -107,7 +108,7 @@ namespace MileStoneClient.PresistentLayer
                 connectionFail = true;
                 return false;
             }
-            list.Add(msg);
+            
             return true;
         }
 
@@ -122,7 +123,8 @@ namespace MileStoneClient.PresistentLayer
                     "SET [MS3].[dbo].[Messages].[Body] = @msg_body, " +
                     "[MS3].[dbo].[Messages].[SendTime] = @msg_DateTime " +
                     "WHERE [MS3].[dbo].[Messages].[Guid] = @msg_guid";
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 command.CommandText = query;
 
@@ -163,28 +165,27 @@ namespace MileStoneClient.PresistentLayer
         }
 
         //update the list with the new messages since the last message on the list
-        public List<Message> retrieve()
+        public List<Message> retrieve(DateTime time)
         {
             List<Message> tempList = new List<Message>();
             try
             {
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 //check for the last mesasge's dateTime and retrieve only those who sent after it and also less then 200 new messages
-                DateTime time=list[list.Count - 1].DateTime;
+            //    DateTime time=list[list.Count - 1].DateTime;
                 //the retrieve will be by filter
                 //add it to a new temp list, add this temp list to the end of this list and return the temp list
                 SqlParameter user_g_id_param;
                 SqlParameter user_name_param;
                 string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                        "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time" +  
+                        "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time " +  
                         "AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
-                SqlParameter msg_time_param = new SqlParameter(@"msg_time", SqlDbType.DateTime, 20);
-                msg_time_param.Value = time;
-                command.Parameters.Add(msg_time_param);
+                
 
-                    //ID filter & user filter
+                //ID filter & user filter
                 if (!_id.Equals(""))
                 {
                     query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id" ;
@@ -198,6 +199,11 @@ namespace MileStoneClient.PresistentLayer
                     user_name_param = new SqlParameter("@user_name", _name);
                     command.Parameters.Add(user_name_param);
                 }
+
+                SqlParameter msg_time_param = new SqlParameter(@"msg_time", SqlDbType.DateTime, 20);
+                msg_time_param.Value = time;
+                command.Parameters.Add(msg_time_param);
+
                 ///////execute
                 command.CommandText = query;
                 SqlDataReader data_reader = command.ExecuteReader();
@@ -232,7 +238,8 @@ namespace MileStoneClient.PresistentLayer
                 _name = "";
             try
             {
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 //query to filter by group id
                 string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
@@ -275,7 +282,8 @@ namespace MileStoneClient.PresistentLayer
                 _name = nickname;
             try
             {
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 //query to filter by user nickname
                 string query = "SELECT TOP (200) [Group_Id],[Nickname], [Guid],[SendTime],[Body] " +

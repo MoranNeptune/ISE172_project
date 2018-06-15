@@ -61,15 +61,11 @@ namespace MileStoneClient.PresentationLayer
             sortChoice = "time";
             obs.BtnSendIsEnabled = false;
 
-
             //initiate timer
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 2);
             dispatcherTimer.Start();
-
-
-
         }
 
         //print messages with timer
@@ -126,7 +122,7 @@ namespace MileStoneClient.PresentationLayer
                     case "user":
                         if (op.UserChoice != null && op.GroupChoice != null)
                         {
-                            filterInfo.Add("ByGroup");
+                            filterInfo.Add("ByUser");
                             filterInfo.Add(op.GroupChoice);
                             filterInfo.Add(op.UserChoice);
                         }
@@ -229,7 +225,8 @@ namespace MileStoneClient.PresentationLayer
                 obs.Messages.Add(msgs[i].toString());
             }
             listBox.Items.MoveCurrentToLast();
-            listBox.ScrollIntoView(listBox.Items.CurrentItem);
+            // להחזיר
+         //   listBox.ScrollIntoView(listBox.Items.CurrentItem);
         }
 
         //initiate listBox wuth the messages list
