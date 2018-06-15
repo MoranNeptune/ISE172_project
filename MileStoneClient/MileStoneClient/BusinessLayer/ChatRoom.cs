@@ -146,11 +146,15 @@ namespace MileStoneClient.BusinessLayer
             DateTime localDateTimeExample = DateTime.Now;
             DateTime UtcTime = localDateTimeExample.ToUniversalTime();
 
+            Guid msgGuid = Guid.NewGuid(); // namespace system
+            Console.WriteLine(msgGuid);
             // sends the message to the dataBase
-            Message msg = new Message(message, UtcTime, Guid.NewGuid(), currUser);
+            Message msg = new Message(message, UtcTime, msgGuid, currUser);
             if (allMessages.send(msg))
             {
                 allMessages.List.Add(msg);
+                //presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id));
+                retrieveMessages();
                 return true;
             }
 
@@ -211,8 +215,6 @@ namespace MileStoneClient.BusinessLayer
             if (update)
                 updatePresMessages();
             retrieveMessages();
-            ///if (filter != null)
-            //    filter.action(presMsgs);
 
             if (sort != null)
             {
@@ -279,6 +281,9 @@ namespace MileStoneClient.BusinessLayer
                 for (int i = 0; i < allMessages.List.Count; i++)
                 {
                     Message m = allMessages.List[i];
+
+                    if(m.Id.ToString() == "00000000-0000-0000-0000-000000000000")
+                        Console.WriteLine(m.Body);
                     presMsgs.Add(new GuiMessage(m.Body, m.DateTime.ToLocalTime(), m.Id, m.User.Nickname, m.User.G_id));
                 }
         }

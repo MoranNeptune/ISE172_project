@@ -24,10 +24,11 @@ namespace MileStoneClient.BusinessLayer
             this.id = id;
             this.user = user;
         }
-        public Message(string body, DateTime time, string guid, string g_id, string user_nickname)
+        public Message(string body, DateTime time, Guid guid, string g_id, string user_nickname)
         {
-            if (Guid.TryParse(guid, out Guid id2))
-                this.id = Guid.Parse(guid);
+            // if (Guid.TryParse(guid, out Guid id2))
+            //    this.id = Guid.Parse(guid);
+            id = guid;
             this.body = body;
             this.dateTime = time;
             user = new User(user_nickname, g_id, "");

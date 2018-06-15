@@ -202,7 +202,7 @@ namespace MileStoneClient.PresentationLayer
             //   if (lastMSG != null && lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
             if ((msgs.Count > 0 & index >= 0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
             {
-                message = new Message(obs, chatRoom, msgs[index],msgs);
+                message = new Message(obs, chatRoom, msgs[index]);
                 message.Show();
             }
         }
