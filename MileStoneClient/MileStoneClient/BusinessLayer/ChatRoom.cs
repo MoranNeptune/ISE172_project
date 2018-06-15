@@ -163,8 +163,8 @@ namespace MileStoneClient.BusinessLayer
 
         public bool updateMessage(string newMsg, GuiMessage msg)
         {
-            if (allMessages.updateMessage(msg.Id, newMsg, (DateTime.Now).ToUniversalTime()))
-                return true;
+            if (!allMessages.updateMessage(msg.Id, newMsg, (DateTime.Now).ToUniversalTime()))
+                return false;
             // removes the old message from the presentation list
             presMsgs.Remove(msg);
             // removes the old message from the presistent list
@@ -176,7 +176,7 @@ namespace MileStoneClient.BusinessLayer
                     break;
                 }
             }
-            return false;
+            return true;
         }
 
         /// <summary>

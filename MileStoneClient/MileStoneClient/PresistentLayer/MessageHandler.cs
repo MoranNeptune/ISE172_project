@@ -132,7 +132,7 @@ namespace MileStoneClient.PresistentLayer
                 //add the parameters to the query
                 SqlParameter msg_Body_param = new SqlParameter(@"msg_Body", SqlDbType.Text, 100);
                 SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.DateTime, 20);
-                SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Text, 68);
+                SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Char, 68);
 
                 msg_Body_param.Value = body; 
                 msg_DateTime_param.Value = time;
