@@ -73,10 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BusinessLayer\ChatRoom.cs" />
-    <Compile Include="BusinessLayer\FilterByGroup.cs" />
-    <Compile Include="BusinessLayer\FilterByUser.cs" />
     <Compile Include="BusinessLayer\Hashing.cs" />
-    <Compile Include="BusinessLayer\Id.cs" />
     <Compile Include="BusinessLayer\Message.cs" />
     <Compile Include="BusinessLayer\SortByGNT.cs" />
     <Compile Include="BusinessLayer\SortByName.cs" />
@@ -102,7 +99,6 @@
     </Compile>
     <Compile Include="PresistentLayer\ConnectionHandler.cs" />
     <Compile Include="PresistentLayer\HandlerFactory.cs" />
-    <Compile Include="PresistentLayer\IdHandler.cs" />
     <Compile Include="PresistentLayer\MessageHandler.cs" />
     <Compile Include="PresistentLayer\UserHandler.cs" />
     <Compile Include="PresentationLayer\RegisterWindow.xaml.cs">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using MileStoneClient.BusinessLayer;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -39,7 +40,7 @@ namespace MileStoneClient.PresistentLayer
                 command.CommandText = query;
                 // updates the list of parameters
                 SqlParameter id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
-                SqlParameter name_param = new SqlParameter(@"user_Nickname", SqlDbType.Text, 20);
+                SqlParameter name_param = new SqlParameter(@"user_Nickname", SqlDbType.Char, 20);
                 SqlParameter pass_param = new SqlParameter(@"Password", SqlDbType.Text, 64);
 
                 id_param.Value = user.G_id;
@@ -49,7 +50,7 @@ namespace MileStoneClient.PresistentLayer
                 command.Parameters.Add(id_param);
                 command.Parameters.Add(name_param);
                 command.Parameters.Add(pass_param);
-                
+
                 command.Prepare();
                 command.ExecuteNonQuery();
                 command.Dispose();
@@ -113,7 +114,7 @@ namespace MileStoneClient.PresistentLayer
                 List<User> exist = new List<User>();
                 connect();
                 SqlCommand command = new SqlCommand(query, connection);
-                
+
                 SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
                 SqlParameter name_param = new SqlParameter(@"nickname", SqlDbType.Char, 20);
                 g_id_param.Value = g_id;
@@ -164,7 +165,7 @@ namespace MileStoneClient.PresistentLayer
 
                 connect();
                 SqlCommand command = new SqlCommand(query, connection);
-                
+
                 SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
                 g_id_param.Value = g_id;
                 command.Parameters.Add(g_id_param);
@@ -176,7 +177,7 @@ namespace MileStoneClient.PresistentLayer
                 {
                     //add users from the users table to the list
                     members.Add(new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString()));
-                   //// members[index].User_id = data_reader.GetValue(0).ToString();
+                    //// members[index].User_id = data_reader.GetValue(0).ToString();
                     //index++;
                 }
                 data_reader.Close();
@@ -209,7 +210,7 @@ namespace MileStoneClient.PresistentLayer
                 command.Parameters.Add(user_id_param);
 
                 SqlDataReader data_reader = command.ExecuteReader();
-                if(data_reader.Read())
+                if (data_reader.Read())
                     //creates the user
                     user = new User(data_reader.GetValue(1).ToString(), data_reader.GetValue(0).ToString(), data_reader.GetValue(2).ToString());
 

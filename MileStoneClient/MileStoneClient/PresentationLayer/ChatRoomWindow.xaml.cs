@@ -30,7 +30,7 @@ namespace MileStoneClient.PresentationLayer
         private Options op;
         private string orderChoice, filterChoice, sortChoice;
         private Action sortAction;
-        private List<string> filterInfo;
+        private string[] filterInfo;
         private int order;
         private List<GuiMessage> msgs;
         private List<string> groups;
@@ -45,17 +45,13 @@ namespace MileStoneClient.PresentationLayer
             this.chatRoom = chatRoom;
             this.mainWindow = mainWindow;
             this.DataContext = obs;
-            this.ResizeMode = ResizeMode.NoResize;
-
-            // nicknames = chatRoom.getNicknames();
             groups = chatRoom.getGroups();
             op = new Options(this, groups, obs);
-            // actionList = new List<Action>();
-            //actionList.Add(new SortByTime());
-            //actionList.Add(null);
             sortAction = new SortByTime();
-            filterInfo = new List<string>();
-            filterInfo.Add("NONE");
+            filterInfo = new string[3];
+            filterInfo[0] = "NONE";
+            filterInfo[1] = "";
+            filterInfo[2] = "";
             msgs = new List<GuiMessage>();
             isOptionsVisible = false;
             orderChoice = "ascending";
@@ -82,7 +78,10 @@ namespace MileStoneClient.PresentationLayer
                 filterChoice = op.FilterChoice;
                 sortChoice = op.SortChoice;
                 op.IsChanged = false;
-                filterInfo.Clear();
+                filterInfo = new string[3];
+                filterInfo[0] = "";
+                filterInfo[1] = "";
+                filterInfo[2] = "";
 
                 //list == order,sort,filter
                 switch (orderChoice)
@@ -112,21 +111,21 @@ namespace MileStoneClient.PresentationLayer
                 switch (filterChoice)
                 {
                     case "none":
-                        filterInfo.Add("NONE");
+                        filterInfo[0] = "NONE";
                         break;
                     case "group":
                         if (op.GroupChoice != null)
                         {
-                            filterInfo.Add("ByGroup");
-                            filterInfo.Add(op.GroupChoice);
+                            filterInfo[0] = "ByGroup";
+                            filterInfo[1] = op.GroupChoice;
                         }
                         break;
                     case "user":
                         if (op.UserChoice != null && op.GroupChoice != null)
                         {
-                            filterInfo.Add("ByUser");
-                            filterInfo.Add(op.GroupChoice);
-                            filterInfo.Add(op.UserChoice);
+                            filterInfo[0] = "ByUser";
+                            filterInfo[1] = op.GroupChoice;
+                            filterInfo[2] = op.UserChoice;
                         }
                         break;
                 }
@@ -200,12 +199,10 @@ namespace MileStoneClient.PresentationLayer
             Message message;
             // String lastMSG = obs.ListBoxSelectedValue;
             int index = obs.ListBoxSelectedIndex;
-         //   if (lastMSG != null && lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
-         if((msgs.Count > 0  & index >=0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
+            //   if (lastMSG != null && lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
+            if ((msgs.Count > 0 & index >= 0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
             {
                 message = new Message(obs, chatRoom, msgs[index],msgs);
-                listBox.SelectedIndex = -1;
-                listBox.SelectedItem = null;
                 message.Show();
             }
         }
@@ -229,9 +226,10 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].toString());
             }
-            listBox.Items.MoveCurrentToLast();
+            // יוצר בעיה
+            //  listBox.Items.MoveCurrentToLast();
             // להחזיר
-         //   listBox.ScrollIntoView(listBox.Items.CurrentItem);
+            // listBox.ScrollIntoView(listBox.Items.CurrentItem);
         }
 
         //initiate listBox wuth the messages list

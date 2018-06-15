@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace MileStoneClient.BusinessLayer
         private UserHandler allUsers;
         private List<GuiMessage> presMsgs;
         private PresentationLayer.Action sort;
-        private List<string> filter;
+        private string[] filter;
 
 
         // constractors
@@ -31,11 +32,11 @@ namespace MileStoneClient.BusinessLayer
             this.currUser = null;
             presMsgs = new List<GuiMessage>();
             sort = new SortByTime();
-            filter = new List<string>();
+            filter = new string[3];
+            filter[0] = "NONE";
+            filter[1] = "";
+            filter[2] = "";
             // initialize the messages handler with a default filter - NONE
-            //   allMessages = new MessageHandler(NONE, NONE);
-            //   allUsers = new UserHandler();
-            //this.groupsId = new IdHandler("allGroups");
             HandlerFactory handler = new HandlerFactory();
             allMessages = handler.createMessageHandler();
             allUsers = handler.createUserHandler();
@@ -77,18 +78,6 @@ namespace MileStoneClient.BusinessLayer
             return null;
         }
 
-        /// <summary>
-        /// Find a specific group id
-        /// </summary>
-        /// <param name="g_id">gourp id to find</param>
-        /// <returns>the group ID</returns>
-      /*  private ID findGroupId(string g_id)
-        {
-            for (int i = 0; i < groupsId.List.Count; i++)
-                if (groupsId.List[i].isEqual(g_id))
-                    return groupsId.List[i];
-            return null;
-        }*/
 
         /// <summary>
         /// return list of the users in a given group
@@ -164,7 +153,7 @@ namespace MileStoneClient.BusinessLayer
                 allMessages.List.Add(msg);
                 return true;
             }
-                
+
             return false;
         }
 
@@ -172,33 +161,42 @@ namespace MileStoneClient.BusinessLayer
         {
             if (allMessages.updateMessage(msg.Id, newMsg, (DateTime.Now).ToUniversalTime()))
                 return true;
-            // להוסיף בדיקה של השינוי הודעה ברשימה
+            // removes the old message from the presentation list
+            presMsgs.Remove(msg);
+            // removes the old message from the presistent list
+            for (int i = 0; i < allMessages.List.Count(); i++)
+            {
+                if (allMessages.List[i].Id.Equals(msg.Id))
+                {
+                    allMessages.List.RemoveAt(i);
+                    break;
+                }
+            }
             return false;
         }
 
-        // לשנותתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתת
         /// <summary>
         /// the function returns a list of messages, by specific sort, filter and order 
         /// </summary>
         /// <param name="order">The wanted order of the list</param>
         /// <param name="actions">Sort and filter</param>
         /// <returns></returns>
-        public List<GuiMessage> getMessages(int order, PresentationLayer.Action sortAction, List<string> filterInfo)
+        public List<GuiMessage> getMessages(int order, PresentationLayer.Action sortAction, string[] filterInfo)
         {
             bool update = false, filterChanged = false;
             // check if the sort or filter had changed, if they did, we update the current sort/filter
             if (sort != sortAction)
             {
                 sort = sortAction;
-                update = true;
+                //update = true;
             }
             // check if the filter was change
-            for (int i = 0; i < Math.Min(filter.Count, filterInfo.Count) & !filterChanged; i++)
+            for (int i = 0; i < filter.Length & !filterChanged; i++)
                 if (!filter[i].Equals(filterInfo[i]))
                     filterChanged = true;
 
             // the list filterInfo contains - [0] - filter name, [1]- group id, [2]- nickname
-           // if (filterChanged)
+            if (filterChanged)
             {
                 update = true;
                 if (filterInfo[0].Equals("NONE"))
@@ -210,11 +208,11 @@ namespace MileStoneClient.BusinessLayer
                 this.filter = filterInfo;
             }
             // if the filter/sort is changed, update the list of the presentation messages
-           /// if (update)
+            if (update)
                 updatePresMessages();
             retrieveMessages();
-           // if (filter != null)
-           //    filter.action(presMsgs);
+            ///if (filter != null)
+            //    filter.action(presMsgs);
 
             if (sort != null)
             {
@@ -229,7 +227,6 @@ namespace MileStoneClient.BusinessLayer
             return presMsgs;
         }
 
-        // לשנותתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתתת
         /// <summary>
         /// the function retrieve 10 messages from the server and saves the new messages that we got, in both lists
         /// </summary>
@@ -240,27 +237,36 @@ namespace MileStoneClient.BusinessLayer
             s.action(presMsgs);
             DateTime time;
             if (presMsgs.Count > 0)
+            {
                 time = presMsgs[presMsgs.Count - 1].DateTime.ToUniversalTime();
-            ///////////////////////////////////////
-            else time = DateTime.Now;
-            sort.action(presMsgs);
-            // retrives last messages from the server
-            List<Message> msgToUpdate = allMessages.retrieve(time);
 
-            // check which messages we should update in our files
-            for (int i = 0; i < msgToUpdate.Count; i++)
-            {
-                if (msgToUpdate[i].User == null)
-                    throw new Exception("an error with getUserByID");
-                // creates a GuiMessage for the curr message
-                presMsgs.Add(new GuiMessage(msgToUpdate[i].Body, msgToUpdate[i].DateTime.ToLocalTime(), msgToUpdate[i].Id, msgToUpdate[i].User.Nickname, msgToUpdate[i].User.G_id));
+                // retrives last messages from the server
+                List<Message> msgToUpdate = allMessages.retrieve(time);
 
+                // check which messages we should update in our files
+                for (int i = 0; i < msgToUpdate.Count; i++)
+                {
+                    if (msgToUpdate[i].User == null)
+                        throw new Exception("an error with getUserByID");
+                    // creates a GuiMessage for the curr message
+                    presMsgs.Add(new GuiMessage(msgToUpdate[i].Body, msgToUpdate[i].DateTime.ToLocalTime(), msgToUpdate[i].Id, msgToUpdate[i].User.Nickname, msgToUpdate[i].User.G_id));
+
+                }
+                // update messages list
+                if (msgToUpdate.Count > 0)
+                {
+                    allMessages.List.AddRange(msgToUpdate);
+                    if (presMsgs.Count > 200)
+                    {
+                        presMsgs.RemoveRange(0, presMsgs.Count - 200);
+                        allMessages.List.RemoveRange(0, allMessages.List.Count - 200);
+                    }
+                }
+                sort.action(presMsgs);
             }
-            // update messages list
-            if (msgToUpdate.Count > 0)
-            {
-                allMessages.List.AddRange(msgToUpdate);
-            }
+            else allMessages.filterByNone();
+
+
         }
 
         /// <summary>
@@ -276,7 +282,7 @@ namespace MileStoneClient.BusinessLayer
                     presMsgs.Add(new GuiMessage(m.Body, m.DateTime.ToLocalTime(), m.Id, m.User.Nickname, m.User.G_id));
                 }
         }
-        
+
 
         /// <summary>
         /// updates the user's status and logout from the system. 
@@ -291,6 +297,12 @@ namespace MileStoneClient.BusinessLayer
         {
             get { return currUser; }
             set { currUser = value; }
+        }
+
+        public List<GuiMessage> PresList
+        {
+            get { return presMsgs; }
+            set { presMsgs = value; }
         }
     }
 }
