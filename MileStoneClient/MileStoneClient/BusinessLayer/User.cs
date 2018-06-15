@@ -33,7 +33,7 @@ namespace MileStoneClient.BusinessLayer
         public User(string nickname, string g_id, string pass)
         {
             this.g_id = g_id; 
-            this.nickname = nickname;
+            this.nickname = nickname.Trim();
             this.password = pass;
             //handler = new MessageHandler(g_id + nickname);
         }

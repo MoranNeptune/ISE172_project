@@ -168,8 +168,11 @@ namespace MileStoneClient.BusinessLayer
             return false;
         }
 
-        public bool updateMessage()
+        public bool updateMessage(string newMsg, GuiMessage msg)
         {
+            if (allMessages.updateMessage(msg.Id, newMsg, (DateTime.Now).ToUniversalTime()))
+                return true;
+            // להוסיף בדיקה של השינוי הודעה ברשימה
             return false;
         }
 
