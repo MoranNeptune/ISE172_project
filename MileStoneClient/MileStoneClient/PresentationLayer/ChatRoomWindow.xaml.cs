@@ -196,11 +196,14 @@ namespace MileStoneClient.PresentationLayer
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Message message;
-            String lastMSG = obs.ListBoxSelectedValue;
-            if (lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
+            // String lastMSG = obs.ListBoxSelectedValue;
+            int index = obs.ListBoxSelectedValue;
+         //   if (lastMSG != null && lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
+         if((msgs.Count > 0  & index >=0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
             {
-
-                message = new Message(obs, chatRoom,lastMSG);
+                message = new Message(obs, chatRoom, msgs[index]);
+                listBox.SelectedIndex = -1;
+                listBox.SelectedItem = null;
                 message.Show();
             }
         }

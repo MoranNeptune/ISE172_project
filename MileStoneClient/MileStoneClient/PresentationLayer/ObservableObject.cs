@@ -89,8 +89,8 @@ namespace MileStoneClient.PresentationLayer
         /// <summary>
         /// A binding function that connects between the source to "BtnSend" enabled button 
         /// </summary>
-        private String listBoxSelectedValue = "";
-        public String ListBoxSelectedValue
+        private int listBoxSelectedValue = 0;
+        public int ListBoxSelectedValue
         {
             get
             {

@@ -24,14 +24,16 @@ namespace MileStoneClient.PresentationLayer
         private ChatRoom chatRoom;
         private String lastMSG;
 
-        public Message(ObservableObject obs, ChatRoom chatRoom,String lastMSG)
+        public Message(ObservableObject obs, ChatRoom chatRoom, GuiMessage msg)//String lastMSG)
         {
             InitializeComponent();
             this.obs = obs;
             DataContext = obs;
             this.chatRoom = chatRoom;
-            this.lastMSG = lastMSG;
-            obs.TxtEditContent = obs.ListBoxSelectedValue;
+            //this.lastMSG = lastMSG;
+
+            /// להחזיר !!!!!!!!!!!!!!!!!!!!
+         //   obs.TxtEditContent = obs.ListBoxSelectedValue;
         }
 
         // if the user edit his message
