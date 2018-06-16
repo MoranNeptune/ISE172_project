@@ -176,9 +176,6 @@
     <Resource Include="media\ImgOptions.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="media\view profile.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="media\backgruond.png" />
     <Resource Include="media\button.jpg" />
     <Resource Include="media\chat.jpg" />
