@@ -69,8 +69,8 @@ namespace MileStoneClient.PresentationLayer
                 string caption = "Invalid name";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {
-                    obs.GroupIdContent = "";
-                    obs.NicknameContent = "";
+                    this.obs.GroupIdContent = "";
+                    this.obs.NicknameContent = "";
                 }
             }
             // A validity check of the group id
@@ -82,10 +82,21 @@ namespace MileStoneClient.PresentationLayer
                 string caption = "Invalid group ID";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {
-                    obs.GroupIdContent = "";
-                    obs.NicknameContent = "";
+                    this.obs.GroupIdContent = "";
+                    this.obs.NicknameContent = "";
                 }
             }
+            // A validity check of the password
+            else if (!correctPass)
+            {
+                if (MessageBox.Show("Password mast contain 4 to 16 letters", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
+                {
+                    this.obs.GroupIdContent = "";
+                    this.obs.NicknameContent = "";
+                }
+                Log.Instance.warn("Invalid input - Invalid Password");//log
+            }
+            // A validity check of the password and the BL
             // checks if the user is already registered or not
             else if (correctPass & this.chatRoom.login(obs.NicknameContent, obs.GroupIdContent, this.HashedPassword) == false)
             {
@@ -99,8 +110,8 @@ namespace MileStoneClient.PresentationLayer
                     this.obs.NicknameContent = "";
 
                 }
-                obs.GroupIdContent = "";
-                obs.NicknameContent = "";
+                this.obs.GroupIdContent = "";
+                this.obs.NicknameContent = "";
                 //if the user is not registered give him an option to register
                 obs.LblAddRegVisibility = "Visible";
                 obs.LblAddRegContent = "Try to register :";
@@ -111,8 +122,8 @@ namespace MileStoneClient.PresentationLayer
             { 
                 Log.Instance.info("New log-in - User: " + obs.NicknameContent);//log
 
-                obs.GroupIdContent = "";
-                obs.NicknameContent = "";
+                this.obs.GroupIdContent = "";
+                this.obs.NicknameContent = "";
                 HashedPassword = "";
                 obs.LblAddRegVisibility = "Visible";
                 this.Close();
@@ -173,14 +184,15 @@ namespace MileStoneClient.PresentationLayer
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox pb = sender as PasswordBox;
-            if (4 <= pb.Password.Length) {
+            if (4 <= pb.Password.Length)
+            {
                 // A validity check of the password
                 if (!(pb.Password.Length <= 16))
                 {// if the length of the password is not correct
                     if (MessageBox.Show("password length should be between 4 to 16 letters", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
                     {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
+                        this.obs.GroupIdContent = "";
+                        this.obs.NicknameContent = "";
                         pb.Password = "";
                     }
                     Log.Instance.warn("Invalid input - Invalid Password");//log
@@ -190,8 +202,8 @@ namespace MileStoneClient.PresentationLayer
                 {// if the password is empty or full with spaces or enter 
                     if (MessageBox.Show("Message cannot be empty or with spaces", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
                     {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
+                        this.obs.GroupIdContent = "";
+                        this.obs.NicknameContent = "";
                         pb.Password = "";
                     }
                     Log.Instance.warn("Invalid input - Invalid Password");//log
@@ -201,8 +213,8 @@ namespace MileStoneClient.PresentationLayer
                 {// if the password conteins the correct letters
                     if (MessageBox.Show("Message should include only letters and numbers", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
                     {
-                        obs.GroupIdText = "";
-                        obs.NicknameText = "";
+                        this.obs.GroupIdContent = "";
+                        this.obs.NicknameContent = "";
                         pb.Password = "";
                     }
                     Log.Instance.warn("Invalid input - Invalid Password");//log
@@ -215,6 +227,7 @@ namespace MileStoneClient.PresentationLayer
                     this.HashedPassword = hashing.GetHashString(pb.Password + salt);
                 }
             }
+            else this.correctPass = false;
         }
 
         /// <summary>
