@@ -282,7 +282,7 @@ namespace MileStoneClient.PresentationLayer
         {
             var userBox = sender as ComboBox;
             userBox.ItemsSource = obs.UserList;
-            userBox.SelectedIndex = 0;
+            userBox.SelectedIndex = obs.SelectedUser;
         }
 
         /// <summary>
@@ -294,6 +294,9 @@ namespace MileStoneClient.PresentationLayer
         {
             var userList = sender as ComboBox;
             string name = userList.SelectedItem as string;
+
+            if (userList.SelectedIndex != 0)
+                obs.SelectedUser = userList.SelectedIndex;
 
             if(name!=null && !name.Equals("Empty group :("))
             {

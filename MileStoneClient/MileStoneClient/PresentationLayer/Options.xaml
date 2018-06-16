@@ -33,7 +33,7 @@
                         <RadioButton Content="Group Id" HorizontalAlignment="Left" VerticalAlignment="Top" Width="185" Checked="FilterG_Id" Margin="23,79,0,0" IsChecked="{Binding F_GroupIsChecked, Mode=TwoWay}"/>
 
                     </Grid>
-                    <ComboBox ItemsSource="{Binding UsersList}" HorizontalAlignment="Left" Margin="19,338,0,0" VerticalAlignment="Top" Width="177" Height="30" SelectionChanged="userList" Loaded="addUsers" Visibility="{Binding IsUserFiltered, Mode=TwoWay}"/>
+                    <ComboBox SelectedIndex = "{Binding SelectedUser}" ItemsSource="{Binding UsersList}" HorizontalAlignment="Left" Margin="19,338,0,0" VerticalAlignment="Top" Width="177" Height="30" SelectionChanged="userList" Loaded="addUsers" Visibility="{Binding IsUserFiltered, Mode=TwoWay}"/>
                     <Label Content="Choose the order&#xD;&#xA;of the messages :" HorizontalAlignment="Left" Height="45" Margin="19,13,0,0" VerticalAlignment="Top" Width="129" FontWeight="Bold" FontFamily="Narkisim" FontSize="16"/>
 
                     <Button Content="OK" HorizontalAlignment="Left" Height="30" Margin="212,338,0,0" VerticalAlignment="Top" Width="75" Click="btnOk"/>

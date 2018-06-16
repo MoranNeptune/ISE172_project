@@ -427,6 +427,20 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
+        /// <summary>
+        /// A binding for the selected item in the user choice
+        /// </summary>
+        private int selectedUser = 0;
+        public int SelectedUser
+        {
+            get { return selectedUser; }
+            set
+            {
+                selectedUser = value;
+                OnPropertyChanged("SelectedUser");
+            }
+        }
+
         #region filters
         /// <summary>
         /// A binding function that connects between the source to "None" filter button 
