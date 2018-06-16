@@ -47,16 +47,19 @@ namespace MileStoneClient.PresentationLayer
             this.hashing = new Hashing();
             this.salt = "1337";
             this.correctPass = false;
+            
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnLoginIsEnabled = false;
             obs.LblAddRegVisibility = "Hidden";
             obs.BtnRegisterVisibility = "Hidden";
         }
 
-        //check validity of the login, if not- let the user option to regiester
+        /// <summary>
+        ///  check validity of the login, if not- let the user option to regiester
+        /// </summary>
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            int number; // מה זה האינט הההההההההההההזההההההההההההההההההה
+            int number;
             // A validity check of the NickName
             if (obs.NicknameContent[0] == ' ')// if the user presses space 
             {
@@ -83,8 +86,9 @@ namespace MileStoneClient.PresentationLayer
                     obs.NicknameContent = "";
                 }
             }
+            // checks if the user is already registered or not
             else if (correctPass & this.chatRoom.login(obs.NicknameContent, obs.GroupIdContent, this.HashedPassword) == false)
-            {// checks if the user is already registered or not
+            {
                 Log.Instance.error("Log-in fail - User not registered");//log
 
                 string message = "please register first and then try to login again";
@@ -102,8 +106,9 @@ namespace MileStoneClient.PresentationLayer
                 obs.LblAddRegContent = "Try to register :";
                 obs.BtnRegisterVisibility = "Visible";
             }
+            // if the inputs are correct
             else
-            { // if the inputs are correct
+            { 
                 Log.Instance.info("New log-in - User: " + obs.NicknameContent);//log
 
                 obs.GroupIdContent = "";
@@ -116,9 +121,11 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
-       
-
-        //click this button let the user to return to the previous window (the menu)
+        /// <summary>
+        /// click this button let the user to return to the previous window (the menu)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("User returned from login window to main window");
@@ -130,7 +137,11 @@ namespace MileStoneClient.PresentationLayer
             obs.BtnRegisterVisibility = "Hidden";
         }
 
-        //only if the textboxs of the "username" and "group ID" aren't empty allow the user to press login
+        /// <summary>
+        /// only if the textboxs of the "username" and "group ID" aren't empty allow the user to press login
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TxtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             obs.BtnLoginIsEnabled = !string.IsNullOrEmpty(obs.NicknameContent)
@@ -140,7 +151,11 @@ namespace MileStoneClient.PresentationLayer
             obs.BtnRegisterVisibility = "Hidden";
         }
 
-        //a button that connect between the the LoginWindow to the RegiesterWindow
+        /// <summary>
+        /// a button that connect between the the LoginWindow to the RegiesterWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("Login window closed");
@@ -150,6 +165,11 @@ namespace MileStoneClient.PresentationLayer
             register.Show();
         }
 
+        /// <summary>
+        /// when the password change we check the validity of the password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox pb = sender as PasswordBox;
@@ -196,7 +216,12 @@ namespace MileStoneClient.PresentationLayer
                 }
             }
         }
-        // if the passeord contains the correct letters
+
+        /// <summary>
+        /// if the passeord contains the correct letters
+        /// </summary>
+        /// <param name="pb"></param>
+        /// <returns></returns>        
         private bool PasswordVlidity(String pb)
         {
             for (int i = 0; i < pb.Length; i++)
@@ -205,7 +230,11 @@ namespace MileStoneClient.PresentationLayer
             return true;
         }
 
-        // if the password contains only spaces
+        /// <summary>
+        /// if the password contains only spaces
+        /// </summary>
+        /// <param name="pb"></param>
+        /// <returns></returns>        
         private bool isPassOnlySpaces(String pb)
         {
             bool ans = true;

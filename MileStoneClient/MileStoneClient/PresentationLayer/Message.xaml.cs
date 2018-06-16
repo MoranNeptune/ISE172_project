@@ -35,14 +35,22 @@ namespace MileStoneClient.PresentationLayer
             obs.TxtEditContent = msg.Body;
         }
 
-        // if the user edit his message
+        /// <summary>
+        /// allows the user to edit his own message
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnEditMessage_Click(object sender, RoutedEventArgs e)
         {
             chatRoom.updateMessage(obs.TxtEditContent, msg);
             Close();
         }
 
-        // if the user don't eant to edit his message
+        /// <summary>
+        /// if the user don't eant to edit his message
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>        
         private void BtnIgnoreMessage_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

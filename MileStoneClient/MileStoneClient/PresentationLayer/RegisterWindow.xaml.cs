@@ -44,6 +44,7 @@ namespace MileStoneClient.PresentationLayer
             this.ResizeMode = ResizeMode.NoResize;
             this.hashing = new Hashing();
             this.salt = "1337";
+            
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnRegIsEnabled = false;
             obs.LblRegErrorVisibility = "Hidden";
@@ -56,7 +57,11 @@ namespace MileStoneClient.PresentationLayer
             return this.chatRoom;
         }
 
-        //click this button let the user to return to the previous window (the menu)
+        /// <summary>
+        /// click this button let the user to return to the previous window (the menu)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("User returned from registration window to main window");// log
@@ -70,7 +75,11 @@ namespace MileStoneClient.PresentationLayer
             obs.BtnLoginVisibility = "Hidden";
         }
 
-        //a function that check validity of the value's the user insert, them regiester him
+        /// <summary>
+        /// a function that check validity of the value's the user insert, them regiester him
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
             int number;
@@ -128,8 +137,11 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
-
-        //only if the "username" field and the "groupId" field filled in open an option for the user to regiester
+        /// <summary>
+        /// only if the "username" field and the "groupId" field filled in open an option for the user to regiester
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TxtBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             obs.BtnRegIsEnabled = !string.IsNullOrEmpty(obs.NicknameContent)
@@ -141,7 +153,11 @@ namespace MileStoneClient.PresentationLayer
             this.groupId = obs.GroupIdContent;
         }
 
-        //after the regiester sucssed open a button that connect between the RegisterWindow to the LoginWindow
+        /// <summary>
+        /// after the regiester sucssed open a button that connect between the RegisterWindow to the LoginWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("Registration window closed");
@@ -151,6 +167,12 @@ namespace MileStoneClient.PresentationLayer
             login.Show();
         }
 
+        /// <summary>
+        /// if the password changed- we check the validity of the password.
+        /// if it is not valied, then we throw a relevent message 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox pb = sender as PasswordBox;
@@ -198,7 +220,12 @@ namespace MileStoneClient.PresentationLayer
                 }
             }
         }
-        // if the passeord contains the correct letters
+
+        /// <summary>
+        /// if the passeord contains the correct letters
+        /// </summary>
+        /// <param name="pb"></param>
+        /// <returns></returns>        
         private bool PasswordVlidity(String pb)
         {
             for (int i = 0; i < pb.Length; i++)
@@ -207,7 +234,11 @@ namespace MileStoneClient.PresentationLayer
             return true;
         }
 
-        // if the password contains only spaces
+        /// <summary>
+        ///  if the password contains only spaces
+        /// </summary>
+        /// <param name="pb"></param>
+        /// <returns></returns>
         private bool isPassOnlySpaces(String pb)
         {
             bool ans = true;
