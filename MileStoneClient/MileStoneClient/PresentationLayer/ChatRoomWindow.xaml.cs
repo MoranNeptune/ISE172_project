@@ -134,6 +134,13 @@ namespace MileStoneClient.PresentationLayer
             }
             else
                 getMessagesList();
+            // check if there are messages in the current filter, if there isn't display a message
+            if (msgs.Count == 0 & op.Ok)
+            {
+                MessageBox.Show("There are no messages");
+                Log.Instance.info("No messages to display");
+                op.Ok = false;
+            }
         }
 
         //log out of program
