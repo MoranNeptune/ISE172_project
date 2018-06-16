@@ -75,7 +75,7 @@ namespace MileStoneClient.NUnit
         }
 
         /// <summary>
-        /// test the function getMembersOf, and the ID's functionality
+        /// test the function getMembersOf
         /// </summary>
         [Test]
         public void GetMembersOf()
@@ -114,7 +114,10 @@ namespace MileStoneClient.NUnit
             filterInfo[0] = "ByUser";
             filterInfo[1] = "21";
             filterInfo[2] = "Batman"; //the user
-            List<GuiMessage> msg1 = c.getMessages(0, action, filterInfo);
+            List<GuiMessage> tempList = c.getMessages(0, action, filterInfo);
+            List<GuiMessage> msg1 = new List<GuiMessage>();
+            for (int i = 0; i < tempList.Count; i++)
+                msg1.Add(tempList[i]);
             c.send("Hello!");
             List<GuiMessage> msg2 = c.getMessages(0, action, filterInfo);
             bool observedResult = msg1.Equals(msg2);
