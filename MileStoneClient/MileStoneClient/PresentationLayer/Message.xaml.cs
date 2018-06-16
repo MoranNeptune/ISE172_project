@@ -39,6 +39,7 @@ namespace MileStoneClient.PresentationLayer
         private void BtnEditMessage_Click(object sender, RoutedEventArgs e)
         {
             chatRoom.updateMessage(obs.TxtEditContent, msg);
+            Close();
         }
 
         // if the user don't eant to edit his message

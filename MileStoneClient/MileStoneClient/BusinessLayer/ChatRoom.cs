@@ -147,7 +147,6 @@ namespace MileStoneClient.BusinessLayer
             DateTime UtcTime = localDateTimeExample.ToUniversalTime();
 
             Guid msgGuid = Guid.NewGuid(); // namespace system
-            Console.WriteLine(msgGuid);
             // sends the message to the dataBase
             Message msg = new Message(message, UtcTime, msgGuid, currUser);
             if (allMessages.send(msg))

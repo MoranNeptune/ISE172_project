@@ -171,7 +171,7 @@ namespace MileStoneClient.PresistentLayer
                 string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                         "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time " +  
-                        "AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                        "AND [MS3].[dbo].[Messages].[User_Id] = [MS3].[dbo].[Users].Id ";
 
                 SqlParameter msg_time_param = new SqlParameter(@"msg_time", SqlDbType.DateTime, 20);
                 msg_time_param.Value = time;
@@ -180,7 +180,7 @@ namespace MileStoneClient.PresistentLayer
                 //ID filter & user filter
                 if (!_id.Equals(""))
                 {
-                    query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id" ;
+                    query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id " ;
                     user_g_id_param = new SqlParameter("@user_g_id", SqlDbType.Int, 20);
                     user_g_id_param.Value = _id;
                     command.Parameters.Add(user_g_id_param);
@@ -188,7 +188,7 @@ namespace MileStoneClient.PresistentLayer
                 //user filter
                 if (!_name.Equals(""))
                 {
-                    query = query + "[MS3].[dbo].[Users].Nickname = @user_name";
+                    query = query + " AND [MS3].[dbo].[Users].[Nickname] = @user_name";
                     user_name_param = new SqlParameter("@user_name", SqlDbType.Char, 20);
                     user_name_param.Value = _name;
                     command.Parameters.Add(user_name_param);
