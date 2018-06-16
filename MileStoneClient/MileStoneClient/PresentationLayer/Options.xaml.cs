@@ -18,7 +18,7 @@ namespace MileStoneClient.PresentationLayer
         private bool isChanged, isLegalData;
         private List<string> users, groups;
         private string userChoice, groupChoice;
-
+        private bool ok;
 
         public Options(ChatRoomWindow cr, List<string> groups, ObservableObject obs)
         {
@@ -30,6 +30,7 @@ namespace MileStoneClient.PresentationLayer
             isLegalData = true;
             users = new List<string>();
             this.groups = groups;
+            ok = false;
 
             //initialize with ascending sort, none filter and sort by timestamp
             obs.AscendingIsChecked = true;
@@ -178,14 +179,10 @@ namespace MileStoneClient.PresentationLayer
             }
 
             if (isLegalData)
-                obs.IsOptionVisible = null;
-
-            if(chatRoom.Msgs.Count == 0)
             {
-                MessageBox.Show("There are no messages");
-                Log.Instance.info("No messages to display");
+                obs.IsOptionVisible = null;
+                ok = true;
             }
-            
         }
 
         //initiate list for groups comboBox
@@ -261,6 +258,12 @@ namespace MileStoneClient.PresentationLayer
         {
             get { return isLegalData; }
             set { isLegalData = value; }
+        }
+
+        public bool Ok
+        {
+            get { return ok; }
+            set { ok = value; }
         }
 
         public bool IsChanged

@@ -13,7 +13,6 @@ namespace MileStoneClient.PresistentLayer
 
         private List<User> allUsersList;
         private User userExist;
-        private bool exist;
         private bool connectionFail;
 
 
@@ -22,7 +21,6 @@ namespace MileStoneClient.PresistentLayer
         {
             allUsersList = new List<User>();
             userExist = null;
-            exist = false;
             connectionFail = false;
         }
 
@@ -40,8 +38,8 @@ namespace MileStoneClient.PresistentLayer
                 command.CommandText = query;
                 // updates the list of parameters
                 SqlParameter id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
-                SqlParameter name_param = new SqlParameter(@"user_Nickname", SqlDbType.Char, 20);
-                SqlParameter pass_param = new SqlParameter(@"Password", SqlDbType.Text, 64);
+                SqlParameter name_param = new SqlParameter(@"user_Nickname", SqlDbType.Char, 8);
+                SqlParameter pass_param = new SqlParameter(@"Password", SqlDbType.Char, 64);
 
                 id_param.Value = user.G_id;
                 name_param.Value = user.Nickname;
@@ -139,8 +137,8 @@ namespace MileStoneClient.PresistentLayer
                     //if the list contains a user, then user already exist it table
                     if (exist.Count > 0)
                     {
-                        this.exist = true;
                         userExist = exist[0];
+                        return true;
                     }
             }
             catch (Exception e)
@@ -148,8 +146,7 @@ namespace MileStoneClient.PresistentLayer
                 connectionFail = true;
                 return false;
             }
-            //return exist;
-            return true;
+            return false;
         }
 
         ////get members of group g_id
