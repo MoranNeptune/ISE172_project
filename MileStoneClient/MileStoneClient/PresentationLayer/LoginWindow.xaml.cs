@@ -71,11 +71,11 @@ namespace MileStoneClient.PresentationLayer
                 }
             }
             // A validity check of the group id
-            else if (int.TryParse(obs.GroupIdContent, out number) == false || (obs.GroupIdContent.Length > 2))
+            else if (int.TryParse(obs.GroupIdContent, out number) == false || (obs.GroupIdContent.Length > 9))
             {
                 Log.Instance.warn("Invalid input - Invalid group number");//log 
 
-                string message = "You sould only enter numbers between 1 to 99!";
+                string message = "You sould only enter numbers, and the maximum length is 8";
                 string caption = "Invalid group ID";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {

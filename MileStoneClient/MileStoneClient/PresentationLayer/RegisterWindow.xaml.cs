@@ -87,9 +87,9 @@ namespace MileStoneClient.PresentationLayer
                 Log.Instance.warn("Invalid input - Invalid nickname");//log
             }
             // A validity check of the group id
-            else if (int.TryParse(groupId, out number) == false || (groupId.Length > 2))
+            else if (int.TryParse(groupId, out number) == false || (groupId.Length > 9))
             {// if the group Id is not between 1-99
-                string message = "You sould only enter numbers between 1 to 99!";
+                string message = "You sould only enter numbers, and the maximum length is 8";
                 string caption = "Invalid group ID";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {

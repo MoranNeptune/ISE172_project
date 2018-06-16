@@ -27,7 +27,7 @@
             </Label.Background>
         </Label>
         <Label Content="Gruop Id :" HorizontalAlignment="Left" Height="35" Margin="59,235,0,0" VerticalAlignment="Top" Width="111" FontFamily="Narkisim" FontSize="24" RenderTransformOrigin="0.91,0.6"/>
-        <Label Content="Nicname :" HorizontalAlignment="Left" Height="35" Margin="59,295,0,0" VerticalAlignment="Top" Width="111" FontFamily="Narkisim" FontSize="24" RenderTransformOrigin="0.91,0.6"/>
+        <Label Content="Nickname :" HorizontalAlignment="Left" Height="35" Margin="59,295,0,0" VerticalAlignment="Top" Width="111" FontFamily="Narkisim" FontSize="24" RenderTransformOrigin="0.91,0.6"/>
         <Label Content="Password :" HorizontalAlignment="Left" Height="35" Margin="59,355,0,0" VerticalAlignment="Top" Width="111" FontFamily="Narkisim" FontSize="24" RenderTransformOrigin="0.91,0.6"/>
     </Grid>
 </Window>
