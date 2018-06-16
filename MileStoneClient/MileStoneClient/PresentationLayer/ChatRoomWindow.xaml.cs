@@ -66,7 +66,11 @@ namespace MileStoneClient.PresentationLayer
             dispatcherTimer.Start();
         }
 
-        //print messages with timer
+        /// <summary>
+        /// print messages with timer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             //if another sort/filter/order was chosen
@@ -143,7 +147,11 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
-        //log out of program
+        /// <summary>
+        /// enables the user to log out of the program
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LogOut(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("User logged out"); //log
@@ -153,7 +161,11 @@ namespace MileStoneClient.PresentationLayer
             this.mainWindow.Show();
         }
 
-        //send message
+        /// <summary>
+        /// enables the user to send message 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Send(object sender, RoutedEventArgs e)
         {
             bool isLegalMessage = obs.TxtSendContent.Length <= msgLength;
@@ -174,7 +186,11 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
-        //exit program
+        /// <summary>
+        /// enables the user to exit program
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Exit(object sender, RoutedEventArgs e)
         {
             Log.Instance.info("User logged out and exited program");
@@ -182,7 +198,11 @@ namespace MileStoneClient.PresentationLayer
             System.Environment.Exit(0);
         }
 
-        //open options menu
+        /// <summary>
+        /// enables the user to exit program open options menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Options(object sender, RoutedEventArgs e)
         {
             //close options menu
@@ -194,19 +214,20 @@ namespace MileStoneClient.PresentationLayer
             //open options menu
             else
             {
-                //op = new Options(obs);
                 obs.IsOptionVisible = op;
                 isOptionsVisible = true;
             }
         }
 
-        // if the selection changed in the list box
+        /// <summary>
+        /// if the selection changed in the list box - allow to the current user to edit his message
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Message message;
-            // String lastMSG = obs.ListBoxSelectedValue;
             int index = obs.ListBoxSelectedIndex;
-            //   if (lastMSG != null && lastMSG.Contains("Nickname: " + this.chatRoom.CurrUser.Nickname + ", ("))
             if ((msgs.Count > 0 & index >= 0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
             {
                 message = new Message(obs, chatRoom, msgs[index]);
@@ -214,7 +235,11 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
+        /// <summary>
         /// return list of the users in a given group
+        /// </summary>
+        /// <param name="g_id"></param>
+        /// <returns></returns>
         public List<string> getMembersOf(string g_id)
         {
             if (g_id != null)
@@ -222,7 +247,9 @@ namespace MileStoneClient.PresentationLayer
             return null;
         }
 
-        //display all the messages
+        /// <summary>
+        /// display all the messages
+        /// </summary>
         private void getMessagesList()
         {
             obs.Messages.Clear();
@@ -233,36 +260,34 @@ namespace MileStoneClient.PresentationLayer
             {
                 obs.Messages.Add(msgs[i].toString());
             }
-            // יוצר בעיה
-            //  listBox.Items.MoveCurrentToLast();
-            // להחזיר
-            // listBox.ScrollIntoView(listBox.Items.CurrentItem);
         }
 
-        //initiate listBox wuth the messages list
+        /// <summary>
+        /// initiate listBox wuth the messages list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void updateMessages(object sender, RoutedEventArgs e)
         {
-            //לשנות
             msgs = chatRoom.getMessages(0, sortAction, filterInfo);
             for (int i = 0; i < msgs.Count; i++)
-            {
                 obs.Messages.Add(msgs[i].toString());
-            }
 
             ListBox msgList = sender as ListBox;
             listBox = msgList;
             msgList.Items.MoveCurrentToLast();
             msgList.ScrollIntoView(msgList.Items.CurrentItem);
-
         }
 
-        // sendsa message by pressing enter
+        /// <summary>
+        /// allows the user to send a message by pressing enter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>        
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 Send(sender, e);
-            }
         }
 
         public List<GuiMessage> Msgs
@@ -270,19 +295,18 @@ namespace MileStoneClient.PresentationLayer
             get { return msgs; }
         }
 
-        // if the message that sent contains only spaces
+        /// <summary>
+        /// if the message that sent contains only spaces
+        /// </summary>
+        /// <returns></returns>        
         private bool isMsgOnlySpaces()
         {
             bool ans = true;
             string tMsg = obs.TxtSendContent;
 
             for (int i = 0; i < tMsg.Length; i++)
-            {
                 if (tMsg[i] != ' ')
-                {
                     ans = false;
-                }
-            }
             return ans;
         }
     }
