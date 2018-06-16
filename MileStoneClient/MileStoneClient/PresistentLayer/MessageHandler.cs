@@ -189,7 +189,7 @@ namespace MileStoneClient.PresistentLayer
                 if (!_name.Equals(""))
                 {
                     query = query + " AND [MS3].[dbo].[Users].[Nickname] = @user_name";
-                    user_name_param = new SqlParameter("@user_name", SqlDbType.Char, 20);
+                    user_name_param = new SqlParameter("@user_name", SqlDbType.Char, 8);
                     user_name_param.Value = _name;
                     command.Parameters.Add(user_name_param);
                 }
@@ -285,7 +285,7 @@ namespace MileStoneClient.PresistentLayer
                         " AND [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
                         " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
       
-                SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.Char, 20);
+                SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.Char, 8);
                 SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
 
                 user_Nickname_param.Value = nickname;
