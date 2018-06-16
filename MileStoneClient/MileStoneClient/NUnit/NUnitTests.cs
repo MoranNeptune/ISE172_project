@@ -23,11 +23,9 @@ namespace MileStoneClient.NUnit
         public void RegisterValid()
         {
             ChatRoom c = new ChatRoom(url);
-            // הוספתי להכל את הערך של הסיסמה, צריך לבדוק האם זה תקין
-            //bool observedResult = c.register("name_", "1"); הקודם 
             Random rnd = new Random();
             int num = rnd.Next(1, 100);
-            bool observedResult = c.register("name" + num, "81", "1234");// העדכון
+            bool observedResult = c.register("name" + num, "81", "1234");
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -56,8 +54,8 @@ namespace MileStoneClient.NUnit
             ChatRoom c = new ChatRoom(url);
             Random rnd = new Random();
             int num = rnd.Next(1, 100);
-            c.register("someName" + num, "" + num, "1234");
-            bool observedResult = c.login("someName" + num, "" + num, "1234");
+            c.register("name"+num, ""+num, "F0FBDF664ABBF1CA7292E68BE9E38C147CFA5310CC952C35EC8748E9F6C95C01"); 
+            bool observedResult = c.login("name" + num, ""+num, "F0FBDF664ABBF1CA7292E68BE9E38C147CFA5310CC952C35EC8748E9F6C95C01");
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -83,8 +81,8 @@ namespace MileStoneClient.NUnit
         public void GetMembersOf()
         {
             ChatRoom c = new ChatRoom(url);
-            c.register("MickyMouse", "21", "1234");
-            bool observedResult = c.getMembersOf("21").Contains("MickyMouse");
+            c.register("Micky", "21", "1234");
+            bool observedResult = c.getMembersOf("21").Contains("Micky");
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -96,8 +94,8 @@ namespace MileStoneClient.NUnit
         public void FindUser()
         {
             ChatRoom c = new ChatRoom(url);
-            bool v = c.register("MickyMouse", "21", "D4A273A742947B244DA433C4A8D39BA28A8EC0C6F3445AFC891312A6046E2612");
-            bool observedResult = c.findUser("MickyMouse", "21") != null;
+            bool v = c.register("Micky", "21", "D4A273A742947B244DA433C4A8D39BA28A8EC0C6F3445AFC891312A6046E2612");
+            bool observedResult = c.findUser("Micky", "21") != null;
             bool expectedResult = true;
             Assert.AreEqual(expectedResult, observedResult);
         }
@@ -146,19 +144,5 @@ namespace MileStoneClient.NUnit
             Assert.AreEqual(expectedResult, observedResult);
         }
 
-
-        /// <summary>
-        /// test the function getMembersOf, and the ID's functionality
-        /// </summary>
-        /*   [Test]
-           public void UpdateMessage()
-           {
-               ChatRoom c = new ChatRoom(url);
-               c.register("MickyMouse", "21", "1234");
-               c.send("check");
-               bool observedResult = c.updateMessage("checked");
-               bool expectedResult = true;
-               Assert.AreEqual(expectedResult, observedResult);
-           }*/
     }
 }
