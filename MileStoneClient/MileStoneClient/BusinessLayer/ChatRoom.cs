@@ -50,6 +50,7 @@ namespace MileStoneClient.BusinessLayer
         /// </summary>
         /// <param name="nickname">User's nickname</param>
         /// <param name="g_id">User's group id</param>
+        /// /// <param name="g_id">User's password</param>
         /// <returns>true if we foud the user and the user logged in</returns>
         public bool login(string nickname, string g_id, string pass)
         {
@@ -133,8 +134,6 @@ namespace MileStoneClient.BusinessLayer
             return grp;
         }
 
-        // ****************************************************************************************************************************************************************************
-        /// עדן צריכה לשנות !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /// <summary>
         /// Sends the message to the server and saves the message in the files
         /// </summary>
@@ -152,14 +151,19 @@ namespace MileStoneClient.BusinessLayer
             if (allMessages.send(msg))
             {
                 allMessages.List.Add(msg);
-                //presMsgs.Add(new GuiMessage(msg.Body, msg.DateTime, msg.Id, msg.User.Nickname, msg.User.G_id));
                 retrieveMessages();
                 return true;
             }
-
             return false;
         }
 
+        /// <summary>
+        /// updates the message's text wannted by the user
+        /// the user can edit only his messages
+        /// </summary>
+        /// <param name="newMsg">text of the new message</param>
+        /// <param name="msg">the message that the user wants to update</param>
+        /// <returns>true if the update was succsseful</returns>
         public bool updateMessage(string newMsg, GuiMessage msg)
         {
             if (!allMessages.updateMessage(msg.Id, newMsg, (DateTime.Now).ToUniversalTime()))
@@ -182,8 +186,9 @@ namespace MileStoneClient.BusinessLayer
         /// the function returns a list of messages, by specific sort, filter and order 
         /// </summary>
         /// <param name="order">The wanted order of the list</param>
-        /// <param name="actions">Sort and filter</param>
-        /// <returns></returns>
+        /// <param name="sortAction">Sort</param>
+        /// <param name="filterInfo">filter information</param>
+        /// <returns>filtered and sorted messages list</returns>
         public List<GuiMessage> getMessages(int order, PresentationLayer.Action sortAction, string[] filterInfo)
         {
             bool update = false, filterChanged = false;
@@ -191,7 +196,6 @@ namespace MileStoneClient.BusinessLayer
             if (sort != sortAction)
             {
                 sort = sortAction;
-                //update = true;
             }
             // check if the filter was change
             for (int i = 0; i < filter.Length & !filterChanged; i++)
@@ -221,15 +225,13 @@ namespace MileStoneClient.BusinessLayer
                 sort.action(presMsgs);
                 // if descending sort
                 if (order == 1)
-                {
                     presMsgs.Reverse();
-                }
             }
             return presMsgs;
         }
 
         /// <summary>
-        /// the function retrieve 10 messages from the server and saves the new messages that we got, in both lists
+        /// the function retrieve messages from the data base 
         /// </summary>
         public void retrieveMessages()
         {
@@ -266,8 +268,6 @@ namespace MileStoneClient.BusinessLayer
                 sort.action(presMsgs);
             }
             else allMessages.filterByNone();
-
-
         }
 
         /// <summary>
@@ -280,9 +280,6 @@ namespace MileStoneClient.BusinessLayer
                 for (int i = 0; i < allMessages.List.Count; i++)
                 {
                     Message m = allMessages.List[i];
-
-                    if(m.Id.ToString() == "00000000-0000-0000-0000-000000000000")
-                        Console.WriteLine(m.Body);
                     presMsgs.Add(new GuiMessage(m.Body, m.DateTime.ToLocalTime(), m.Id, m.User.Nickname, m.User.G_id));
                 }
         }
