@@ -181,7 +181,6 @@
     <Resource Include="media\chat.jpg" />
     <Resource Include="media\ChatRoom.jpg" />
     <Resource Include="media\main-logo.png" />
-    <Resource Include="media\profile.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\log4net.dll" />

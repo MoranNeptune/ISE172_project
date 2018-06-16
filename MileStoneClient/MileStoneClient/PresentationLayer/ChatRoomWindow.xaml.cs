@@ -36,6 +36,7 @@ namespace MileStoneClient.PresentationLayer
         private List<string> groups;
         private DispatcherTimer dispatcherTimer;
         private ListBox listBox;
+        private bool showUpdateWindow;
 
         public ChatRoomWindow(MainWindow mainWindow, ChatRoom chatRoom, ObservableObject obs)
         {
@@ -228,11 +229,36 @@ namespace MileStoneClient.PresentationLayer
         {
             Message message;
             int index = obs.ListBoxSelectedIndex;
-            if ((msgs.Count > 0 & index >= 0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
+            if (showUpdateWindow)
             {
-                message = new Message(obs, chatRoom, msgs[index]);
-                message.Show();
+                if ((msgs.Count > 0 & index >= 0) && (msgs[index].UserName.Equals(chatRoom.CurrUser.Nickname) & msgs[index].G_id.Equals(chatRoom.CurrUser.G_id)))
+                {
+                    message = new Message(obs, chatRoom, msgs[index]);
+                    message.Show();
+                }
             }
+
+        }
+
+        /// <summary>
+        /// initiate listBox wuth the messages list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void updateMessages(object sender, RoutedEventArgs e)
+        {
+            msgs = chatRoom.getMessages(0, sortAction, filterInfo);
+            for (int i = 0; i < msgs.Count; i++)
+            {
+                showUpdateWindow = false;
+                obs.Messages.Add(msgs[i].toString());
+            }
+
+            ListBox msgList = sender as ListBox;
+            listBox = msgList;
+            msgList.Items.MoveCurrentToLast();
+            msgList.ScrollIntoView(msgList.Items.CurrentItem);
+            showUpdateWindow = true;
         }
 
         /// <summary>
@@ -253,7 +279,6 @@ namespace MileStoneClient.PresentationLayer
         private void getMessagesList()
         {
             obs.Messages.Clear();
-            // לשנות
             msgs = chatRoom.getMessages(order, sortAction, filterInfo);
             // convers all the Gui Messages to a string
             for (int i = 0; i < msgs.Count; i++)
@@ -262,22 +287,6 @@ namespace MileStoneClient.PresentationLayer
             }
         }
 
-        /// <summary>
-        /// initiate listBox wuth the messages list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void updateMessages(object sender, RoutedEventArgs e)
-        {
-            msgs = chatRoom.getMessages(0, sortAction, filterInfo);
-            for (int i = 0; i < msgs.Count; i++)
-                obs.Messages.Add(msgs[i].toString());
-
-            ListBox msgList = sender as ListBox;
-            listBox = msgList;
-            msgList.Items.MoveCurrentToLast();
-            msgList.ScrollIntoView(msgList.Items.CurrentItem);
-        }
 
         /// <summary>
         /// allows the user to send a message by pressing enter
@@ -311,3 +320,6 @@ namespace MileStoneClient.PresentationLayer
         }
     }
 }
+
+
+
