@@ -8,16 +8,11 @@ using System.IO;
 
 namespace MileStoneClient.BusinessLayer
 {
-
-    //  need to update
-
     [Serializable]
     public class User
     {
-        // בשביל מה צריך את ה-hendler??? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         private string nickname;
         private string g_id;
-       // private MessageHandler handler;
         private bool loggedIn;
         private string password;
         private string user_id;
@@ -32,10 +27,9 @@ namespace MileStoneClient.BusinessLayer
         // Constructor      
         public User(string nickname, string g_id, string pass)
         {
-            this.g_id = g_id; 
+            this.g_id = g_id;
             this.nickname = nickname.Trim();
             this.password = pass;
-            //handler = new MessageHandler(g_id + nickname);
         }
 
         //Getters and Setters
@@ -56,13 +50,7 @@ namespace MileStoneClient.BusinessLayer
             get { return user_id; }
             set { user_id = value; }
         }
-        // **************** אולי להוריד ************************************
-        /*   public MessageHandler msgHandler
-           {
-               get { return handler; }
-               set { handler = value; }
-           }
-   */
+
         public bool LoggedIn
         {
             get { return loggedIn; }
@@ -74,33 +62,6 @@ namespace MileStoneClient.BusinessLayer
             get { return password; }
             set { password = value; }
         }
-        // **************** אולי להוריד ************************************
-        //methods
-        /// <summary>
-        /// Sends message to the fileSystem
-        /// </summary>
-        /// <param name="msg"> A parameter of type IMessage </param>
-        /// <returns> Returns a parameter of type Message </returns>
-   /*     public Message send(IMessage msg)
-        {
-            Message message = new Message(msg.MessageContent.ToString(), msg.Date, msg.Id, this);
-            bool msgRegistered = this.handler.updateFile(message);
-
-            //returns null if the message hasn't been updated into the files for any reason
-            if (msgRegistered == false)
-                message = null;
-
-            return message;
-        }*/
-        // **************** אולי להוריד ************************************
-        /// <summary>
-        /// Add message to the fileSystem for this user
-        /// </summary>
-        /// <param name="msg"> A parameter of type Message representing the users' message </param>
-   /*     public void addMessage(Message msg)
-        {
-            this.handler.updateFile(msg);
-        }*/
 
         public void logout()
         {
