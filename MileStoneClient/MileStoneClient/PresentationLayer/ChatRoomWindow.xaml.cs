@@ -173,7 +173,7 @@ namespace MileStoneClient.PresentationLayer
 
             if (!isLegalMessage)
             {
-                MessageBox.Show("Message length should be 150 letters or less", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Message length should be 100 letters or less", "Invalid message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (obs.TxtSendContent.Equals("") | isMsgOnlySpaces())
             {

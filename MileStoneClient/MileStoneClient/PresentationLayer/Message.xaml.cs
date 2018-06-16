@@ -42,8 +42,14 @@ namespace MileStoneClient.PresentationLayer
         /// <param name="e"></param>
         private void BtnEditMessage_Click(object sender, RoutedEventArgs e)
         {
-            chatRoom.updateMessage(obs.TxtEditContent, msg);
-            Close();
+            if (obs.TxtEditContent.Length > 100)
+                MessageBox.Show("The message length can't be longer then 100 characters");
+            else
+            {
+                chatRoom.updateMessage(obs.TxtEditContent, msg);
+                Close();
+            }
+            
         }
 
         /// <summary>
