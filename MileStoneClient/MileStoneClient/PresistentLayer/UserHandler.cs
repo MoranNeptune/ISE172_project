@@ -33,7 +33,8 @@ namespace MileStoneClient.PresistentLayer
                 //set query to add user and executes query 
                 string query = "INSERT INTO Users ([Group_Id],[Nickname],[Password]) " +
                                "VALUES (@user_G_id, @user_Nickname ,@Password)";
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 command.CommandText = query;
                 // updates the list of parameters
@@ -74,8 +75,8 @@ namespace MileStoneClient.PresistentLayer
 
                 string query = "SELECT [Id],[Group_Id],[Nickname],[Password] " +
                         "FROM [MS3].[dbo].[Users]";
-
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(query, connection);
                 SqlDataReader data_reader = command.ExecuteReader();
 
@@ -110,7 +111,8 @@ namespace MileStoneClient.PresistentLayer
 
 
                 List<User> exist = new List<User>();
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(query, connection);
 
                 SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
@@ -159,8 +161,8 @@ namespace MileStoneClient.PresistentLayer
                 string query = "SELECT [Group_Id],[Nickname],[Password] " +
                     "from [MS3].[dbo].[Users] " +
                     "where [MS3].[dbo].[Users].[Group_Id] = @g_id";
-
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(query, connection);
 
                 SqlParameter g_id_param = new SqlParameter(@"g_id", SqlDbType.Int, 20);
@@ -199,8 +201,8 @@ namespace MileStoneClient.PresistentLayer
                 string query = "SELECT [Group_Id],[Nickname],[Password] " +
                     "from [MS3].[dbo].[Users] " +
                     "where [MS3].[dbo].[Users].[Id] = @user_id";
-
-                connect();
+                if (connection.State == ConnectionState.Closed)
+                    connect();
                 SqlCommand command = new SqlCommand(query, connection);
                 SqlParameter user_id_param = new SqlParameter(@"user_id", SqlDbType.Int, 20);
                 user_id_param.Value = user_id;
