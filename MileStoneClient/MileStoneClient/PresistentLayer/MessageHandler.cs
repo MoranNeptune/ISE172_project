@@ -15,6 +15,7 @@ namespace MileStoneClient.PresistentLayer
         private String _name; // "" or nickname
         private string _id; //"" or g_id
         private bool connectionFail;
+        private DateTime _currTime;
 
         //constructor
         public MessageHandler(String name, string id)
@@ -22,7 +23,7 @@ namespace MileStoneClient.PresistentLayer
             _name = name;
             _id = id;
             connectionFail = false;
-            list=new List<Message>();
+            list = new List<Message>();
         }
 
         //update the list to be 200 messages with no filter, return if sucssed
@@ -34,23 +35,36 @@ namespace MileStoneClient.PresistentLayer
                 _id = "";
             try
             {
-                if(connection.State == ConnectionState.Closed)
+                if (connection.State == ConnectionState.Closed)
                     connect();
                 SqlCommand command = new SqlCommand(null, connection);
                 //query to have no filter
                 string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
                     "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                    "WHERE [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
-                //set and executes query 
+                    "WHERE [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id " +
+                    "AND [MS3].[dbo].[Messages].[SendTime] <= @curr_time " +
+                    //in order not to get empty messages
+                    "AND [MS3].[dbo].[Messages].[Body] != ''";
+
+                _currTime = DateTime.UtcNow;
+                SqlParameter curr_time_param = new SqlParameter(@"curr_time", SqlDbType.DateTime, 20);
+                curr_time_param.Value = _currTime;
+                command.Parameters.Add(curr_time_param);
+
+                //set and executes query         
                 command.CommandText = query;
                 SqlDataReader data_reader = command.ExecuteReader();
                 list.Clear();
                 while (data_reader.Read())   //add msg from the msgs table to the list
                 {
+                    DateTime dateFacturation = new DateTime();
+                    if (!data_reader.IsDBNull(3))
+                        dateFacturation = data_reader.GetDateTime(3);
+
                     Guid newGuid = new Guid();
                     if (Guid.TryParse(data_reader.GetValue(2).ToString(), out Guid result))
                         newGuid = new Guid(data_reader.GetValue(2).ToString());
-                    list.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), dateFacturation,
                         newGuid, data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();
@@ -69,7 +83,7 @@ namespace MileStoneClient.PresistentLayer
 
         //add a new message to the database
         public bool send(Message msg)
-        {  
+        {
             try
             {
                 string query = "INSERT INTO Messages ([Guid],[User_Id],[SendTime],[Body]) " +
@@ -107,7 +121,7 @@ namespace MileStoneClient.PresistentLayer
                 connectionFail = true;
                 return false;
             }
-            
+
             return true;
         }
 
@@ -134,7 +148,7 @@ namespace MileStoneClient.PresistentLayer
                 SqlParameter msg_DateTime_param = new SqlParameter(@"msg_DateTime", SqlDbType.DateTime, 20);
                 SqlParameter msg_guid_param = new SqlParameter(@"msg_guid", SqlDbType.Char, 68);
 
-                msg_Body_param.Value = body; 
+                msg_Body_param.Value = body;
                 msg_DateTime_param.Value = time;
                 msg_guid_param.Value = guid;
 
@@ -152,7 +166,7 @@ namespace MileStoneClient.PresistentLayer
                 Console.WriteLine(e);
                 connectionFail = true;
                 return false;
-            } 
+            }
             return true;
         }
 
@@ -165,22 +179,34 @@ namespace MileStoneClient.PresistentLayer
             {
                 if (connection.State == ConnectionState.Closed)
                     connect();
+
                 SqlCommand command = new SqlCommand(null, connection);
                 SqlParameter user_g_id_param;
                 SqlParameter user_name_param;
+
                 string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
-                        "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time " +  
-                        "AND [MS3].[dbo].[Messages].[User_Id] = [MS3].[dbo].[Users].Id ";
+                        "WHERE [MS3].[dbo].[Messages].[SendTime] > @msg_time " +
+                        "AND [MS3].[dbo].[Messages].[SendTime] <= @curr_time " +
+                        "AND [MS3].[dbo].[Messages].[User_Id] = [MS3].[dbo].[Users].Id " +
+                        //in order not to get empty messages
+                        "AND [MS3].[dbo].[Messages].[Body] != '' ";
 
+                _currTime = DateTime.UtcNow;
                 SqlParameter msg_time_param = new SqlParameter(@"msg_time", SqlDbType.DateTime, 20);
+                SqlParameter curr_time_param = new SqlParameter(@"curr_time", SqlDbType.DateTime, 20);
+
                 msg_time_param.Value = time;
+                curr_time_param.Value = _currTime;
+
                 command.Parameters.Add(msg_time_param);
+                command.Parameters.Add(curr_time_param);
+
                 //the retrieve will be by filter
                 //ID filter & user filter
                 if (!_id.Equals(""))
                 {
-                    query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id " ;
+                    query = query + " AND [MS3].[dbo].[Users].[Group_Id] = @user_g_id ";
                     user_g_id_param = new SqlParameter("@user_g_id", SqlDbType.Int, 20);
                     user_g_id_param.Value = _id;
                     command.Parameters.Add(user_g_id_param);
@@ -198,10 +224,14 @@ namespace MileStoneClient.PresistentLayer
                 SqlDataReader data_reader = command.ExecuteReader();
                 while (data_reader.Read())   //add msg from the msgs table to the list
                 {
+                    DateTime dateFacturation = new DateTime();
+                    if (!data_reader.IsDBNull(3))
+                        dateFacturation = data_reader.GetDateTime(3);
+
                     Guid newGuid = new Guid();
                     if (Guid.TryParse(data_reader.GetValue(2).ToString(), out Guid result))
                         newGuid = new Guid(data_reader.GetValue(2).ToString());
-                    tempList.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
+                    tempList.Add(new Message(data_reader.GetValue(4).ToString(), dateFacturation,
                         newGuid, data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();
@@ -211,11 +241,11 @@ namespace MileStoneClient.PresistentLayer
                 disconnect();
 
             }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    connectionFail = true;
-                }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                connectionFail = true;
+            }
             return tempList;
         }
 
@@ -236,20 +266,34 @@ namespace MileStoneClient.PresistentLayer
                 string query = "SELECT TOP (200) [Group_Id],[Nickname],[Guid],[SendTime],[Body] " +
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                         "WHERE [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
-                        " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
+                        " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id " +
+                        "AND [MS3].[dbo].[Messages].[SendTime] <= @curr_time " +
+                        //in order not to get empty messages
+                        "and [MS3].[dbo].[Messages].[Body] != ''";
                 SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
+                SqlParameter curr_time_param = new SqlParameter(@"curr_time", SqlDbType.DateTime, 20);
+
+                _currTime = DateTime.UtcNow;
                 user_G_id_param.Value = g_id;
+                curr_time_param.Value = _currTime;
+
                 command.Parameters.Add(user_G_id_param);
+                command.Parameters.Add(curr_time_param);
+
                 //set query to update message and executes query 
                 command.CommandText = query;
                 SqlDataReader data_reader = command.ExecuteReader();
                 list.Clear();
                 while (data_reader.Read())   //add msg from the msgs table to the list
                 {
+                    DateTime dateFacturation = new DateTime();
+                    if (!data_reader.IsDBNull(3))
+                        dateFacturation = data_reader.GetDateTime(3);
+
                     Guid newGuid = new Guid();
                     if (Guid.TryParse(data_reader.GetValue(2).ToString(), out Guid result))
                         newGuid = new Guid(data_reader.GetValue(2).ToString());
-                    list.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), dateFacturation,
                         newGuid, data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();
@@ -283,16 +327,23 @@ namespace MileStoneClient.PresistentLayer
                         "FROM [MS3].[dbo].[Users],[MS3].[dbo].[Messages] " +
                         "WHERE [MS3].[dbo].[Users].Nickname = @user_Nickname" +
                         " AND [MS3].[dbo].[Users].[Group_Id] = @user_G_id" +
-                        " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id";
-      
+                        " AND [MS3].[dbo].[Messages].User_Id = [MS3].[dbo].[Users].Id " +
+                        "AND [MS3].[dbo].[Messages].[SendTime] <= @curr_time " +
+                        //in order not to get empty messages
+                        "and [MS3].[dbo].[Messages].[Body] != ''";
+
+                _currTime = DateTime.UtcNow;
                 SqlParameter user_Nickname_param = new SqlParameter(@"user_Nickname", SqlDbType.Char, 8);
                 SqlParameter user_G_id_param = new SqlParameter(@"user_G_id", SqlDbType.Int, 20);
+                SqlParameter curr_time_param = new SqlParameter(@"curr_time", SqlDbType.DateTime, 20);
 
                 user_Nickname_param.Value = nickname;
                 user_G_id_param.Value = g_id;
+                curr_time_param.Value = _currTime;
 
                 command.Parameters.Add(user_Nickname_param);
                 command.Parameters.Add(user_G_id_param);
+                command.Parameters.Add(curr_time_param);
 
                 //set query to update message and executes query 
                 command.CommandText = query;
@@ -300,10 +351,14 @@ namespace MileStoneClient.PresistentLayer
                 SqlDataReader data_reader = command.ExecuteReader();
                 while (data_reader.Read())   //add msg from the msgs table to the list
                 {
+                    DateTime dateFacturation = new DateTime();
+                    if (!data_reader.IsDBNull(3))
+                        dateFacturation = data_reader.GetDateTime(3);
+
                     Guid newGuid = new Guid();
                     if (Guid.TryParse(data_reader.GetValue(2).ToString(), out Guid result))
                         newGuid = new Guid(data_reader.GetValue(2).ToString());
-                    list.Add(new Message(data_reader.GetValue(4).ToString(), (System.DateTime)data_reader.GetValue(3),
+                    list.Add(new Message(data_reader.GetValue(4).ToString(), dateFacturation,
                         newGuid, data_reader.GetValue(0).ToString(), data_reader.GetValue(1).ToString()));
                 }
                 data_reader.Close();

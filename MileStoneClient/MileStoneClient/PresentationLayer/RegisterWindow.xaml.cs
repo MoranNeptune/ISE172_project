@@ -44,7 +44,7 @@ namespace MileStoneClient.PresentationLayer
             this.ResizeMode = ResizeMode.NoResize;
             this.hashing = new Hashing();
             this.salt = "1337";
-            
+
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnRegIsEnabled = false;
             obs.LblRegErrorVisibility = "Hidden";
@@ -84,9 +84,10 @@ namespace MileStoneClient.PresentationLayer
         {
             int number;
             // A validity check of the NickName
-            if (this.nickname[0] == ' ')// if the user presses space 
+            if (this.nickname[0] == ' ' || (obs.NicknameContent.Length > 8))// if the user presses space 
             {
-                string message = "Nickname cannot start with spaces!";
+
+                string message = "Nickname cannot start with spaces or be longer than 8 digits!";
                 string caption = "Invalid name";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {
@@ -96,9 +97,10 @@ namespace MileStoneClient.PresentationLayer
                 Log.Instance.warn("Invalid input - Invalid nickname");//log
             }
             // A validity check of the group id
-            else if (int.TryParse(groupId, out number) == false || (groupId.Length > 9))
+            else if (int.TryParse(groupId, out number) == false || (obs.GroupIdContent.Length > 2))
             {// if the group Id is not between 1-99
-                string message = "You sould only enter numbers, and the maximum length is 8";
+
+                string message = "You sould only enter numbers between 1 to 99!";
                 string caption = "Invalid group ID";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {

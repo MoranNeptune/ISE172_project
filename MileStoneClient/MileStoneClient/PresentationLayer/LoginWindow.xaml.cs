@@ -47,7 +47,7 @@ namespace MileStoneClient.PresentationLayer
             this.hashing = new Hashing();
             this.salt = "1337";
             this.correctPass = false;
-            
+
             //initialize the buttons and messages that the user dont need to have access to with Hidden&notEnable option
             obs.BtnLoginIsEnabled = false;
             obs.LblAddRegVisibility = "Hidden";
@@ -61,11 +61,11 @@ namespace MileStoneClient.PresentationLayer
         {
             int number;
             // A validity check of the NickName
-            if (obs.NicknameContent[0] == ' ')// if the user presses space 
+            if (obs.NicknameContent[0] == ' ' || (obs.NicknameContent.Length > 8))// if the user presses space 
             {
                 Log.Instance.warn("Invalid input - Invalid nickname");//log
 
-                string message = "Nickname cannot start with spaces!";
+                string message = "Nickname cannot start with spaces or be longer than 8 digits!";
                 string caption = "Invalid name";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {
@@ -74,11 +74,11 @@ namespace MileStoneClient.PresentationLayer
                 }
             }
             // A validity check of the group id
-            else if (int.TryParse(obs.GroupIdContent, out number) == false || (obs.GroupIdContent.Length > 9))
+            else if (int.TryParse(obs.GroupIdContent, out number) == false || (obs.GroupIdContent.Length > 2))
             {
                 Log.Instance.warn("Invalid input - Invalid group number");//log 
 
-                string message = "You sould only enter numbers, and the maximum length is 8";
+                string message = "You sould only enter numbers between 1 to 99!";
                 string caption = "Invalid group ID";
                 if ((MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK))
                 {
@@ -119,7 +119,7 @@ namespace MileStoneClient.PresentationLayer
             }
             // if the inputs are correct
             else
-            { 
+            {
                 Log.Instance.info("New log-in - User: " + obs.NicknameContent);//log
 
                 this.obs.GroupIdContent = "";
